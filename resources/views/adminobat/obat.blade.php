@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Admin Obat | Kategori</title>
+  <title>Admin Obat | Obat</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -114,12 +114,12 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>    
           </a>
         </li>
-        <li  class="active treeview">
+        <li>
           <a href="/obat-kategori">
             <i class="fa fa-th"></i> <span>Kategori Obat</span>
           </a>
         </li>
-        <li>
+        <li   class="active treeview">
           <a href="/obat-obat">
             <i class="fa fa-th"></i> <span>Obat</span>
           </a>
@@ -155,18 +155,39 @@
               <h4 class="modal-title">Tambah</h4>
             </div>
             <div class="modal-body">
-              <form role="form" action="/add-kategori" method="post" enctype="multipart/form-data">
+              <form role="form" action="/add-obat" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
                    <div class="row">
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Kategori</label>
-                        <input type="text" class="form-control"  placeholder="kategori" name="kategori" required="true">
+                        <label>Nama Obat</label>
+                        <input type="text" class="form-control"  placeholder="Paracetamol" name="nama_obat" required="true">
                       </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Satuan</label>
+                        <input type="text" class="form-control"  placeholder="Liter" name="satuan" required="true">
+                      </div>
                     </div>
-                
+                </div>
+                <div class="row">
+                @php
+                $kategori = DB::select("select * from kategori where aktif=1");
+                @endphp
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                         <label>Level</label>
+                        <select name="id_kategori">
+                        @foreach ($kategori as $key)                        
+                        <option value={{$key->id_kategori}}>{{ $key->kategori  }}</option>
+                        @endforeach
+                        </select></div>
+                    </div>
+                </div>
                     
                   </div>
                 </div>
@@ -191,7 +212,7 @@
           
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Kategori Obat</h3><br>
+              <h3 class="box-title">Data Obat</h3><br>
               <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
             </div>
             <!-- /.box-header -->
@@ -200,6 +221,8 @@
                 <thead>
                 <tr>
                   <th>#</th>
+                  <th>Nama</th>
+                  <th>Satuan</th>
                   <th>Kategori</th>
                   <th>Action</th>
                 </tr>
@@ -211,30 +234,54 @@
                 @foreach ($data as $datas)                        
                 <tr>
                   <td>{{$i++}}</td>
+                  <td>{{$datas->nama_obat}}</td>
+                  <td>{{$datas->satuan}}</td>
                   <td>{{$datas->kategori}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_kategori}}" class="btn btn-warning btn-xs">Edit
-                        </a> <a href="/delete-kategori{{$datas->id_kategori}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
+                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_obat}}" class="btn btn-warning btn-xs">Edit
+                        </a> <a href="/delete-obat{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
                         </a> </td></tr>
                 
-         <div class="modal fade" id="modal-edit{{$datas->id_kategori}}" role="dialog">
+         <div class="modal fade" id="modal-edit{{$datas->id_obat}}" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Edit</h4>
             </div>
             <div class="modal-body">
-              <form role="form" action="/edit-kategori" method="post" enctype="multipart/form-data">
+              <form role="form" action="/edit-obat" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
-                  <input class="form-control" type="hidden" name="id_kategori" id="id" value="{{ $datas->id_kategori}}">
+                  <input class="form-control" type="hidden" name="id_obat" id="id" value="{{ $datas->id_obat}}">
                    <div class="row">
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Kategori</label>
-                        <input type="text" class="form-control"  placeholder="kategori" name="kategori" required="true" value="{{$datas->kategori}}">
+                        <label>Nama Obat</label>
+                        <input type="text" class="form-control"  placeholder="Nama Obat" name="nama_obat" required="true" value="{{$datas->nama_obat}}">
                       </div>
                     </div>
+                    </div><div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Satuan</label>
+                        <input type="text" class="form-control"  placeholder="Liter" value={{$datas->satuan}} name="satuan" required="true">
+                      </div>
                     </div>
+                </div>
+                <div class="row">
+                @php
+                $kategori = DB::select("select * from kategori where aktif=1");
+                @endphp
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                         <label>Level</label>
+                        <select name="id_kategori">
+                        @foreach ($kategori as $key)                        
+                        <option value={{$key->id_kategori}}>{{ $key->kategori  }}</option>
+                        @endforeach
+                        </select></div>
+                    </div>
+                </div>
+                
                  </div>
                 </div>
                 <!-- /.card-body -->

@@ -101,8 +101,16 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function obatobat(){
+        if(Session('login')==true && Session('level')=="adminobat"){
+            $data = DB::select("SELECT a.id_obat, a.id_kategori,b.kategori, a.nama_obat, a.satuan, a.aktif from obat a, kategori b where a.id_kategori=b.id_kategori and a.aktif=1");
+            return view("adminobat/obat",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
     
-    //CRUD Obat
+    //CRUD User
     public function adduser(Request $request){
         if(Session('login')==true && Session('level')=="pemilik"){
             $username = $request->username;
@@ -175,6 +183,43 @@ class Controller extends BaseController
                 'kategori' => $request->kategori
                 ]);
             return redirect("obat-kategori");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    
+    //CRUD Obat
+    public function addobat(Request $request){
+        if(Session('login')==true && Session('level')=="adminobat"){
+            $save = DB::table('obat')->insert([
+                'nama_obat' => $request->nama_obat,
+                'id_kategori' => $request->id_kategori,
+                'satuan' => $request->satuan,
+                'aktif' => 1
+                ]);
+            return redirect("/obat-obat");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function delobat($id){
+        if(Session('login')==true && Session('level')=="adminobat"){
+            DB::table('obat')->where('id_obat', $id)->update([
+                'aktif' => 0,
+                ]);
+            return redirect("obat-obat");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function editobat(Request $request){
+        if(Session('login')==true && Session('level')=="adminobat"){
+            DB::table('obat')->where('id_obat', $request->id_obat)->update([
+                'nama_obat' => $request->nama_obat,
+                'id_kategori' => $request->id_kategori,
+                'satuan' => $request->satuan
+                ]);
+            return redirect("obat-obat");
         }else{
             return redirect('/auth');
         }   

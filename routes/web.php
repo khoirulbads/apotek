@@ -25,6 +25,7 @@ Route::get('/pemilik-user', 'App\Http\Controllers\Controller@pemilikuser');
 
 //adminobat
 Route::get('/obat-kategori', 'App\Http\Controllers\Controller@obatkategori');
+Route::get('/obat-obat', 'App\Http\Controllers\Controller@obatobat');
 
 //CRUD User
 Route::post('/add-user', 'App\Http\Controllers\Controller@adduser');
@@ -34,4 +35,8 @@ Route::post('/edit-user', 'App\Http\Controllers\Controller@edituser');
 Route::post('/add-kategori', 'App\Http\Controllers\Controller@addkategori');
 Route::get('/delete-kategori{id}', 'App\Http\Controllers\Controller@delkategori');
 Route::post('/edit-kategori', 'App\Http\Controllers\Controller@editkategori');
+//CRUD obat
+Route::post('/add-obat', 'App\Http\Controllers\Controller@addobat');
+Route::get('/delete-obat{id}', 'App\Http\Controllers\Controller@delobat');
+Route::post('/edit-obat', 'App\Http\Controllers\Controller@editobat');
 
