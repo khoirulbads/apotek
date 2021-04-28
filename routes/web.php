@@ -27,6 +27,9 @@ Route::get('/pemilik-user', 'App\Http\Controllers\Controller@pemilikuser');
 Route::get('/obat-kategori', 'App\Http\Controllers\Controller@obatkategori');
 Route::get('/obat-obat', 'App\Http\Controllers\Controller@obatobat');
 
+//pengadaan
+Route::get('/pengadaan-supplier', 'App\Http\Controllers\Controller@pengadaansupplier');
+
 //CRUD User
 Route::post('/add-user', 'App\Http\Controllers\Controller@adduser');
 Route::get('/delete-user{id}', 'App\Http\Controllers\Controller@deluser');
@@ -39,4 +42,8 @@ Route::post('/edit-kategori', 'App\Http\Controllers\Controller@editkategori');
 Route::post('/add-obat', 'App\Http\Controllers\Controller@addobat');
 Route::get('/delete-kategori{id}', 'App\Http\Controllers\Controller@delobat');
 Route::post('/edit-obat', 'App\Http\Controllers\Controller@editobat');
+//CRUD Supplier
+Route::post('/add-supplier', 'App\Http\Controllers\Controller@addsupplier');
+Route::get('/delete-supplier{id}', 'App\Http\Controllers\Controller@delsupplier');
+Route::post('/edit-supplier', 'App\Http\Controllers\Controller@editsupplier');
 

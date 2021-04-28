@@ -73,6 +73,8 @@ class Controller extends BaseController
                 return view("adminobat/dashboard");
             }else if(Session('login')==true && Session('level')=="pengadaan"){
                 return view("pengadaan/dashboard");
+            }else if(Session('login')==true && Session('level')=="kasir"){
+                return view("kasir/dashboard");
             }else{
                 return redirect('/auth');
             }   
@@ -107,6 +109,15 @@ class Controller extends BaseController
         if(Session('login')==true && Session('level')=="adminobat"){
             $data = DB::select("SELECT a.id_obat, a.id_kategori,b.kategori, a.nama_obat, a.satuan, a.aktif from obat a, kategori b where a.id_kategori=b.id_kategori and a.aktif=1");
             return view("adminobat/obat",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    //controller pengadaan
+      public function pengadaansupplier(){
+        if(Session('login')==true && Session('level')=="pengadaan"){
+            $data = DB::select("SELECT * from supplier where aktif=1");
+            return view("pengadaan/supplier",['data'=>$data]);
         }else{
             return redirect('/auth');
         }   
@@ -226,5 +237,42 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
-        
+    //CRUD Supplier
+    public function addsupplier(Request $request){
+        if(Session('login')==true && Session('level')=="pengadaan"){
+            $save = DB::table('supplier')->insert([
+                'nama_supplier' => $request->nama_supplier,
+                'alamat' => $request->alamat,
+                'telp' => $request->telp,
+                'aktif' => 1
+                ]);
+            return redirect("/pengadaan-supplier");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function delsupplier($id){
+        if(Session('login')==true && Session('level')=="pengadaan"){
+            DB::table('supplier')->where('id_supplier', $id)->update([
+                'aktif' => 0,
+                ]);
+            return redirect("pengadaan-supplier");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function editsupplier(Request $request){
+        if(Session('login')==true && Session('level')=="pengadaan"){
+            DB::table('supplier')->where('id_supplier', $request->id_supplier)->update([
+                'nama_supplier' => $request->nama_supplier,
+                'alamat' => $request->alamat,
+                'telp' => $request->telp,
+                ]);
+            return redirect("pengadaan-supplier");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    
+            
 }
