@@ -173,7 +173,7 @@
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="text" class="form-control"  placeholder="password" name="password" required="true">
+                        <input type="password" class="form-control"  placeholder="password" name="password" required="true">
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">
@@ -243,7 +243,7 @@
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$datas->username}}</td>
-                  <td>{{$datas->password}}</td>
+                  <td>{{md5($datas->password)}}</td>
                   <td>{{$datas->nama}}</td>
                   <td>{{$datas->level}}</td>
                   <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_user}}" class="btn btn-warning btn-xs">Edit
@@ -277,7 +277,7 @@
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
                         <label>Password</label>
-                        <input type="text" class="form-control"  placeholder="password" name="password" required="true" value="{{$datas->password}}">
+                        <input type="password" class="form-control"  placeholder="password" name="password" required="true" value="{{$datas->password}}">
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">

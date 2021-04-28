@@ -40,7 +40,7 @@ Route::get('/delete-kategori{id}', 'App\Http\Controllers\Controller@delkategori'
 Route::post('/edit-kategori', 'App\Http\Controllers\Controller@editkategori');
 //CRUD obat
 Route::post('/add-obat', 'App\Http\Controllers\Controller@addobat');
-Route::get('/delete-kategori{id}', 'App\Http\Controllers\Controller@delobat');
+Route::get('/delete-obat{id}', 'App\Http\Controllers\Controller@delobat');
 Route::post('/edit-obat', 'App\Http\Controllers\Controller@editobat');
 //CRUD Supplier
 Route::post('/add-supplier', 'App\Http\Controllers\Controller@addsupplier');
