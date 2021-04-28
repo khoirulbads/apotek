@@ -71,6 +71,8 @@ class Controller extends BaseController
                 return view("pemilik/dashboard");
             }else if(Session('login')==true && Session('level')=="adminobat"){
                 return view("adminobat/dashboard");
+            }else if(Session('login')==true && Session('level')=="pengadaan"){
+                return view("pengadaan/dashboard");
             }else{
                 return redirect('/auth');
             }   
