@@ -118,6 +118,11 @@
           <a href="/pengadaan-supplier">
             <i class="fa fa-th"></i> <span>Supplier</span>
           </a>
+        </li>
+        <li  class="active treeview">
+          <a href="/pengadaan-pengadaan">
+            <i class="fa fa-th"></i> <span>Pengadaan</span>
+          </a>
         </li> 
       </ul>
     </section>

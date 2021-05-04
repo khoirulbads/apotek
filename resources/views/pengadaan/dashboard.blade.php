@@ -121,7 +121,7 @@
         </li>
         <li>
           <a href="/pengadaan-pengadaan">
-            <i class="fa fa-th"></i> <span>laporan Pengadaan</span>
+            <i class="fa fa-th"></i> <span>Pengadaan</span>
           </a>
         </li>
         </li>
