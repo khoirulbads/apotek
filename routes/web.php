@@ -29,6 +29,7 @@ Route::get('/obat-obat', 'App\Http\Controllers\Controller@obatobat');
 
 //pengadaan
 Route::get('/pengadaan-supplier', 'App\Http\Controllers\Controller@pengadaansupplier');
+Route::get('/pengadaan-pengadaan', 'App\Http\Controllers\Controller@pengadaanpengadaan');
 
 //CRUD User
 Route::post('/add-user', 'App\Http\Controllers\Controller@adduser');
@@ -46,4 +47,6 @@ Route::post('/edit-obat', 'App\Http\Controllers\Controller@editobat');
 Route::post('/add-supplier', 'App\Http\Controllers\Controller@addsupplier');
 Route::get('/delete-supplier{id}', 'App\Http\Controllers\Controller@delsupplier');
 Route::post('/edit-supplier', 'App\Http\Controllers\Controller@editsupplier');
+//CRUD Pengadaan
+Route::post('/add-pengadaan', 'App\Http\Controllers\Controller@addpengadaan');
 

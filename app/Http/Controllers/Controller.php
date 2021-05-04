@@ -114,10 +114,20 @@ class Controller extends BaseController
         }   
     }
     //controller pengadaan
-      public function pengadaansupplier(){
+    public function pengadaansupplier(){
         if(Session('login')==true && Session('level')=="pengadaan"){
             $data = DB::select("SELECT * from supplier where aktif=1");
             return view("pengadaan/supplier",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }   
+    public function pengadaanpengadaan(){
+        if(Session('login')==true && Session('level')=="pengadaan"){
+            $data = DB::select("SELECT a.id_penyetokan, c.nama_supplier, b.nama_obat, a.jumlah, a.harga_beli, a.total,
+            a.stok_awal,a.stok_akhir, a.tgl_masuk, a.tgl_kadaluarsa from penyetokan a, obat b, supplier c where a.id_supplier=c.id_supplier 
+            and a.id_obat=b.id_obat");
+            return view("pengadaan/pengadaan",['data'=>$data]);
         }else{
             return redirect('/auth');
         }   
@@ -276,6 +286,57 @@ class Controller extends BaseController
                 'telp' => $request->telp,
                 ]);
             return redirect("pengadaan-supplier");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    //CRUD PEngadaan
+    public function addpengadaan(Request $request){
+        if(Session('login')==true && Session('level')=="pengadaan"){
+            //deklarasi
+            $total = $request->jumlah * $request->harga_beli;
+            $new_beli = 0;
+            $new_jual = 0;
+            $stok_awal = 0;
+            $laba = 0;
+            $kadaluarsa_obat = 0;
+            $beli_obat=0;
+            $jual_obat = 0;
+            $id = $request->id_obat;
+            //get obat
+            $obat = DB::select("select * from obat where id_obat=$id");
+            foreach ($obat as $key ){
+                $laba = $key->laba;
+                $beli_obat = $key->harga_beli;
+                $jual_obat = $key->harga_jual;
+                $laba = $key->laba;
+                $stok_awal = $key->stok;
+            }
+            
+            //rerata tetimbang
+            $new_beli = (($stok_awal*$beli_obat)+$total)/($stok_awal+$request->jumlah);
+            $new_jual = $new_beli+$laba;
+
+            //add penyetokan
+            $save = DB::table('penyetokan')->insert([
+                'id_obat' => $request->id_obat,
+                'id_supplier' => $request->id_supplier,
+                'jumlah' => $request->jumlah,
+                'stok_awal' => $stok_awal,
+                'stok_akhir' => $stok_awal+$request->jumlah,
+                'harga_beli' => $request->harga_beli,
+                'total' => $total,
+                'tgl_kadaluarsa' =>$request->tgl_kadaluarsa
+                ]);
+            //edit obat
+            DB::table('obat')->where('id_obat', $request->id_obat)->update([
+                'stok' => $stok_awal+$request->jumlah,
+                'harga_beli' => $new_beli,
+                'harga_jual' => $new_jual,
+                'tgl_kadaluarsa'=>$request->tgl_kadaluarsa
+                ]);
+
+            return redirect("/pengadaan-pengadaan");
         }else{
             return redirect('/auth');
         }   

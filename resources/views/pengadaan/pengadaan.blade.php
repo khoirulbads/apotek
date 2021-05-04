@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Pengadaan | Supplier</title>
+  <title>Admin Pengadaan | Pengadaan</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -114,12 +114,12 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>    
           </a>
         </li>
-        <li  class="active treeview">
+        <li>
           <a href="/pengadaan-supplier">
             <i class="fa fa-th"></i> <span>Supplier</span>
           </a>
         </li>
-        <li>
+        <li class="active treeview">
           <a href="/pengadaan-pengadaan">
             <i class="fa fa-th"></i> <span>Pengadaan</span>
           </a>
@@ -147,32 +147,59 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Tambah</h4>
+              <h4 class="modal-title">Tambah Penyetokan</h4>
             </div>
             <div class="modal-body">
-              <form role="form" action="/add-supplier" method="post" enctype="multipart/form-data">
+              <form role="form" action="/add-pengadaan" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
-                   <div class="row">
-                    <div class="col-md-12 pr-1">
+                <div class="row">
+                @php
+                $obat = DB::select("select * from obat where aktif=1");
+                @endphp
+                    <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                        <label>Obat</label>
+                        <select name="id_obat">
+                        @foreach ($obat as $key)                        
+                        <option value={{$key->id_obat}}>{{ $key->nama_obat  }}</option>
+                        @endforeach
+                        </select>
+                        </div>
+                    </div>
+                    @php
+                    $supplier = DB::select("select * from supplier where aktif=1");
+                    @endphp
+                    <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                        <label>Supllier</label>
+                        <select name="id_supplier">
+                        @foreach ($supplier as $key)                        
+                        <option value={{$key->id_supplier}}>{{ $key->nama_supplier  }}</option>
+                        @endforeach
+                        </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <label>Nama Supplier</label>
-                        <input type="text" class="form-control"  placeholder="PT. Medika Jaya" name="nama_supplier" required="true">
+                        <label>Harga Beli</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="harga_beli" required="true">
+                      </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Jumlah</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="jumlah" required="true">
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Alamat</label>
-                        <input type="text" class="form-control"  placeholder="Jl. Merbabu 25, Katang Kediri" name="alamat" required="true">
+                        <label>Tanggal Kadaluarsa</label>
+                        <input type="date" class="form-control"  placeholder="1000" name="tgl_kadaluarsa" required="true">
                       </div>
                     </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Telepon</label>
-                        <input type="number" class="form-control"  placeholder="0878887966" name="telp" required="true">
-                      </div>
-                    </div>
-                    </div>
+                </div>
+                    
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -196,7 +223,7 @@
           
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data User</h3><br>
+              <h3 class="box-title">Data Obat</h3><br>
               <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
             </div>
             <!-- /.box-header -->
@@ -205,10 +232,15 @@
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Nama</th>
-                  <th>Telp</th>
-                  <th>Alamat</th>
-                  <th>Action</th>
+                  <th>Supplier</th>
+                  <th>Obat</th>
+                  <th>Jumlah</th>
+                  <th>H. Beli</th>
+                  <th>Total</th>
+                  <th>Stok Awal</th>
+                  <th>Stok Akhir</th>
+                  <th>Kadaluarsa</th>
+                  <th>Tgl Masuk</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -219,59 +251,16 @@
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$datas->nama_supplier}}</td>
-                  <td>{{$datas->telp}}</td>
-                  <td>{{$datas->alamat}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_supplier}}" class="btn btn-warning btn-xs">Edit
-                        </a> <a href="/delete-supplier{{$datas->id_supplier}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
-                        </a> </td></tr>
-                
-                        <div class="modal fade" id="modal-edit{{$datas->id_supplier}}" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Edit</h4>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="/edit-supplier" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}
-                <div class="card-body">
-                  <input class="form-control" type="hidden" name="id_supplier" id="id" value="{{ $datas->id_supplier}}">
-                   <div class="row">
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" class="form-control"  placeholder="PT. Medika Jaya" name="nama_supplier" required="true" value="{{$datas->nama_supplier}}">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Alamat</label>
-                        <input type="text" class="form-control"  placeholder="Jl.Anggar, Plemahaan Kediri " name="alamat" required="true" value="{{$datas->alamat}}">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Telepon</label>
-                        <input type="number" class="form-control"  placeholder="086777532" name="telp" required="true" value="{{$datas->telp}}">
-                      </div>
-                    </div>
-                    </div>
-                  
-                
-                    
-                  </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer justify-content-between">
-             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          
-            </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
+                  <td>{{$datas->nama_obat}}</td>
+                  <td>{{$datas->jumlah}}</td>
+                  <td>{{$datas->harga_beli}}</td>
+                  <td>{{$datas->total}}</td>
+                  <td>{{$datas->stok_awal}}</td>
+                  <td>{{$datas->stok_akhir}}</td>
+                  <td>{{$datas->tgl_kadaluarsa}}</td>
+                  <td>{{$datas->tgl_masuk}}</td>
+                  </tr>
+        
         <!-- /.modal-dialog -->
                 @endforeach
                 </tbody>
