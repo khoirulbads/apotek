@@ -165,13 +165,24 @@
                         <input type="text" class="form-control"  placeholder="Paracetamol" name="nama_obat" required="true">
                       </div>
                     </div>
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Laba</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="laba" required="true">
+                      </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
                         <label>Satuan</label>
-                        <input type="text" class="form-control"  placeholder="Liter" name="satuan" required="true">
-                      </div>
+                        <select name="satuan">
+                        <option value="Tablet">Tablet</option>
+                        <option value="Botol">Botol</option>
+                        <option value="Kapsul">Kapsul</option>
+                        <option value="Tube">Tube</option>
+                        </select>
+                    </div>
                     </div>
                 </div>
                 <div class="row">
@@ -224,6 +235,11 @@
                   <th>Nama</th>
                   <th>Satuan</th>
                   <th>Kategori</th>
+                  <th>H. Beli</th>
+                  <th>Laba</th>
+                  <th>H. Jual</th>
+                  <th>Stok</th>
+                  <th>Kadaluarsa</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -237,6 +253,11 @@
                   <td>{{$datas->nama_obat}}</td>
                   <td>{{$datas->satuan}}</td>
                   <td>{{$datas->kategori}}</td>
+                  <td>{{$datas->harga_beli}}</td>
+                  <td>{{$datas->laba}}</td>
+                  <td>{{$datas->harga_jual}}</td>
+                  <td>{{$datas->stok}}</td>
+                  <td>{{$datas->tgl_kadaluarsa}}</td>
                   <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_obat}}" class="btn btn-warning btn-xs">Edit
                         </a> <a href="/delete-obat{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
                         </a> </td></tr>
@@ -252,19 +273,32 @@
               {{ csrf_field() }}
                 <div class="card-body">
                   <input class="form-control" type="hidden" name="id_obat" id="id" value="{{ $datas->id_obat}}">
+                  <input class="form-control" type="hidden" name="harga_jual" id="id" value="{{ $datas->harga_jual}}">
+                  <input class="form-control" type="hidden" name="harga_beli" id="id" value="{{ $datas->harga_beli}}">
                    <div class="row">
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
                         <label>Nama Obat</label>
                         <input type="text" class="form-control"  placeholder="Nama Obat" name="nama_obat" required="true" value="{{$datas->nama_obat}}">
                       </div>
+                    </div><div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Laba</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="laba" required="true" value="{{$datas->laba}}">
+                      </div>
                     </div>
+                    
                     </div><div class="row">
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
                         <label>Satuan</label>
-                        <input type="text" class="form-control"  placeholder="Liter" value={{$datas->satuan}} name="satuan" required="true">
-                      </div>
+                        <select name="satuan">
+                        <option value="Tablet">Tablet</option>
+                        <option value="Botol">Botol</option>
+                        <option value="Kapsul">Kapsul</option>
+                        <option value="Tube">Tube</option>
+                        </select>
+                    </div>
                     </div>
                 </div>
                 <div class="row">
@@ -273,7 +307,7 @@
                 @endphp
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
-                         <label>Level</label>
+                         <label>Kategori</label>
                         <select name="id_kategori">
                         @foreach ($kategori as $key)                        
                         <option value={{$key->id_kategori}}>{{ $key->kategori  }}</option>
