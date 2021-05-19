@@ -95,6 +95,14 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function pemilikrekomendasi(){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $data = DB::select("SELECT  * from rekom a, kategori b where a.id_kategori=b.id_kategori and a.aktif=1");
+            return view("pemilik/rekomendasi",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
 
     //controller adminobat
     public function obatkategori(){
