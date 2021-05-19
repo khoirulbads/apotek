@@ -107,7 +107,7 @@ class Controller extends BaseController
     }
     public function obatobat(){
         if(Session('login')==true && Session('level')=="adminobat"){
-            $data = DB::select("SELECT a.id_obat, a.id_kategori,b.kategori, a.nama_obat, a.satuan,a.harga_beli,a.harga_jual,a.laba,a.stok,a.tgl_kadaluarsa, a.aktif from obat a, kategori b where a.id_kategori=b.id_kategori and a.aktif=1");
+            $data = DB::select("SELECT a.id_obat, a.id_kategori,b.kategori, a.nama_obat, a.satuan,a.harga_beli,a.harga_jual,a.laba,a.stok,a.tgl_kadaluarsa,a.selisih,a.stokMinimal, a.aktif from obat a, kategori b where a.id_kategori=b.id_kategori and a.aktif=1");
             return view("adminobat/obat",['data'=>$data]);
         }else{
             return redirect('/auth');
@@ -219,6 +219,8 @@ class Controller extends BaseController
                 'id_kategori' => $request->id_kategori,
                 'satuan' => $request->satuan,
                 'laba'=>$request->laba,
+                'selisih'=>$request->selisih,
+                'stokMinimal'=>$request->stokMinimal,
                 'aktif' => 1
                 ]);
             return redirect("/obat-obat");
@@ -247,6 +249,8 @@ class Controller extends BaseController
                 'id_kategori' => $request->id_kategori,
                 'satuan' => $request->satuan,
                 'laba' => $request->laba,
+                'stokMinimal' => $request->stokMinimal,
+                'selisih' => $request->selisih,
                 'harga_jual' => $h_jual
                 ]);
             return redirect("obat-obat");

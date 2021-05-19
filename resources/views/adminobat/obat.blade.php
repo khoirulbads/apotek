@@ -171,6 +171,18 @@
                         <input type="number" class="form-control"  placeholder="1000" name="laba" required="true">
                       </div>
                     </div>
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Stok Minimal</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="stokMinimal" required="true">
+                      </div>
+                    </div>
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Selisih Kadaluarsa (Hari)</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="selisih" required="true">
+                      </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12 pr-1">
@@ -239,6 +251,8 @@
                   <th>Laba</th>
                   <th>H. Jual</th>
                   <th>Stok</th>
+                  <th>Minimal</th>
+                  <th>Selisih</th>
                   <th>Kadaluarsa</th>
                   <th>Action</th>
                 </tr>
@@ -257,6 +271,8 @@
                   <td>{{$datas->laba}}</td>
                   <td>{{$datas->harga_jual}}</td>
                   <td>{{$datas->stok}}</td>
+                  <td>{{$datas->stokMinimal}}</td>
+                  <td>{{$datas->selisih}} Hari</td>
                   <td>{{$datas->tgl_kadaluarsa}}</td>
                   <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_obat}}" class="btn btn-warning btn-xs">Edit
                         </a> <a href="/delete-obat{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
@@ -285,6 +301,18 @@
                       <div class="form-group">
                         <label>Laba</label>
                         <input type="number" class="form-control"  placeholder="1000" name="laba" required="true" value="{{$datas->laba}}">
+                      </div>
+                    </div>
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Stok Minimal</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="stokMinimal" required="true" value="{{$datas->stokMinimal}}">
+                      </div>
+                    </div>
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Selisih Kadaluarsa (Hari)</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="selisih" required="true" value="{{$datas->selisih}}">
                       </div>
                     </div>
                     
