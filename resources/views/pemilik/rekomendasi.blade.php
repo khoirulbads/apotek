@@ -144,7 +144,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
+        Rekomendasi Pembelian Obat
       </h1>
       <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -157,7 +157,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Rekomendasi Pembelian Obat</h3><br>
+              <h3 class="box-title">Berdasarkan Usia Obat</h3><br>
               </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -166,14 +166,8 @@
                 <tr>
                   <th>#</th>
                   <th>Nama</th>
-                  <th>Satuan</th>
                   <th>Kategori</th>
-                  <th>H. Beli</th>
-                  <th>Laba</th>
-                  <th>H. Jual</th>
-                  <th>Stok</th>
-                  <th>Minimal</th>
-                  <th>Selisih</th>
+                  <th>Usia</th>
                   <th>Kadaluarsa</th>
                 </tr>
                 </thead>
@@ -182,19 +176,49 @@
                 //for 
                 $i = 1;
                 @endphp
-                @foreach ($data as $datas)                        
+                @foreach ($datausia as $datas)                        
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$datas->nama_obat}}</td>
-                  <td>{{$datas->satuan}}</td>
                   <td>{{$datas->kategori}}</td>
-                  <td>{{$datas->harga_beli}}</td>
-                  <td>{{$datas->laba}}</td>
-                  <td>{{$datas->harga_jual}}</td>
-                  <td>{{$datas->stok}}</td>
-                  <td>{{$datas->stokMinimal}}</td>
-                  <td>{{$datas->selisih}} Hari</td>
+                  <td>{{$datas->usia}} Hari Lagi</td>
                   <td>{{$datas->tgl_kadaluarsa}}</td>
+                
+                @endforeach
+                </tbody>
+                
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Berdasarkan Sisa Stok</h3><br>
+              </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nama</th>
+                  <th>Kategori</th>
+                  <th>Stok</th>
+                  <th>Stok Minimal</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                //for 
+                $i = 1;
+                @endphp
+                @foreach ($datastok as $datas)                        
+                <tr>
+                  <td>{{$i++}}</td>
+                  <td>{{$datas->nama_obat}}</td>
+                  <td>{{$datas->kategori}}</td>
+                  <td>{{$datas->stok}} {{$datas->satuan}}  </td>
+                  <td>{{$datas->stokMinimal}}</td>
                 
                 @endforeach
                 </tbody>

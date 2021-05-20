@@ -97,8 +97,9 @@ class Controller extends BaseController
     }
     public function pemilikrekomendasi(){
         if(Session('login')==true && Session('level')=="pemilik"){
-            $data = DB::select("SELECT  * from rekom a, kategori b where a.id_kategori=b.id_kategori and a.aktif=1");
-            return view("pemilik/rekomendasi",['data'=>$data]);
+            $datausia = DB::select("SELECT  *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as usia from rekom a, kategori b where a.id_kategori=b.id_kategori and TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= selisih and a.aktif=1");
+            $datastok = DB::select("SELECT  * from rekom a, kategori b where a.id_kategori=b.id_kategori and a.stok <= a.stokMinimal and a.aktif=1");
+            return view("pemilik/rekomendasi",['datausia'=>$datausia,'datastok'=>$datastok]);
         }else{
             return redirect('/auth');
         }   
