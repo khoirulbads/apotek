@@ -165,10 +165,16 @@
                         <input type="text" class="form-control"  placeholder="Paracetamol" name="nama_obat" required="true">
                       </div>
                     </div>
-                    <div class="col-md-12 pr-1">
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <label>Laba</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="laba" required="true">
+                        <label>Laba Resep (persen dari harga beli) </label>
+                        <input type="number" class="form-control"  placeholder="1000" name="labaResep" required="true">
+                      </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Laba Non Resep (persen dari harga beli) </label>
+                        <input type="number" class="form-control"  placeholder="1000" name="labaNon" required="true">
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">
@@ -247,13 +253,15 @@
                   <th>Nama</th>
                   <th>Satuan</th>
                   <th>Kategori</th>
-                  <th>H. Beli</th>
-                  <th>Laba</th>
-                  <th>H. Jual</th>
+                  <th>Beli</th>
+                  <th>Laba (Resep)</th>
+                  <th>Laba (Non)</th>
+                  <th>Jual (Resep)</th>
+                  <th>Jual (Non)</th>
                   <th>Stok</th>
                   <th>Minimal</th>
                   <th>Selisih</th>
-                  <th>Kadaluarsa</th>
+                  <th>Exp</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -268,8 +276,10 @@
                   <td>{{$datas->satuan}}</td>
                   <td>{{$datas->kategori}}</td>
                   <td>{{$datas->harga_beli}}</td>
-                  <td>{{$datas->laba}}</td>
-                  <td>{{$datas->harga_jual}}</td>
+                  <td>{{$datas->labaResep}} %</td>
+                  <td>{{$datas->labaNon}} %</td>
+                  <td>{{$datas->harga_jualResep}}</td>
+                  <td>{{$datas->harga_jualNon}}</td>
                   <td>{{$datas->stok}}</td>
                   <td>{{$datas->stokMinimal}}</td>
                   <td>{{$datas->selisih}} Hari</td>
@@ -289,7 +299,8 @@
               {{ csrf_field() }}
                 <div class="card-body">
                   <input class="form-control" type="hidden" name="id_obat" id="id" value="{{ $datas->id_obat}}">
-                  <input class="form-control" type="hidden" name="harga_jual" id="id" value="{{ $datas->harga_jual}}">
+                  <input class="form-control" type="hidden" name="harga_jualResep" id="id" value="{{ $datas->harga_jualResep}}">
+                  <input class="form-control" type="hidden" name="harga_jualNon" id="id" value="{{ $datas->harga_jualNon}}">
                   <input class="form-control" type="hidden" name="harga_beli" id="id" value="{{ $datas->harga_beli}}">
                    <div class="row">
                     <div class="col-md-12 pr-1">
@@ -297,10 +308,16 @@
                         <label>Nama Obat</label>
                         <input type="text" class="form-control"  placeholder="Nama Obat" name="nama_obat" required="true" value="{{$datas->nama_obat}}">
                       </div>
-                    </div><div class="col-md-12 pr-1">
+                    </div>
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <label>Laba</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="laba" required="true" value="{{$datas->laba}}">
+                        <label>Laba Resep (persen dari harga beli)</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="labaResep" required="true" value="{{$datas->labaResep}}">
+                      </div>
+                    </div><div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Laba NonResep (persen dari harga beli)</label>
+                        <input type="number" class="form-control"  placeholder="1000" name="labaNon" required="true" value="{{$datas->labaNon}}">
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">

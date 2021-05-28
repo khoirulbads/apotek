@@ -126,7 +126,7 @@ class Controller extends BaseController
     }
     public function obatobat(){
         if(Session('login')==true && Session('level')=="adminobat"){
-            $data = DB::select("SELECT a.id_obat, a.id_kategori,b.kategori, a.nama_obat, a.satuan,a.harga_beli,a.harga_jual,a.laba,a.stok,a.tgl_kadaluarsa,a.selisih,a.stokMinimal, a.aktif from obat a, kategori b where a.id_kategori=b.id_kategori and a.aktif=1");
+            $data = DB::select("SELECT a.id_obat, a.id_kategori,b.kategori, a.nama_obat, a.satuan,a.harga_beli,a.harga_jualResep,a.harga_jualNon,a.labaResep,a.labaNon,a.stok,a.tgl_kadaluarsa,a.selisih,a.stokMinimal, a.aktif from obat a, kategori b where a.id_kategori=b.id_kategori and a.aktif=1");
             return view("adminobat/obat",['data'=>$data]);
         }else{
             return redirect('/auth');
@@ -237,7 +237,8 @@ class Controller extends BaseController
                 'nama_obat' => $request->nama_obat,
                 'id_kategori' => $request->id_kategori,
                 'satuan' => $request->satuan,
-                'laba'=>$request->laba,
+                'labaResep'=>$request->labaResep,
+                'labaNon'=>$request->labaNon,
                 'selisih'=>$request->selisih,
                 'stokMinimal'=>$request->stokMinimal,
                 'aktif' => 1
@@ -259,18 +260,23 @@ class Controller extends BaseController
     }
     public function editobat(Request $request){
         if(Session('login')==true && Session('level')=="adminobat"){
-            $h_jual = 0;
+            $h_jualResep = 0;
+            $h_jualNon = 0;
             if($request->harga_beli>0){
-                $h_jual= $request->laba+$request->harga_beli;
+                $h_jualResep= (($request->labaResep/100)*$request->harga_beli)+$request->harga_beli;
+                $h_jualNon= (($request->labaNon/100)*$request->harga_beli)+$request->harga_beli;
+                
             }
             DB::table('obat')->where('id_obat', $request->id_obat)->update([
                 'nama_obat' => $request->nama_obat,
                 'id_kategori' => $request->id_kategori,
                 'satuan' => $request->satuan,
-                'laba' => $request->laba,
+                'labaResep' => $request->labaResep,
+                'labaNon' => $request->labaNon,
                 'stokMinimal' => $request->stokMinimal,
                 'selisih' => $request->selisih,
-                'harga_jual' => $h_jual
+                'harga_jualResep' => $h_jualResep,
+                'harga_jualNon' => $h_jualNon
                 ]);
             return redirect("obat-obat");
         }else{
@@ -321,24 +327,29 @@ class Controller extends BaseController
             $new_beli = 0;
             $new_jual = 0;
             $stok_awal = 0;
-            $laba = 0;
+            $labaResep = 0;
+            $labaNon = 0;
             $kadaluarsa_obat = 0;
             $beli_obat=0;
-            $jual_obat = 0;
+            $jual_obatResep = 0;
+            $jual_obatNon = 0;
             $id = $request->id_obat;
             //get obat
             $obat = DB::select("select * from obat where id_obat=$id");
             foreach ($obat as $key ){
-                $laba = $key->laba;
                 $beli_obat = $key->harga_beli;
-                $jual_obat = $key->harga_jual;
-                $laba = $key->laba;
+                $jual_obatResep = $key->harga_jualResep;
+                $jual_obatNon = $key->harga_jualNon;
+                $labaResep = $key->labaResep;
+                $labaNon = $key->labaNon;
                 $stok_awal = $key->stok;
             }
             
             //rerata tetimbang
             $new_beli = (($stok_awal*$beli_obat)+$total)/($stok_awal+$request->jumlah);
-            $new_jual = $new_beli+$laba;
+            $new_jualResep = $new_beli+(($labaResep/100)*$new_beli);
+            $new_jualNon = $new_beli+(($labaNon/100)*$new_beli);
+            ;
 
             //add penyetokan
             $save = DB::table('penyetokan')->insert([
@@ -355,7 +366,8 @@ class Controller extends BaseController
             DB::table('obat')->where('id_obat', $request->id_obat)->update([
                 'stok' => $stok_awal+$request->jumlah,
                 'harga_beli' => $new_beli,
-                'harga_jual' => $new_jual,
+                'harga_jualResep' => $new_jualResep,
+                'harga_jualNon' => $new_jualNon,
                 'tgl_kadaluarsa'=>$request->tgl_kadaluarsa
                 ]);
 
