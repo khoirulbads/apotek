@@ -23,6 +23,7 @@ Route::get('/dashboard', 'App\Http\Controllers\Controller@dashboard');
 //pemilik
 Route::get('/pemilik-user', 'App\Http\Controllers\Controller@pemilikuser');
 Route::get('/pemilik-rekomendasi', 'App\Http\Controllers\Controller@pemilikrekomendasi');
+Route::get('/pemilik-pengadaan', 'App\Http\Controllers\Controller@pemilikpengadaan');
 
 //adminobat
 Route::get('/obat-kategori', 'App\Http\Controllers\Controller@obatkategori');

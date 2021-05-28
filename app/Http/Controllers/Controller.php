@@ -97,9 +97,19 @@ class Controller extends BaseController
     }
     public function pemilikrekomendasi(){
         if(Session('login')==true && Session('level')=="pemilik"){
-            $datausia = DB::select("SELECT  *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as usia from rekom a, kategori b where a.id_kategori=b.id_kategori and TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= selisih and a.aktif=1");
-            $datastok = DB::select("SELECT  * from rekom a, kategori b where a.id_kategori=b.id_kategori and a.stok <= a.stokMinimal and a.aktif=1");
+            $datausia = DB::select("SELECT  *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as usia from obat a, kategori b where a.id_kategori=b.id_kategori and TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= selisih and a.aktif=1");
+            $datastok = DB::select("SELECT  * from obat a, kategori b where a.id_kategori=b.id_kategori and a.stok <= a.stokMinimal and a.aktif=1");
             return view("pemilik/rekomendasi",['datausia'=>$datausia,'datastok'=>$datastok]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function pemilikpengadaan(){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $data = DB::select("SELECT a.id_penyetokan, c.nama_supplier, b.nama_obat, a.jumlah, a.harga_beli, a.total,
+            a.stok_awal,a.stok_akhir, a.tgl_masuk, a.tgl_kadaluarsa from penyetokan a, obat b, supplier c where a.id_supplier=c.id_supplier 
+            and a.id_obat=b.id_obat");
+            return view("pemilik/pengadaan",['data'=>$data]);
         }else{
             return redirect('/auth');
         }   
