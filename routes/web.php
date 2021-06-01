@@ -33,6 +33,8 @@ Route::get('/obat-obat', 'App\Http\Controllers\Controller@obatobat');
 Route::get('/pengadaan-supplier', 'App\Http\Controllers\Controller@pengadaansupplier');
 Route::get('/pengadaan-pengadaan', 'App\Http\Controllers\Controller@pengadaanpengadaan');
 
+//kasir
+
 //CRUD User
 Route::post('/add-user', 'App\Http\Controllers\Controller@adduser');
 Route::get('/delete-user{id}', 'App\Http\Controllers\Controller@deluser');
