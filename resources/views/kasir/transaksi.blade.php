@@ -249,9 +249,7 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
                   <th>#</th>
                   <th>Obat</th>
                   <th>Qty</th>
-                  <th>H Beli</th>
                   <th>H Jual</th>
-                  <th>Laba</th>
                   <th>Sub Total</th>
                   <th>Action</th>
                 </tr>
@@ -266,9 +264,7 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
                   <td>{{$i++}}</td>
                   <td>{{$datas->nama_obat}}</td>
                   <td>{{$datas->qty}}</td>
-                  <td>{{$datas->harga_beli}}</td>
                   <td>{{$datas->harga_jual}}</td>
-                  <td>{{$datas->laba}}</td>
                   <td>{{$datas->total}}</td>
                   <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_temp}}" class="btn btn-warning btn-xs">Edit
                         </a> <a href="/delete-cart{{$datas->id_temp}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
