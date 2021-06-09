@@ -3,9 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Admin Obat | Kategori</title>
+  <title>Kasir | Transaksi</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="_token" content="{{ csrf_token() }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
    <link rel="shortcut icon" href="assets/images/logoo.png" type="image/png">
 
@@ -36,6 +38,18 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
+        <style>
+            .bg {
+                background-color: white;
+                padding: 25px;
+                border: 5px solid #337ab7;
+                margin: 25px;
+            }
+        </style>
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -54,9 +68,7 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
+     
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
@@ -101,68 +113,101 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-    
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-        <li>
-          <a href="/dashboard">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>    
-          </a>
-        </li>
-        <li  class="active treeview">
-          <a href="/obat-kategori">
-            <i class="fa fa-th"></i> <span>Kategori Obat</span>
-          </a>
-        </li>
-        <li>
-          <a href="/obat-obat">
-            <i class="fa fa-th"></i> <span>Obat</span>
-          </a>
-        </li>
-        <li>
-          <a href="/pemilik-penjualan">
-            <i class="fa fa-th"></i> <span>Penjualan</span>
-          </a>
-        </li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
+        Transaksi   <a href="/kasir-riwayat"><i class="fa fa-times" style="float: right;"></i></a>
       </h1>
-      <!-- <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol> -->
+             
     </section>
 
     <!-- Main content -->
-    <div class="modal fade" id="modal-tambah" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Tambah</h4>
+    <!-- Main content -->
+    <section class="content">
+    <center><h2>Rp. {{Session::get('grandtotal')}},-</h2></center>
+      <div class="row">
+        <div class="col-xs-6">
+          
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Cari Obat</h3><br>
+              <input type="text" name="search" id="search" class="form-controller" placeholder="Kode Obat | Nama Obat" />
             </div>
-            <div class="modal-body">
-              <form role="form" action="/add-kategori" method="post" enctype="multipart/form-data">
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table class="table table-bordered table-striped" id="list_obat">
+                <thead>
+                <tr>
+                <th>Nama Obat</th>
+                <th>Harga</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+
+<script type="text/javascript">
+$('#search').on('keyup',function(){
+$value=$(this).val();
+$.ajax({
+type : 'get',
+url : '{{URL::to('search')}}',
+data:{'search':$value},
+success:function(data){
+$('tbody', '#list_obat').html(data);
+}
+});
+})
+</script>
+<script type="text/javascript">
+$('#bayar').on('keyup',function(){
+var tot = document.getElementById("grandtotal").value;
+var bay = document.getElementById("bayar").value;
+
+document.getElementById("kembali").value = bay;
+}
+</script>
+
+<script type="text/javascript">
+$.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+</script>
+
+        
+      <div class=row>
+       <div class="col-xs-6">
+          
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Input Obat</h3><br>
+             </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <form role="form" action="/add-cart" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
                    <div class="row">
                     <div class="col-md-12 pr-1">
+                    <input class="form-control" type="hidden" name="id_obat" id="id" value="{{Session::get('temp-id_obat')}}">
                       <div class="form-group">
-                        <label>Kategori</label>
-                        <input type="text" class="form-control"  placeholder="kategori" name="kategori" required="true">
+                        <label>Nama Obat</label>
+                        <input type="text" class="form-control" name="nama_obat" required="true" value="{{Session::get('temp-nama_obat')}}" readonly=true>
+                      </div>
+                      <div class="form-group">
+                      <div class="col-md-8 pr-1">
+                        <label>Harga</label>
+                        <input type="number" class="form-control" name="harga_jual" required="true" value="{{Session::get('temp-harga_jual')}}" readonly=true>
+                      </div>
+                      <div class="col-md-4 pr-1">
+                      <label>Qty</label>
+                        <input type="number" class="form-control" name="qty" required="true"  >
+                        </div>
                       </div>
                     </div>
                     </div>
@@ -172,66 +217,76 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="modal-footer justify-content-between">
-             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          
+              <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+             
             </div>
               </form>
             </div>
+            <!-- /.box-body -->
           </div>
-          <!-- /.modal-content -->
+          <!-- /.box -->
         </div>
-        <!-- /.modal-dialog -->
-      
-
-    <!-- Main content -->
-    <section class="content">
+      </div>
+      <!-- /.row -->
       <div class="row">
-        <div class="col-xs-12">
-          
+      <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Kategori Obat</h3><br>
-              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
-            </div>
+              <h3 class="box-title">Detail</h3><br>
+             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Kategori</th>
+                  <th>Obat</th>
+                  <th>Qty</th>
+                  <th>H Beli</th>
+                  <th>H Jual</th>
+                  <th>Laba</th>
+                  <th>Sub Total</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 @php
                 $i = 1;
+                $data = DB::select("select * from temp_transaksi");
                 @endphp
-                @foreach ($data as $datas)                        
+                @foreach ($data as $datas)
                 <tr>
                   <td>{{$i++}}</td>
-                  <td>{{$datas->kategori}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_kategori}}" class="btn btn-warning btn-xs">Edit
-                        </a> <a href="/delete-kategori{{$datas->id_kategori}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
+                  <td>{{$datas->nama_obat}}</td>
+                  <td>{{$datas->qty}}</td>
+                  <td>{{$datas->harga_beli}}</td>
+                  <td>{{$datas->harga_jual}}</td>
+                  <td>{{$datas->laba}}</td>
+                  <td>{{$datas->total}}</td>
+                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_temp}}" class="btn btn-warning btn-xs">Edit
+                        </a> <a href="/delete-cart{{$datas->id_temp}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
                         </a> </td></tr>
-                
-         <div class="modal fade" id="modal-edit{{$datas->id_kategori}}" role="dialog">
+                 @endforeach
+                </tbody>
+              </table>
+              @foreach ($data as $datas)
+        <div class="modal fade" id="modal-edit{{$datas->id_temp}}" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Edit</h4>
             </div>
             <div class="modal-body">
-              <form role="form" action="/edit-kategori" method="post" enctype="multipart/form-data">
+              <form role="form" action="/edit-cart" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
-                  <input class="form-control" type="hidden" name="id_kategori" id="id" value="{{ $datas->id_kategori}}">
+                  <input class="form-control" type="hidden" name="id_temp" id="id" value="{{ $datas->id_temp}}">
+                  <input class="form-control" type="hidden" name="harga_jual" id="id" value="{{ $datas->harga_jual}}">
                    <div class="row">
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Kategori</label>
-                        <input type="text" class="form-control"  placeholder="kategori" name="kategori" required="true" value="{{$datas->kategori}}">
+                        <label>qty</label>
+                        <input type="number" class="form-control"  placeholder="0" name="kategori" required="true" value="{{$datas->qty}}">
                       </div>
                     </div>
                     </div>
@@ -248,11 +303,7 @@
           </div>
           <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
-                @endforeach
-                </tbody>
-                
-              </table>
+              @endforeach
             </div>
             <!-- /.box-body -->
           </div>
@@ -260,7 +311,55 @@
         </div>
         <!-- /.col -->
       </div>
-      <!-- /.row -->
+      <div class="col-xs-12">
+          
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Pembayaran</h3><br>
+             </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <form role="form" action="/add-transaksi" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}
+                <div class="card-body">
+                   <div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                      <div class="col-md-8 pr-1">
+                        <label>Grand Total</label>
+                        <input type="number" class="form-control" id="grandtotal" name="grandtotal" required="true" value="{{Session::get('grandtotal')}}" readonly=true>
+                      </div>
+                      <div class="col-md-4 pr-1">
+                      <label>Jumlah Bayar</label>
+                        <input type="number" class="form-control" id="bayar" name="bayar" required="true"  >
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                
+                    
+                  </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="modal-footer justify-content-between">
+              <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+             
+            </div>
+              </form>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+      
+          </div>
+          <!-- /.box -->
+        </div>
+       
+      
+      
+      </div>
     </section>
     <!-- /.content -->
   </div>

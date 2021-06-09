@@ -34,6 +34,11 @@ Route::get('/pengadaan-supplier', 'App\Http\Controllers\Controller@pengadaansupp
 Route::get('/pengadaan-pengadaan', 'App\Http\Controllers\Controller@pengadaanpengadaan');
 
 //kasir
+Route::get('/kasir-transaksi', 'App\Http\Controllers\Controller@kasirtransaksi');
+Route::get('/kasir-riwayat', 'App\Http\Controllers\Controller@kasirriwayat');
+Route::get('/kasir-transaksi-resep', 'App\Http\Controllers\Controller@kasirtransaksiresep');
+Route::get('/kasir-transaksi-nonresep', 'App\Http\Controllers\Controller@kasirtransaksinonresep');
+
 
 //CRUD User
 Route::post('/add-user', 'App\Http\Controllers\Controller@adduser');
@@ -54,3 +59,11 @@ Route::post('/edit-supplier', 'App\Http\Controllers\Controller@editsupplier');
 //CRUD Pengadaan
 Route::post('/add-pengadaan', 'App\Http\Controllers\Controller@addpengadaan');
 
+//tambahan
+
+Route::get('/x','App\Http\Controllers\Controller@index');
+Route::get('/search','App\Http\Controllers\Controller@search');
+Route::get('/add{id}', 'App\Http\Controllers\Controller@add');
+Route::post('/add-cart', 'App\Http\Controllers\Controller@addcart');
+Route::post('/add-transaksi', 'App\Http\Controllers\Controller@addtransaksi');
+Route::get('/delete-cart{id}', 'App\Http\Controllers\Controller@delcart');

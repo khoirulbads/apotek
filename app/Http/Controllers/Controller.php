@@ -6,7 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Session;
 
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -54,6 +54,7 @@ class Controller extends BaseController
         if(count($data) > 0){
             Session::put('login',true);
             Session::put('level',$level);
+            Session::put('id_user',$id_user);
             Session::put('username',$username);
             Session::put('id_level',$id_level);
             Session::put('login',true);
@@ -152,6 +153,48 @@ class Controller extends BaseController
         }   
     }
     
+    //Controller Kasir
+    public function kasirtransaksi(){
+        if(Session('login')==true && Session('level')=="kasir"){
+            $grandtotal = 0 ;
+            $temp = DB::select("select * from temp_transaksi");
+            foreach($temp as $temp){
+                $grandtotal = $grandtotal + $temp->total;
+                Session::put('grandtotal', $grandtotal);
+            } 
+            return view("kasir/transaksi");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function kasirriwayat(){
+        if(Session('login')==true && Session('level')=="kasir"){
+            Session::put('kasir',null);
+            $data = DB::select("select * from transaksi a, user b where a.id_user = b.id_user");
+            
+            return view("kasir/riwayat",["data"=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function kasirtransaksiresep(){
+        if(Session('login')==true && Session('level')=="kasir"){
+            Session::put('kasir','resep');
+            return redirect("/kasir-transaksi");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function kasirtransaksinonresep(){
+        if(Session('login')==true && Session('level')=="kasir"){
+            Session::put('kasir','nonresep');
+            return redirect("/kasir-transaksi");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+
+
     //CRUD User
     public function adduser(Request $request){
         if(Session('login')==true && Session('level')=="pemilik"){
@@ -377,5 +420,149 @@ class Controller extends BaseController
         }   
     }
     
+
+    //tambahan
+    public function index()
+    {
+    return view('kasir.search');
+    }
+    public function search(Request $request)
+    {
+    if($request->ajax() && $request->search != "")
+    {
+    $output="";
+    //$products=DB::table('obat')->where('nama_obat','LIKE','%'.$request->search."%")->get();
+    $products = DB::select("select * from obat where nama_obat LIKE '%".$request->search."%' AND aktif=1");
+    if($products)
+    {
+        if (Session('kasir')=='resep') {
+            foreach ($products as $key => $product) {
+                $output.='<tr>'.
+                '<td>'.$product->nama_obat.'</td>'.
+                '<td>'.$product->harga_jualResep.'</td>'.
+                '<td><a href="/add'.$product->id_obat.'" class="btn btn-primary btn-xs">Tambahkan
+                </a> </td>'.
+                '</tr>';
+                }        
+        }else{
+            foreach ($products as $key => $product) {
+                $output.='<tr>'.
+                '<td>'.$product->nama_obat.'</td>'.
+                '<td>'.$product->harga_jualNon.'</td>'.
+                '<td><a href="/add'.$product->id_obat.'" class="btn btn-primary btn-xs">Tambahkan
+                </a> </td>'.
+                '</tr>';
+                }
+        }
+    
+    return Response($output);
+       }
+       }
+    }
+
+    public function add($id){
+        if(Session('login')==true && Session('level')=="kasir"){
+            $data = DB::select("select * from obat where id_obat='$id'");
             
+            foreach ($data as $key) {
+                Session::put('temp-id_obat', $key->id_obat);
+                Session::put('temp-nama_obat', $key->nama_obat);
+                if (Session('kasir')=='resep') {
+                    Session::put('temp-harga_jual', $key->harga_jualResep);
+                    Session::put('temp-laba', $key->labaResep);    
+                }else{
+                    Session::put('temp-harga_jual', $key->harga_jualNon);
+                    Session::put('temp-laba', $key->labaNon);    
+                }
+                Session::put('temp-harga_beli', $key->harga_beli);
+         };
+            return redirect("kasir-transaksi");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function addcart(Request $request){
+        if(Session('login')==true && Session('level')=="kasir"){
+            $data = DB::select("select * from obat where id_obat='$request->id_obat'");
+            $cek = DB::select("select * from temp_transaksi where id_obat='$request->id_obat'");
+            if ($cek != null) {
+                foreach($cek as $cek){
+                    DB::table('temp_transaksi')->where('id_obat', $request->id_obat)->update([
+                        'qty'=>$cek->qty + $request->qty,
+                        'total'=> $cek->total + ($request->qty * $request->harga_jual)
+                        ]);
+                };
+                    
+            }else{
+                $save = DB::table('temp_transaksi')->insert([
+                    'id_obat' => $request->id_obat, 
+                    'nama_obat' => $request->nama_obat,
+                    'qty' => $request->qty,
+                    'harga_jual' => $request->harga_jual,
+                    'harga_beli' => Session('temp-harga_beli'),
+                    'laba' => Session('temp-laba'),
+                    'total' => $request->qty * $request->harga_jual
+                    ]);
+            }
+                    
+                    Session::put('temp-id_obat', '');
+                    Session::put('temp-nama_obat', '');
+                    Session::put('temp-harga_jual', '');
+                    Session::put('temp-laba', '');    
+                    Session::put('temp-harga_jual', '');
+                    Session::put('temp-laba', '');    
+                    Session::put('temp-harga_beli', '');
+
+            return redirect("kasir-transaksi");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function delcart($id){
+        if(Session('login')==true && Session('level')=="kasir"){
+            DB::table('temp_transaksi')->where('id_temp', $id)->delete();
+            return redirect("kasir-transaksi");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function addtransaksi(Request $request){
+        if(Session('login')==true && Session('level')=="kasir"){
+            $id_user = Session('id_user');
+            $inv = "";
+            $getinv = DB::select("select unix_timestamp() as invoice");
+            $gettemp = DB::select("select * from temp_transaksi");
+            foreach ($getinv as $key){
+            $inv = $key->invoice;
+            };
+            $save = DB::table('transaksi')->insert([
+                'id_transaksi' => $inv,
+                'inv' => "INV/".$inv,
+                'jenis' => Session('kasir'),
+                'grand_total' => Session('grandtotal'),
+                'bayar' => $request->bayar,
+                'id_transaksi' => $inv, 
+                'kembali' => $request->bayar - Session('grandtotal'),
+                'id_user' => $id_user,
+                ]);
+            foreach ($gettemp as $key) {
+                $save = DB::table('detail_transaksi')->insert([
+                    'inv' => "INV/".$inv,
+                    'id_obat' => $key->id_obat,
+                    'harga_jual' => $key->harga_jual,
+                    'harga_beli' => $key->harga_beli,
+                    'total' => $key->total,
+                    'qty' => $key->qty,                  
+                    ]);
+                    
+                    DB::table('temp_transaksi')->where('id_obat', $key->id_obat)->delete();
+            }
+            Session::put('kasir','');
+            
+            return redirect("kasir-riwayat");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    
 }

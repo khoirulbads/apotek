@@ -115,13 +115,8 @@
           </a>
         </li>
         <li>
-          <a href="/kasir-transaksi">
-            <i class="fa fa-th"></i> <span>Transaksi</span>
-          </a>
-        </li>
-        <li>
           <a href="/kasir-riwayat">
-            <i class="fa fa-th"></i> <span>Riwayat Transaksi</span>
+            <i class="fa fa-th"></i> <span>Transaksi</span>
           </a>
         </li>
       </ul>
