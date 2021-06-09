@@ -475,6 +475,7 @@ class Controller extends BaseController
                     Session::put('temp-laba', $key->labaNon);    
                 }
                 Session::put('temp-harga_beli', $key->harga_beli);
+                Session::put('temp-stok', $key->stok);
          };
             return redirect("kasir-transaksi");
         }else{
@@ -485,6 +486,7 @@ class Controller extends BaseController
         if(Session('login')==true && Session('level')=="kasir"){
             $data = DB::select("select * from obat where id_obat='$request->id_obat'");
             $cek = DB::select("select * from temp_transaksi where id_obat='$request->id_obat'");
+            
             if ($cek != null) {
                 foreach($cek as $cek){
                     DB::table('temp_transaksi')->where('id_obat', $request->id_obat)->update([
@@ -494,6 +496,11 @@ class Controller extends BaseController
                 };
                     
             }else{
+                foreach($data as $data){
+                    if ($data->stok < $request->qty) {
+                        return redirect()->back()->withErrors(['msg','Stok tidak mencukupi']);
+                    }
+                }
                 $save = DB::table('temp_transaksi')->insert([
                     'id_obat' => $request->id_obat, 
                     'nama_obat' => $request->nama_obat,
@@ -512,12 +519,24 @@ class Controller extends BaseController
                     Session::put('temp-harga_jual', '');
                     Session::put('temp-laba', '');    
                     Session::put('temp-harga_beli', '');
-
+                    Session::put('temp-stok', '');
             return redirect("kasir-transaksi");
         }else{
             return redirect('/auth');
         }   
     }
+    public function editcart(Request $request){
+        if(Session('login')==true && Session('level')=="kasir"){
+            DB::table('temp_transaksi')->where('id_temp', $request->id_temp)->update([
+                'qty' => $request->qty,
+                'total' => $request->qty * $request->harga_jual
+                ]);
+            return redirect("kasir-transaksi");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+
     public function delcart($id){
         if(Session('login')==true && Session('level')=="kasir"){
             DB::table('temp_transaksi')->where('id_temp', $id)->delete();
@@ -554,11 +573,10 @@ class Controller extends BaseController
                     'total' => $key->total,
                     'qty' => $key->qty,                  
                     ]);
-                    
                     DB::table('temp_transaksi')->where('id_obat', $key->id_obat)->delete();
             }
             Session::put('kasir','');
-            
+            Session::put('grandtotal','');            
             return redirect("kasir-riwayat");
         }else{
             return redirect('/auth');

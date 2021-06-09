@@ -192,6 +192,9 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
               <form role="form" action="/add-cart" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
+                @if($errors->any())
+                <h3 style="color:Red">Stok tidak cukup</h3>
+                @endif
                    <div class="row">
                     <div class="col-md-12 pr-1">
                     <input class="form-control" type="hidden" name="id_obat" id="id" value="{{Session::get('temp-id_obat')}}">
@@ -200,9 +203,13 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
                         <input type="text" class="form-control" name="nama_obat" required="true" value="{{Session::get('temp-nama_obat')}}" readonly=true>
                       </div>
                       <div class="form-group">
-                      <div class="col-md-8 pr-1">
+                      <div class="col-md-4 pr-1">
                         <label>Harga</label>
                         <input type="number" class="form-control" name="harga_jual" required="true" value="{{Session::get('temp-harga_jual')}}" readonly=true>
+                      </div>
+                      <div class="col-md-4 pr-1">
+                        <label>Stok</label>
+                        <input type="number" class="form-control" name="stok" required="true" value="{{Session::get('temp-stok')}}" readonly=true>
                       </div>
                       <div class="col-md-4 pr-1">
                       <label>Qty</label>
@@ -286,7 +293,7 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
                         <label>qty</label>
-                        <input type="number" class="form-control"  placeholder="0" name="kategori" required="true" value="{{$datas->qty}}">
+                        <input type="number" class="form-control"  placeholder="0" name="qty" required="true" value="{{$datas->qty}}">
                       </div>
                     </div>
                     </div>
