@@ -100,6 +100,25 @@
       </div>
     </nav>
   </header>
+  <div class="modal fade" id="modal-tambah" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Pilih Jenis Obat</h4>
+            </div>
+            <div class="modal-body">
+          <center><a href="/kasir-transaksi-resep" type="button" class="btn btn-primary" >OBAT RESEP</a>
+            <a href="/kasir-transaksi-nonresep" type="button" class="btn btn-primary" >OBAT NOT RESEP</a>
+            
+            </center>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+            </div>
+              </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -116,6 +135,11 @@
         </li>
         <li>
           <a href="/kasir-riwayat">
+            <i class="fa fa-th"></i> <span>Riwayat Transaksi</span>
+          </a>
+        </li>
+        <li>
+          <a data-toggle="modal" data-target="#modal-tambah">
             <i class="fa fa-th"></i> <span>Transaksi</span>
           </a>
         </li>

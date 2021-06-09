@@ -117,8 +117,13 @@
           </a>
         </li>
         <li class="active treeview">
-            <a href="/kasir-riwayat">
-            <i class="fa fa-th"></i><span>Transaksi</span>
+          <a  href="/kasir-riwayat">
+            <i class="fa fa-th"></i> <span>Riwayat Transaksi</span>
+          </a>
+        </li>
+        <li>
+          <a data-toggle="modal" data-target="#modal-tambah">
+            <i class="fa fa-th"></i> <span>Transaksi</span>
           </a>
         </li>
       </ul>
@@ -165,9 +170,6 @@
         <div class="col-xs-12">
           
           <div class="box">
-            <div class="box-header">
-            <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Buat Transaksi</h4><br>
-              </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">
