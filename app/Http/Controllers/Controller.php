@@ -157,11 +157,15 @@ class Controller extends BaseController
     public function kasirtransaksi(){
         if(Session('login')==true && Session('level')=="kasir"){
             $grandtotal = 0 ;
+            Session::put('grandtotal', $grandtotal);
+            
             $temp = DB::select("select * from temp_transaksi");
-            foreach($temp as $temp){
-                $grandtotal = $grandtotal + $temp->total;
-                Session::put('grandtotal', $grandtotal);
-            } 
+            if($temp != null){
+                foreach($temp as $temp){
+                    $grandtotal = $grandtotal + $temp->total;
+                    Session::put('grandtotal', $grandtotal);
+                } 
+            }
             return view("kasir/transaksi");
         }else{
             return redirect('/auth');
@@ -559,7 +563,7 @@ class Controller extends BaseController
             };
             $save = DB::table('transaksi')->insert([
                 'id_transaksi' => $inv,
-                'inv' => "INV/".$inv,
+                'inv' => "INV".$inv,
                 'jenis' => Session('kasir'),
                 'grand_total' => Session('grandtotal'),
                 'bayar' => $request->bayar,
@@ -569,7 +573,7 @@ class Controller extends BaseController
                 ]);
             foreach ($gettemp as $key) {
                 $save = DB::table('detail_transaksi')->insert([
-                    'inv' => "INV/".$inv,
+                    'inv' => "INV".$inv,
                     'id_obat' => $key->id_obat,
                     'harga_jual' => $key->harga_jual,
                     'harga_beli' => $key->harga_beli,
@@ -579,8 +583,8 @@ class Controller extends BaseController
                     DB::table('temp_transaksi')->where('id_obat', $key->id_obat)->delete();
             }
             Session::put('kasir','');
-            Session::put('grandtotal','');            
-            return redirect("kasir-riwayat");
+            Session::put('grandtotal','');
+            return redirect("kasir-riwayat")->withErrors(['msgkembali','Stok tidak mencukupi']);
         }else{
             return redirect('/auth');
         }   

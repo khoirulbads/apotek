@@ -673,6 +673,38 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
+<!-- Modal Kembalian -->
+        <div class="modal fade" id="modal-kembalian">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+              </div>
+              @php
+              $kembali = DB::select("select kembali from transaksi order by id_transaksi desc limit 1");
+              @endphp
+              <div class="modal-body">
+                <center><h1>Kembalian</h1></center>
+                @foreach ($kembali as $data)
+                <center><h1>Rp. {{ number_format($data->kembali,0, ',' , '.')}},-</h1></center>
+                @endforeach
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        @if($errors->first() == 'msgkembali')
+          <script>
+        $(document).ready(function(){
+        $("#modal-kembalian").modal('show');
+    });
+</script>
+        @endif
+                
 <script src="assets/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="assets/AdminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script>

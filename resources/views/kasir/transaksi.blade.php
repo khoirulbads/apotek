@@ -173,7 +173,7 @@
     <!-- Main content -->
     <!-- Main content -->
     <section class="content">
-    <center><h2>Rp. {{Session::get('grandtotal')}},-</h2></center>
+    <center><h2>Rp. {{ number_format(Session::get('grandtotal'),0, ',' , '.')}},-</h2></center>
       <div class="row">
         <div class="col-xs-6">
           
@@ -405,7 +405,6 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
           <!-- /.box -->
         </div>
       </div>
-      
           </div>
           <!-- /.box -->
         </div>
