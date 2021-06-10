@@ -239,8 +239,8 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
               <form role="form" action="/add-cart" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
-                @if($errors->any())
-                <h3 style="color:Red">Stok tidak cukup</h3>
+                @if($errors->first() == 'msgstok')
+                <h3 style="color:Red">Stok tidak mencukupi</h3>
                 @endif
                    <div class="row">
                     <div class="col-md-12 pr-1">
@@ -372,6 +372,9 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
               <form role="form" action="/add-transaksi" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
+                @if($errors->first() == 'msguang')
+                <h3 style="color:Red">Uang Kurang</h3>
+                @endif
                    <div class="row">
                     <div class="col-md-12 pr-1">
                       <div class="form-group">

@@ -498,8 +498,8 @@ class Controller extends BaseController
             }else{
                 foreach($data as $data){
                     if ($data->stok < $request->qty) {
-                        return redirect()->back()->withErrors(['msg','Stok tidak mencukupi']);
-                    }
+                        return redirect()->back()->withErrors(['msgstok','Stok tidak mencukupi']);
+                      }
                 }
                 $save = DB::table('temp_transaksi')->insert([
                     'id_obat' => $request->id_obat, 
@@ -547,6 +547,9 @@ class Controller extends BaseController
     }
     public function addtransaksi(Request $request){
         if(Session('login')==true && Session('level')=="kasir"){
+            if (Session('grandtotal') > $request->bayar) {
+                    return redirect()->back()->withErrors(['msguang','Uang tidak mencukupi']);
+            }
             $id_user = Session('id_user');
             $inv = "";
             $getinv = DB::select("select unix_timestamp() as invoice");
