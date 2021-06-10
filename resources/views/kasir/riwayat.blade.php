@@ -164,7 +164,8 @@
         <!-- /.modal-dialog -->
       
 
-    
+
+        
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
@@ -194,16 +195,65 @@
                   <td>{{$data->grand_total}}</td>
                   <td>{{$data->nama}}</td>
                   <td>{{$data->jenis}}</td>
-                  <td><a class="btn btn-primary btn-xs" >Detail
+                  <td><a data-toggle="modal" data-target="#modal-detail{{$data->inv}}" class="btn btn-primary btn-xs" >Detail
                         </a></td>
                   </tr>
-                @endforeach
+                  @endforeach
                 </tbody>
                 
               </table>
             </div>
             <!-- /.box-body -->
           </div>
+                @php
+                $x = DB::select("select * from transaksi");
+                @endphp
+          @foreach ($x as $data)
+              <div class="modal fade" id="modal-detail{{$data->inv}}" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                      @php
+                        $detail = DB::select("select * from detail_transaksi a, obat b where a.id_obat=b.id_obat and a.inv='$data->inv'");
+                      @endphp
+                        <h4 class="modal-title">Detail Transaksi {{$data->inv}}</h4>
+                      </div>
+                      <div class="modal-body">
+                      <table  id="example" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Obat</th>
+                            <th>H. Beli</th>
+                            <th>H. Jual</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @php
+                          $i = 1;
+
+                          @endphp
+                          @foreach ($detail as $data)
+                          <tr>
+                            <td>{{$i++}}</td>
+                            <td>{{$data->nama_obat}}</td>
+                            <td>{{$data->harga_beli}}</td>
+                            <td>{{$data->harga_jual}}</td>
+                            <td>{{$data->qty}}</td>
+                            <td>{{$data->total}}</td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                      </table>
+                      </div>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+          @endforeach
           <!-- /.box -->
         </div>
         <!-- /.col -->
