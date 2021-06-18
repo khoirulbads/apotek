@@ -443,7 +443,7 @@ class Controller extends BaseController
     {
     $output="";
     //$products=DB::table('obat')->where('nama_obat','LIKE','%'.$request->search."%")->get();
-    $products = DB::select("select * from obat where nama_obat LIKE '%".$request->search."%' AND aktif=1");
+    $products = DB::select("select * from obat where nama_obat LIKE '%".$request->search."%' AND aktif=1 AND TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) >= 1 AND STOK > 0");
     if($products)
     {
         if (Session('kasir')=='resep') {
