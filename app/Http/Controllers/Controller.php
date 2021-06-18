@@ -280,12 +280,18 @@ class Controller extends BaseController
     //CRUD Obat
     public function addobat(Request $request){
         if(Session('login')==true && Session('level')=="adminobat"){
+            $labaR = 0; $labaN = 0;
+            $setting = DB::select("select * from setting");
+            foreach ($setting as $set){
+                $labaR = $set->laba_resep;
+                $labaN = $set->laba_nonresep;
+            }
             $save = DB::table('obat')->insert([
                 'nama_obat' => $request->nama_obat,
                 'id_kategori' => $request->id_kategori,
                 'satuan' => $request->satuan,
-                'labaResep'=>$request->labaResep,
-                'labaNon'=>$request->labaNon,
+                'labaResep'=>$labaR,
+                'labaNon'=>$labaN,
                 'selisih'=>$request->selisih,
                 'stokMinimal'=>$request->stokMinimal,
                 'aktif' => 1
@@ -307,23 +313,24 @@ class Controller extends BaseController
     }
     public function editobat(Request $request){
         if(Session('login')==true && Session('level')=="adminobat"){
-            $h_jualResep = 0;
-            $h_jualNon = 0;
-            if($request->harga_beli>0){
-                $h_jualResep= (($request->labaResep/100)*$request->harga_beli)+$request->harga_beli;
-                $h_jualNon= (($request->labaNon/100)*$request->harga_beli)+$request->harga_beli;
-                
-            }
             DB::table('obat')->where('id_obat', $request->id_obat)->update([
                 'nama_obat' => $request->nama_obat,
                 'id_kategori' => $request->id_kategori,
                 'satuan' => $request->satuan,
-                'labaResep' => $request->labaResep,
-                'labaNon' => $request->labaNon,
                 'stokMinimal' => $request->stokMinimal,
-                'selisih' => $request->selisih,
-                'harga_jualResep' => $h_jualResep,
-                'harga_jualNon' => $h_jualNon
+                'selisih' => $request->selisih
+                ]);
+            return redirect("obat-obat");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    //CRUD Laba
+    public function editlaba(Request $request){
+        if(Session('login')==true && Session('level')=="adminobat"){
+            DB::table('setting')->where('id_setting', $request->id_setting)->update([
+                'laba_resep' => $request->laba_resep,
+                'laba_nonresep' => $request->laba_nonresep,
                 ]);
             return redirect("obat-obat");
         }else{

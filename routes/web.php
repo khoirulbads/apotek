@@ -52,6 +52,7 @@ Route::post('/edit-kategori', 'App\Http\Controllers\Controller@editkategori');
 Route::post('/add-obat', 'App\Http\Controllers\Controller@addobat');
 Route::get('/delete-obat{id}', 'App\Http\Controllers\Controller@delobat');
 Route::post('/edit-obat', 'App\Http\Controllers\Controller@editobat');
+Route::post('/edit-laba', 'App\Http\Controllers\Controller@editlaba');
 //CRUD Supplier
 Route::post('/add-supplier', 'App\Http\Controllers\Controller@addsupplier');
 Route::get('/delete-supplier{id}', 'App\Http\Controllers\Controller@delsupplier');

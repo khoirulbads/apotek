@@ -79,7 +79,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="assets/AdminLTE/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">
-                  {{Session::get('nama')}}</span>
+                  {{Session::get('nama')}} - {{Session::get('level')}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -239,9 +239,6 @@ $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
               <form role="form" action="/add-cart" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
-                @if($errors->first() == 'msgstok')
-                <h3 style="color:Red">Stok tidak mencukupi</h3>
-                @endif
                    <div class="row">
                     <div class="col-md-12 pr-1">
                     <input class="form-control" type="hidden" name="id_obat" id="id" value="{{Session::get('temp-id_obat')}}">

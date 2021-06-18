@@ -139,7 +139,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
+        Obat
       </h1>
       <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -163,18 +163,6 @@
                       <div class="form-group">
                         <label>Nama Obat</label>
                         <input type="text" class="form-control"  placeholder="Paracetamol" name="nama_obat" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Laba Resep (persen dari harga beli) </label>
-                        <input type="number" class="form-control"  placeholder="1000" name="labaResep" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Laba Non Resep (persen dari harga beli) </label>
-                        <input type="number" class="form-control"  placeholder="1000" name="labaNon" required="true">
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">
@@ -209,7 +197,7 @@
                 @endphp
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
-                         <label>Level</label>
+                         <label>Kategori</label>
                         <select name="id_kategori">
                         @foreach ($kategori as $key)                        
                         <option value={{$key->id_kategori}}>{{ $key->kategori  }}</option>
@@ -241,7 +229,52 @@
           
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Obat</h3><br>
+            @php
+            $setting = DB::select("select * from setting");
+            @endphp
+            @foreach ($setting as $set)
+            <div class="modal fade" id="modal-editsetting{{$set->id_setting}}" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Edit Laba</h4>
+            </div>
+            <div class="modal-body">
+              <form role="form" action="/edit-laba" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}
+                <div class="card-body">
+                  <input class="form-control" type="hidden" name="id_setting" id="id" value="{{ $set->id_setting}}">
+                   <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Laba Resep (%)</label>
+                        <input type="text" class="form-control"   name="laba_resep" required="true" value="{{$set->laba_resep}}">
+                      </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Laba Non Resep (%)</label>
+                        <input type="text" class="form-control"   name="laba_nonresep" required="true" value="{{$set->laba_nonresep}}">
+                      </div>
+                    </div>
+                    </div>
+                 </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="modal-footer justify-content-between">
+             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          
+            </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        
+              <h3 class="box-title">Laba Resep : {{$set->laba_resep}}% | Laba Non : {{$set->laba_nonresep}}%   <a data-toggle="modal" data-target="#modal-editsetting{{$set->id_setting}}" class="fa fa-pencil"></a></h3> 
+            @endforeach
+              <br>
               <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
             </div>
             <!-- /.box-header -->
@@ -254,8 +287,6 @@
                   <th>Satuan</th>
                   <th>Kategori</th>
                   <th>Beli</th>
-                  <th>Laba (Resep)</th>
-                  <th>Laba (Non)</th>
                   <th>Jual (Resep)</th>
                   <th>Jual (Non)</th>
                   <th>Stok</th>
@@ -276,8 +307,6 @@
                   <td>{{$datas->satuan}}</td>
                   <td>{{$datas->kategori}}</td>
                   <td>{{$datas->harga_beli}}</td>
-                  <td>{{$datas->labaResep}} %</td>
-                  <td>{{$datas->labaNon}} %</td>
                   <td>{{$datas->harga_jualResep}}</td>
                   <td>{{$datas->harga_jualNon}}</td>
                   <td>{{$datas->stok}}</td>
@@ -307,17 +336,6 @@
                       <div class="form-group">
                         <label>Nama Obat</label>
                         <input type="text" class="form-control"  placeholder="Nama Obat" name="nama_obat" required="true" value="{{$datas->nama_obat}}">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Laba Resep (persen dari harga beli)</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="labaResep" required="true" value="{{$datas->labaResep}}">
-                      </div>
-                    </div><div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Laba NonResep (persen dari harga beli)</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="labaNon" required="true" value="{{$datas->labaNon}}">
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">
