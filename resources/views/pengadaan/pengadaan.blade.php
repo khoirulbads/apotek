@@ -65,9 +65,8 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="assets/AdminLTE/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">
-                  {{Session::get('nama')}}</span>
+                  {{Session::get('nama')}} - {{Session::get('level')}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -134,7 +133,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Dashboard
+        Penyetokan
       </h1>
       <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -223,7 +222,7 @@
           
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Obat</h3><br>
+              <h3 class="box-title">Data Riwayat Penyetokan</h3><br>
               <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
             </div>
             <!-- /.box-header -->
