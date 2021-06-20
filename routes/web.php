@@ -69,3 +69,4 @@ Route::post('/add-cart', 'App\Http\Controllers\Controller@addcart');
 Route::post('/add-transaksi', 'App\Http\Controllers\Controller@addtransaksi');
 Route::get('/delete-cart{id}', 'App\Http\Controllers\Controller@delcart');
 Route::post('/edit-cart', 'App\Http\Controllers\Controller@editcart');
+Route::post('/edit-profil', 'App\Http\Controllers\Controller@editprofil');

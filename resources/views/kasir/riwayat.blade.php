@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Kasir | Transaksi</title>
+  <title>Kasir | Riwayat Transaksi</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <meta name="_token" content="{{ csrf_token() }}">
@@ -73,10 +73,11 @@
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="assets/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
                 <p>
                   {{Session::get('nama')}}
+                </p>
+                <p>
+                  {{Session::get('level')}}
                 </p>
               </li>
               <!-- Menu Body -->
@@ -87,7 +88,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profil</a>
+                  <a  data-toggle="modal" data-target="#modal-profil" class="btn btn-default btn-flat">Profil</a>
                 </div>
                
               </li>
@@ -142,6 +143,62 @@
     </section>
 
     <!-- Main content -->
+    <div class="modal fade" id="modal-profil" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Profil</h4>
+            </div>
+            <div class="modal-body">
+            @php
+            $id = Session::get('id_user');
+            $profil = DB::select("select * from user where id_user='$id' ");
+            @endphp
+              <form role="form" action="/edit-profil" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}
+                <div class="card-body">
+                  @foreach ($profil as $prof)
+                  <div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" class="form-control" placeholder="Suwanto" value="{{$prof->nama}}" name="nama" required="true">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="Suwanto" value="{{$prof->username}}" name="username" required="true">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" placeholder="Suwanto" value="{{$prof->password}}" name="password" required="true">
+                      </div>
+                    </div>
+                  </div>
+                  @endforeach
+                </div>
+              </div>
+                <!-- /.card-body -->
+                <div class="modal-footer justify-content-between">
+             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+          
+            </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      
+    
     <!-- Main content -->
     <div class="modal fade" id="modal-tambah" role="dialog">
         <div class="modal-dialog">

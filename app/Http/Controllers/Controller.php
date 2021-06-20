@@ -596,5 +596,23 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+
+    public function editprofil(Request $request){
+        if(Session('login')==true){
+            DB::table('user')->where('id_user', Session('id_user'))->update([
+                'nama' => $request->nama,
+                'username' => $request->username,
+                'password' => $request->password,
+                ]);
+
+            Session::put('password',$request->password);
+            Session::put('nama',$request->nama);
+            Session::put('username',$request->username);
+                
+                return redirect()->back();
+        }else{
+            return redirect('/auth');
+        }   
+    }
     
 }
