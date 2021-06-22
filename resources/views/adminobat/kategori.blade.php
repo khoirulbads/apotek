@@ -125,7 +125,7 @@
           </a>
         </li>
         <li>
-          <a href="/pemilik-penjualan">
+          <a href="/obat-penjualan">
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
         </li>

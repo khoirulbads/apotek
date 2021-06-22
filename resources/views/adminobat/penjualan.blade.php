@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Admin Obat | Obat</title>
+  <title>Admin Obat | Penjualan</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -86,7 +86,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a   data-toggle="modal" data-target="#modal-profil"  class="btn btn-default btn-flat">Profil</a>
+                  <a  data-toggle="modal" data-target="#modal-profil" class="btn btn-default btn-flat">Profil</a>
                 </div>
                
               </li>
@@ -107,7 +107,7 @@
     
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
+     <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
         <li>
           <a href="/dashboard">
@@ -119,12 +119,12 @@
             <i class="fa fa-th"></i> <span>Kategori Obat</span>
           </a>
         </li>
-        <li   class="active treeview">
+        <li>
           <a href="/obat-obat">
             <i class="fa fa-th"></i> <span>Obat</span>
           </a>
         </li>
-        <li>
+        <li class="active treeview">
           <a href="/obat-penjualan">
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
@@ -134,22 +134,7 @@
     <!-- /.sidebar -->
   </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Obat
-      </h1>
-      <!-- <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol> -->
-    </section>
-
-    <!-- Main content -->
-
-  <div class="modal fade" id="modal-profil" role="dialog">
+<div class="modal fade" id="modal-profil" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -206,251 +191,52 @@
       
     
 
-    <div class="modal fade" id="modal-tambah" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Tambah</h4>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="/add-obat" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}
-                <div class="card-body">
-                   <div class="row">
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Nama Obat</label>
-                        <input type="text" class="form-control"  placeholder="Paracetamol" name="nama_obat" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Stok Minimal</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="stokMinimal" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Selisih Kadaluarsa (Hari)</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="selisih" required="true">
-                      </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Satuan</label>
-                        <select name="satuan">
-                        <option value="Tablet">Tablet</option>
-                        <option value="Botol">Botol</option>
-                        <option value="Kapsul">Kapsul</option>
-                        <option value="Tube">Tube</option>
-                        </select>
-                    </div>
-                    </div>
-                </div>
-                <div class="row">
-                @php
-                $kategori = DB::select("select * from kategori where aktif=1");
-                @endphp
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                         <label>Kategori</label>
-                        <select name="id_kategori">
-                        @foreach ($kategori as $key)                        
-                        <option value={{$key->id_kategori}}>{{ $key->kategori  }}</option>
-                        @endforeach
-                        </select></div>
-                    </div>
-                </div>
-                    
-                  </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer justify-content-between">
-             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          
-            </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-      
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Penjualan
+      </h1>
+      <!-- <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol> -->
+    </section>
 
-    <!-- Main content -->
     <section class="content">
       <div class="row">
         <div class="col-xs-12">
-          
           <div class="box">
             <div class="box-header">
-            @php
-            $setting = DB::select("select * from setting");
-            @endphp
-            @foreach ($setting as $set)
-            <div class="modal fade" id="modal-editsetting{{$set->id_setting}}" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Edit Laba</h4>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="/edit-laba" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}
-                <div class="card-body">
-                  <input class="form-control" type="hidden" name="id_setting" id="id" value="{{ $set->id_setting}}">
-                   <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Laba Resep (%)</label>
-                        <input type="text" class="form-control"   name="laba_resep" required="true" value="{{$set->laba_resep}}">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Laba Non Resep (%)</label>
-                        <input type="text" class="form-control"   name="laba_nonresep" required="true" value="{{$set->laba_nonresep}}">
-                      </div>
-                    </div>
-                    </div>
-                 </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer justify-content-between">
-             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          
-            </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        
-              <h3 class="box-title">Laba Resep : {{$set->laba_resep}}% | Laba Non : {{$set->laba_nonresep}}%   <a data-toggle="modal" data-target="#modal-editsetting{{$set->id_setting}}" class="fa fa-pencil"></a></h3> 
-            @endforeach
-              <br>
-              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
-            </div>
+              <h3 class="box-title">Penjualan Obat</h3><br>
+              </div>
             <!-- /.box-header -->
             <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Nama</th>
-                  <th>Satuan</th>
-                  <th>Kategori</th>
-                  <th>Beli</th>
-                  <th>Jual (Resep)</th>
-                  <th>Jual (Non)</th>
-                  <th>Stok</th>
-                  <th>Minimal</th>
-                  <th>Selisih</th>
-                  <th>Exp</th>
-                  <th>Action</th>
+                  <th>Obat</th>
+                  <th>Jumlah</th>
+                  <th>H.Beli</th>
+                  <th>H. Jual</th>
+                  <th>Total</th>
                 </tr>
                 </thead>
                 <tbody>
                 @php
+                //for 
                 $i = 1;
                 @endphp
                 @foreach ($data as $datas)                        
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$datas->nama_obat}}</td>
-                  <td>{{$datas->satuan}}</td>
-                  <td>{{$datas->kategori}}</td>
+                  <td>{{$datas->qty}}</td>
                   <td>{{$datas->harga_beli}}</td>
-                  <td>{{$datas->harga_jualResep}}</td>
-                  <td>{{$datas->harga_jualNon}}</td>
-                  <td>{{$datas->stok}}</td>
-                  <td>{{$datas->stokMinimal}}</td>
-                  <td>{{$datas->selisih}} Hari</td>
-                  <td>{{$datas->tgl_kadaluarsa}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_obat}}" class="btn btn-warning btn-xs">Edit
-                        </a> <a href="/delete-obat{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
-                        </a> </td></tr>
-                
-         <div class="modal fade" id="modal-edit{{$datas->id_obat}}" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Edit</h4>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="/edit-obat" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}
-                <div class="card-body">
-                  <input class="form-control" type="hidden" name="id_obat" id="id" value="{{ $datas->id_obat}}">
-                  <input class="form-control" type="hidden" name="harga_jualResep" id="id" value="{{ $datas->harga_jualResep}}">
-                  <input class="form-control" type="hidden" name="harga_jualNon" id="id" value="{{ $datas->harga_jualNon}}">
-                  <input class="form-control" type="hidden" name="harga_beli" id="id" value="{{ $datas->harga_beli}}">
-                   <div class="row">
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Nama Obat</label>
-                        <input type="text" class="form-control"  placeholder="Nama Obat" name="nama_obat" required="true" value="{{$datas->nama_obat}}">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Stok Minimal</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="stokMinimal" required="true" value="{{$datas->stokMinimal}}">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Selisih Kadaluarsa (Hari)</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="selisih" required="true" value="{{$datas->selisih}}">
-                      </div>
-                    </div>
-                    
-                    </div><div class="row">
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Satuan</label>
-                        <select name="satuan">
-                        <option value="Tablet">Tablet</option>
-                        <option value="Botol">Botol</option>
-                        <option value="Kapsul">Kapsul</option>
-                        <option value="Tube">Tube</option>
-                        </select>
-                    </div>
-                    </div>
-                </div>
-                <div class="row">
-                @php
-                $kategori = DB::select("select * from kategori where aktif=1");
-                @endphp
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                         <label>Kategori</label>
-                        <select name="id_kategori">
-                        @foreach ($kategori as $key)                        
-                        <option value={{$key->id_kategori}}>{{ $key->kategori  }}</option>
-                        @endforeach
-                        </select></div>
-                    </div>
-                </div>
-                
-                 </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer justify-content-between">
-             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          
-            </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
+                  <td>{{$datas->harga_jual}}</td>
+                  <td>{{$datas->total}}</td>
                 @endforeach
                 </tbody>
                 
@@ -458,6 +244,7 @@
             </div>
             <!-- /.box-body -->
           </div>
+          
           <!-- /.box -->
         </div>
         <!-- /.col -->

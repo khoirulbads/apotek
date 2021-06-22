@@ -153,6 +153,14 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function obatpenjualan(){
+        if(Session('login')==true && Session('level')=="adminobat"){
+            $data = DB::select("SELECT * from detail_transaksi a, obat b where a.id_obat=b.id_obat ");
+            return view("adminobat/penjualan",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
     //controller pengadaan
     public function pengadaansupplier(){
         if(Session('login')==true && Session('level')=="pengadaan"){

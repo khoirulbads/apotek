@@ -30,6 +30,7 @@ Route::get('/pemilik-penjualan', 'App\Http\Controllers\Controller@pemilikpenjual
 //adminobat
 Route::get('/obat-kategori', 'App\Http\Controllers\Controller@obatkategori');
 Route::get('/obat-obat', 'App\Http\Controllers\Controller@obatobat');
+Route::get('/obat-penjualan', 'App\Http\Controllers\Controller@obatpenjualan');
 
 //pengadaan
 Route::get('/pengadaan-supplier', 'App\Http\Controllers\Controller@pengadaansupplier');
