@@ -115,6 +115,14 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function pemilikpenjualan(){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $data = DB::select("SELECT * from detail_transaksi a, obat b where a.id_obat=b.id_obat ");
+            return view("pemilik/penjualan",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
     public function searchpemilikuser(Request $request){
         if(Session('login')==true && Session('level')=="pemilik"){
             $data = DB::select("SELECT a.id_user, a.nama, a.username,a.password,b.level, a.id_level
