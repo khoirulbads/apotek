@@ -217,6 +217,8 @@
             <div class="modal-header">
               <h4 class="modal-title">Tambah</h4>
             </div>
+            
+
             <div class="modal-body">
               <form role="form" action="/add-user" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
@@ -280,9 +282,40 @@
             <div class="box-header">
               <h3 class="box-title">Data Pengguna</h3><br>
               <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
-            </div>
+              <br>
+                </div>
             <!-- /.box-header -->
             <div class="box-body">
+            <form role="form" action="/pemilik-user" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Cari Nama</label>
+                        <input type="text" class="form-control"  placeholder="Suwanto" name="q" >
+                      </div>
+              </div>
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Level</label>
+                        <select class="form-control" name="id_level" id="id_level"  style="height:35px;">
+                        <option value="">Semua</option>
+                        <option value="1">Pemilik</option>
+                        <option value="4">Admin Obat</option>
+                        <option value="2">Admin Pengadaan</option>
+                        <option value="3">Kasir</option>
+                        </select>
+                      </div>
+              </div>
+              <div class="col-md-1 pr-1">
+                      <div class="form-group">
+                        <label style="color:white;">,l</label>
+                         <br><button type="submit">Cari</button>
+                      
+                      </div>
+              </div>       
+              
+              </form>
+              <br>
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>

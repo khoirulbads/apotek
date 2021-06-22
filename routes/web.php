@@ -22,6 +22,7 @@ Route::get('/logout', 'App\Http\Controllers\Controller@logout');
 Route::get('/dashboard', 'App\Http\Controllers\Controller@dashboard');
 //pemilik
 Route::get('/pemilik-user', 'App\Http\Controllers\Controller@pemilikuser');
+Route::post('/pemilik-user', 'App\Http\Controllers\Controller@searchpemilikuser');
 Route::get('/pemilik-rekomendasi', 'App\Http\Controllers\Controller@pemilikrekomendasi');
 Route::get('/pemilik-pengadaan', 'App\Http\Controllers\Controller@pemilikpengadaan');
 

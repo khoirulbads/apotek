@@ -115,6 +115,18 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function searchpemilikuser(Request $request){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $data = DB::select("SELECT a.id_user, a.nama, a.username,a.password,b.level, a.id_level
+            from user a, level b 
+            where a.id_level=b.id_level and aktif=1 and a.nama LIKE '%$request->q%' and a.id_level LIKE '%$request->id_level%'");
+            
+            return view("pemilik/user",['data'=>$data]);
+
+        }else{
+            return redirect('/auth');
+        }   
+    }
 
     //controller adminobat
     public function obatkategori(){
