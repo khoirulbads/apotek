@@ -161,6 +161,50 @@
       </ol> -->
     </section>
 
+@php
+$transaksi = DB::select("SELECT count(id_transaksi) as c FROM transaksi WHERE DATE(tanggal) = CURDATE()");
+$pendapatan = DB::select("SELECT sum(grand_total) as c FROM transaksi WHERE DATE(tanggal) = CURDATE()");
+@endphp
+
+    <section class="content">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              @foreach ($transaksi as $tran)
+              <h3>{{$tran->c}}</h3>
+              @endforeach
+              <p>Transaksi (Hari ini)</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-list"></i>
+            </div>
+            <a href="/pemilik-riwayat" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              @foreach ($pendapatan as $pen)
+              <h3>Rp. {{ number_format($pen->c,0, ',' , '.')}},-</h3>
+              @endforeach
+              <p>Pendapatan (Hari ini)</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      </section>
+      <!-- /.row -->
+      <!-- Main row -->
+    
+
     <!-- Main content -->
     <div class="modal fade" id="modal-profil" role="dialog">
         <div class="modal-dialog">

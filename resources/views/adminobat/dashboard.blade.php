@@ -147,6 +147,70 @@
       </ol> -->
     </section>
 
+@php
+$obat = DB::select("select count(id_obat) as c from obat where aktif=1");
+$kategori = DB::select("select count(id_kategori) as c from kategori where aktif=1");
+$penjualan = DB::select("select sum(qty) as c from detail_transaksi");
+@endphp
+
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              @foreach ($obat as $ob)
+              <h3>{{$ob->c}}</h3>
+              @endforeach
+              <p>Obat</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-medkit"></i>
+            </div>
+            <a href="/obat-obat" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              @foreach ($kategori as $kat)
+              <h3>{{$kat->c}}</h3>
+              @endforeach
+              <p>Kategori Obat</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-list"></i>
+            </div>
+            <a href="/obat-kategori" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              @foreach ($penjualan as $penj)
+              <h3>{{$penj->c}}</h3>
+              @endforeach
+              <p>Jumlah Obat Terjual</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="/pemilik-penjualan" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      </section>
+      <!-- /.row -->
+      <!-- Main row -->
+    
+
+
     <!-- Main content -->
     
     <div class="modal fade" id="modal-profil" role="dialog">

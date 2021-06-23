@@ -151,6 +151,69 @@
         <li class="active">Dashboard</li>
       </ol> -->
     </section>
+@php
+$user = DB::select("select count(id_user) as c from user where aktif=1");
+$penyetokan = DB::select("select count(id_penyetokan) as c from penyetokan");
+$penjualan = DB::select("select sum(qty) as c from detail_transaksi");
+@endphp
+
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              @foreach ($user as $us)
+              <h3>{{$us->c}}</h3>
+              @endforeach
+              <p>Pengguna</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-users"></i>
+            </div>
+            <a href="/pemilik-user" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              @foreach ($penyetokan as $pen)
+              <h3>{{$pen->c}}</h3>
+              @endforeach
+              <p>Transaksi Penyetokan</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="/pemilik-pengadaan" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              @foreach ($penjualan as $penj)
+              <h3>{{$penj->c}}</h3>
+              @endforeach
+              <p>Jumlah Obat Terjual</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="/pemilik-penjualan" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      </section>
+      <!-- /.row -->
+      <!-- Main row -->
+    
+    
 
     <!-- Main content -->
     

@@ -142,6 +142,48 @@
         <li class="active">Dashboard</li>
       </ol> -->
     </section>
+@php
+$supplier = DB::select("select count(id_supplier) as c from supplier where aktif=1");
+$penyetokan = DB::select("select count(id_penyetokan) as c from penyetokan");
+@endphp
+
+  <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              @foreach ($supplier as $sup)
+              <h3>{{$sup->c}}</h3>
+              @endforeach
+              <p>Supplier</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-trello"></i>
+            </div>
+            <a href="/pengadaan-supplier" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              @foreach ($penyetokan as $pen)
+              <h3>{{$pen->c}}</h3>
+              @endforeach
+              <p>Transaksi Penyetokan</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="/pengadaan-pengadaan" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        </section>
+      <!-- /.row -->
+      <!-- Main row -->
 
     <!-- Main content -->
     
