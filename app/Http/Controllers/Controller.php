@@ -186,7 +186,7 @@ class Controller extends BaseController
             
             $pdf = PDF::loadView('pemilik/penjualan_pdf',['data'=>$data]);
 
-            return  $pdf->download('contacts_list.pdf');
+            return  $pdf->download("penjualan_".Session('tgl1')."-".Session('tgl1').".pdf");
         }else{
             return redirect('/auth');
         }   
