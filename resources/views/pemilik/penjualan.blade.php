@@ -248,7 +248,7 @@
               <div class="col-md-1 pr-1">
                       <div class="form-group">
                         <label style="color:white;">,l</label>
-                         <br><a class="btn btn-primary" href="/cetak-penjualan">Cetak</a>
+                         <br><a target="_blank" class="btn btn-primary" href="/cetak-penjualan">Cetak</a>
                       </div>
               </div>              
               

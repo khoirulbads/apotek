@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Session;
-use Carbon;
+use PDF;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -183,7 +183,10 @@ class Controller extends BaseController
     public function cetakpemilikpenjualan(){
         if(Session('login')==true && Session('level')=="pemilik"){
             $data = DB::select(Session('querypenjualan'));
-            return view("pemilik/penjualan_pdf",['data'=>$data]);
+            
+            $pdf = PDF::loadView('pemilik/penjualan_pdf',['data'=>$data]);
+
+            return  $pdf->download('contacts_list.pdf');
         }else{
             return redirect('/auth');
         }   
