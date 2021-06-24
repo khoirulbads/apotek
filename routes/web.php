@@ -26,6 +26,8 @@ Route::post('/pemilik-user', 'App\Http\Controllers\Controller@searchpemilikuser'
 Route::get('/pemilik-rekomendasi', 'App\Http\Controllers\Controller@pemilikrekomendasi');
 Route::get('/pemilik-pengadaan', 'App\Http\Controllers\Controller@pemilikpengadaan');
 Route::get('/pemilik-penjualan', 'App\Http\Controllers\Controller@pemilikpenjualan');
+Route::post('/pemilik-penjualan', 'App\Http\Controllers\Controller@searchpemilikpenjualan');
+Route::get('/cetak-penjualan', 'App\Http\Controllers\Controller@cetakpemilikpenjualan');
 
 //adminobat
 Route::get('/obat-kategori', 'App\Http\Controllers\Controller@obatkategori');

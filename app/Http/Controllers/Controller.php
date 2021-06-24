@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Session;
-
+use Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -117,7 +117,11 @@ class Controller extends BaseController
     }
     public function pemilikpenjualan(){
         if(Session('login')==true && Session('level')=="pemilik"){
-            $data = DB::select("SELECT * from detail_transaksi a, obat b where a.id_obat=b.id_obat ");
+            $query = "select * from detail_transaksi a, transaksi b, obat c where a.id_obat=c.id_obat AND a.inv=b.inv AND DATE(tanggal) = CURDATE()";
+            $data = DB::select($query);
+            Session::put('tgl1',date("Y-m-d"));
+            Session::put('tgl2',date("Y-m-d"));
+            Session::put('querypenjualan',$query);
             return view("pemilik/penjualan",['data'=>$data]);
         }else{
             return redirect('/auth');
@@ -125,12 +129,61 @@ class Controller extends BaseController
     }
     public function searchpemilikuser(Request $request){
         if(Session('login')==true && Session('level')=="pemilik"){
-            $data = DB::select("SELECT a.id_user, a.nama, a.username,a.password,b.level, a.id_level
+            $query = "SELECT a.id_user, a.nama, a.username,a.password,b.level, a.id_level
             from user a, level b 
-            where a.id_level=b.id_level and aktif=1 and a.nama LIKE '%$request->q%' and a.id_level LIKE '%$request->id_level%'");
+            where a.id_level=b.id_level and aktif=1 and a.nama LIKE '%$request->q%' and a.id_level LIKE '%$request->id_level%'";
+            $data = DB::select($query);
             
             return view("pemilik/user",['data'=>$data]);
 
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function searchpemilikpenjualan(Request $request){
+        $tgl1 = "";
+        $tgl2 = "";
+        if($request->tgl1 == "" || $request->tgl1 == null ){
+            $tgl1 = date("Y-m-d");
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00";
+        }
+        if($request->tgl1 != "" || $request->tgl1 != null ){
+            $tgl1 = $request->tgl1;
+            $tgl1 = str_replace("/","-",$tgl1);
+            $tgl1 = date('Y-m-d',strtotime($tgl1));
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00"; 
+        }
+        if($request->tgl2 == "" || $request->tgl2 == null){
+            $tgl2 = date("Y-m-d");
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if($request->tgl2 != "" || $request->tgl2 != null){
+            $tgl2 = $request->tgl2;
+            $tgl2 = str_replace("/","-",$tgl2);
+            $tgl2 = date('Y-m-d',strtotime($tgl2));
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $query = "select * from detail_transaksi a, transaksi b, obat c where a.id_obat=c.id_obat AND a.inv=b.inv AND id_transaksi >= UNIX_TIMESTAMP('$tgl1') 
+            AND id_transaksi <= UNIX_TIMESTAMP('$tgl2') AND nama_obat LIKE '%$request->q%' ";
+            
+            Session::put('querypenjualan', $query);            
+
+            $data = DB::select($query);
+            return view("pemilik/penjualan",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }
+
+    }
+    public function cetakpemilikpenjualan(){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $data = DB::select(Session('querypenjualan'));
+            return view("pemilik/penjualan_pdf",['data'=>$data]);
         }else{
             return redirect('/auth');
         }   

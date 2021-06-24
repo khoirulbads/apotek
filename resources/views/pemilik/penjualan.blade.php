@@ -218,6 +218,44 @@
               </div>
             <!-- /.box-header -->
             <div class="box-body">
+            <form role="form" action="/pemilik-penjualan" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Nama Obat</label>
+                        <input type="text" class="form-control"  placeholder="Mixagrip" name="q" >
+                      </div>
+              </div>
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Dari</label>
+                        <input type="date" value="" class="form-control" id="tgl1" name="tgl1" >
+                      </div>
+              </div>
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Sampai</label>
+                        <input type="date" value="" class="form-control" id="tgl1" name="tgl2" >
+                      </div>
+              </div>
+              
+              <div class="col-md-1 pr-1">
+                      <div class="form-group">
+                        <label style="color:white;">,l</label>
+                         <br><button class="btn btn-default" type="submit">Cari</button>
+                      </div>
+              </div>
+              <div class="col-md-1 pr-1">
+                      <div class="form-group">
+                        <label style="color:white;">,l</label>
+                         <br><a class="btn btn-primary" href="/cetak-penjualan">Cetak</a>
+                      </div>
+              </div>              
+              
+              </form>
+              <br>
+            
+
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>

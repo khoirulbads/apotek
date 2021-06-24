@@ -1,0 +1,21 @@
+<!--
+ <table class='table table-bordered'>
+		<thead>
+			<tr>
+				<th>Paket</th>
+				<th>Jumlah Order</th>
+				<th>Penghasilan</th>
+			</tr>
+		</thead>
+		<tbody>
+			@php $i=1 @endphp
+			@foreach($rekappaket as $p)
+			<tr>
+				<td>{{$p->paket}}</td>
+				<td>{{$p->x}}</td>
+				<td>{{$p->y}}</td>
+				</tr>
+			@endforeach
+		</tbody>
+	</table>
+ -->
