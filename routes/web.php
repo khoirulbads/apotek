@@ -25,9 +25,11 @@ Route::get('/pemilik-user', 'App\Http\Controllers\Controller@pemilikuser');
 Route::post('/pemilik-user', 'App\Http\Controllers\Controller@searchpemilikuser');
 Route::get('/pemilik-rekomendasi', 'App\Http\Controllers\Controller@pemilikrekomendasi');
 Route::get('/pemilik-pengadaan', 'App\Http\Controllers\Controller@pemilikpengadaan');
+Route::post('/pemilik-pengadaan', 'App\Http\Controllers\Controller@searchpemilikpengadaan');
 Route::get('/pemilik-penjualan', 'App\Http\Controllers\Controller@pemilikpenjualan');
 Route::post('/pemilik-penjualan', 'App\Http\Controllers\Controller@searchpemilikpenjualan');
 Route::get('/cetak-penjualan', 'App\Http\Controllers\Controller@cetakpemilikpenjualan');
+Route::get('/cetak-pengadaan', 'App\Http\Controllers\Controller@cetakpemilikpengadaan');
 
 //adminobat
 Route::get('/obat-kategori', 'App\Http\Controllers\Controller@obatkategori');
