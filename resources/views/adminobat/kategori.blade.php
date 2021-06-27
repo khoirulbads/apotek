@@ -244,6 +244,28 @@
 
     <!-- Main content -->
     <section class="content">
+    @php if(Session::get('gagal')){ @endphp 
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Kategori yang anda masukkan sudah terdaftar, silahkan isi kategori yang berbeda 
+    </div> @php } @endphp
+   @php if(Session::get('sukses')){ @endphp 
+                <div class="alert alert-success" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Kategori berhasil ditambahkan
+    </div> @php } @endphp
+   @php if(Session::get('edit')){ @endphp 
+                <div class="alert alert-warning" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Kategori berhasil diubah
+    </div> @php } @endphp
+    @php if(Session::get('hapus')){ @endphp 
+                <div class="alert alert-danger" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Kategori berhasil dihapus
+    </div> @php } @endphp
+   
+   
       <div class="row">
         <div class="col-xs-12">
           
@@ -270,8 +292,8 @@
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$datas->kategori}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_kategori}}" class="btn btn-warning btn-xs">Edit
-                        </a> <a href="/delete-kategori{{$datas->id_kategori}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
+                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_kategori}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>
+                        </a> <a href="/delete-kategori{{$datas->id_kategori}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));"><i class="fa fa-trash"></i>
                         </a> </td></tr>
                 
          <div class="modal fade" id="modal-edit{{$datas->id_kategori}}" role="dialog">

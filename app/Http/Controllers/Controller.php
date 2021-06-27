@@ -388,11 +388,15 @@ class Controller extends BaseController
     public function addkategori(Request $request){
         if(Session('login')==true && Session('level')=="adminobat"){
             $kategori = $request->kategori;
+            $cek = DB::select("select * from kategori where kategori='$kategori'");
+            if($cek != null){
+                return redirect("/obat-kategori")->with('gagal','.');
+            }
             $save = DB::table('kategori')->insert([
                 'kategori' => $kategori,
                 'aktif' => 1
                 ]);
-            return redirect("/obat-kategori");
+            return redirect("/obat-kategori")->with('sukses','.');
         }else{
             return redirect('/auth');
         }   
@@ -402,7 +406,7 @@ class Controller extends BaseController
             DB::table('kategori')->where('id_kategori', $id)->update([
                 'aktif' => 0,
                 ]);
-            return redirect("obat-kategori");
+                return redirect("/obat-kategori")->with('hapus','.');
         }else{
             return redirect('/auth');
         }   
@@ -412,7 +416,7 @@ class Controller extends BaseController
             DB::table('kategori')->where('id_kategori', $request->id_kategori)->update([
                 'kategori' => $request->kategori
                 ]);
-            return redirect("obat-kategori");
+            return redirect("/obat-kategori")->with('edit','.');
         }else{
             return redirect('/auth');
         }   
@@ -421,23 +425,28 @@ class Controller extends BaseController
     //CRUD Obat
     public function addobat(Request $request){
         if(Session('login')==true && Session('level')=="adminobat"){
-            $labaR = 0; $labaN = 0;
-            $setting = DB::select("select * from setting");
-            foreach ($setting as $set){
-                $labaR = $set->laba_resep;
-                $labaN = $set->laba_nonresep;
+            $cek = DB::select("select * from obat where nama_obat='$request->nama_obat'");
+            if ($cek != null) {
+                return redirect("obat-obat")->with('gagal','.');
+            }else{
+                $labaR = 0; $labaN = 0;
+                $setting = DB::select("select * from setting");
+                foreach ($setting as $set){
+                    $labaR = $set->laba_resep;
+                    $labaN = $set->laba_nonresep;
+                }
+                $save = DB::table('obat')->insert([
+                    'nama_obat' => $request->nama_obat,
+                    'id_kategori' => $request->id_kategori,
+                    'satuan' => $request->satuan,
+                    'labaResep'=>$labaR,
+                    'labaNon'=>$labaN,
+                    'selisih'=>$request->selisih,
+                    'stokMinimal'=>$request->stokMinimal,
+                    'aktif' => 1
+                    ]);
+                return redirect("/obat-obat")->with('sukses','.');
             }
-            $save = DB::table('obat')->insert([
-                'nama_obat' => $request->nama_obat,
-                'id_kategori' => $request->id_kategori,
-                'satuan' => $request->satuan,
-                'labaResep'=>$labaR,
-                'labaNon'=>$labaN,
-                'selisih'=>$request->selisih,
-                'stokMinimal'=>$request->stokMinimal,
-                'aktif' => 1
-                ]);
-            return redirect("/obat-obat");
         }else{
             return redirect('/auth');
         }   
@@ -447,7 +456,7 @@ class Controller extends BaseController
             DB::table('obat')->where('id_obat', $id)->update([
                 'aktif' => 0,
                 ]);
-            return redirect("obat-obat");
+            return redirect("obat-obat")->with('hapus','.');;
         }else{
             return redirect('/auth');
         }   
@@ -461,7 +470,7 @@ class Controller extends BaseController
                 'stokMinimal' => $request->stokMinimal,
                 'selisih' => $request->selisih
                 ]);
-            return redirect("obat-obat");
+            return redirect("obat-obat")->with('edit','.');;
         }else{
             return redirect('/auth');
         }   

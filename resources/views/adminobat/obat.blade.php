@@ -146,7 +146,7 @@
         <li class="active">Dashboard</li>
       </ol> -->
     </section>
-
+    
     <!-- Main content -->
 
   <div class="modal fade" id="modal-profil" role="dialog">
@@ -203,10 +203,15 @@
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-      
-    
 
-    <div class="modal fade" id="modal-tambah" role="dialog">
+  @if($errors->first() == 'msgnamaobat')
+          <script>
+        $(document).ready(function(){
+        $("#modal-tambah").modal('show');
+    });
+        </script>
+        @endif
+    <div class="modal fade" id="modal-tambah">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -221,6 +226,9 @@
                       <div class="form-group">
                         <label>Nama Obat</label>
                         <input type="text" class="form-control"  placeholder="Paracetamol" name="nama_obat" required="true">
+                      @if($errors->first() == 'msgnamaobat')
+                        <h5 style="color:Red">Nama obat sudah ada</h5>
+                      @endif
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">
@@ -282,6 +290,28 @@
 
     <!-- Main content -->
     <section class="content">
+    @php if(Session::get('gagal')){ @endphp 
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Nama obat yang anda masukkan sudah terdaftar, silahkan isi nama yang berbeda 
+    </div> @php } @endphp
+   @php if(Session::get('sukses')){ @endphp 
+                <div class="alert alert-success" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Data Obat berhasil ditambahkan
+    </div> @php } @endphp
+   @php if(Session::get('edit')){ @endphp 
+                <div class="alert alert-warning" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Data Obat berhasil diubah
+    </div> @php } @endphp
+    @php if(Session::get('hapus')){ @endphp 
+                <div class="alert alert-danger" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Data Obat berhasil dihapus
+    </div> @php } @endphp
+   
+   
       <div class="row">
         <div class="col-xs-12">
           
@@ -333,7 +363,7 @@
               <h3 class="box-title">Laba Resep : {{$set->laba_resep}}% | Laba Non : {{$set->laba_nonresep}}%   <a data-toggle="modal" data-target="#modal-editsetting{{$set->id_setting}}" class="fa fa-pencil"></a></h3> 
             @endforeach
               <br>
-              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
+              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</h4>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -371,8 +401,8 @@
                   <td>{{$datas->stokMinimal}}</td>
                   <td>{{$datas->selisih}} Hari</td>
                   <td>{{$datas->tgl_kadaluarsa}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_obat}}" class="btn btn-warning btn-xs">Edit
-                        </a> <a href="/delete-obat{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
+                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_obat}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>
+                        </a> <a href="/delete-obat{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));"><i class="fa fa-trash"></i>
                         </a> </td></tr>
                 
          <div class="modal fade" id="modal-edit{{$datas->id_obat}}" role="dialog">
@@ -875,7 +905,31 @@
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
+<div class="modal fade" id="modal-eror">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+              </div>
+              <div class="modal-body">
+                <center><h1>Gagal Menambah Data</h1></center>
+                <center><h1>Nama Obat Sudah ada di Data Obat</h1></center>
+               </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        @if($errors->first() == 'msgnamaobat')
+          <script>
+        $(document).ready(function(){
+        $("#modal-obat").modal('show');
+    });
+</script>
+        @endif
 <!-- jQuery 3 -->
 <script src="assets/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
