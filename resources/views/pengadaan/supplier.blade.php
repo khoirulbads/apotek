@@ -144,6 +144,49 @@
 
     <!-- Main content -->
 
+                @php
+                $x = DB::select("select * from supplier");
+                @endphp
+          @foreach ($x as $x)
+              <div class="modal fade" id="modal-obat{{$x->id_supplier}}" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                      @php
+                        $y = DB::select("select DISTINCT c.id_obat, (select nama_obat from obat where id_obat=c.id_obat) as nama from penyetokan c, obat a where c.id_supplier='$x->id_supplier'");
+                      @endphp
+                        <h4 class="modal-title">Daftar Obat yang di stok {{$x->nama_supplier}}</h4>
+                      </div>
+                      <div class="modal-body">
+                      <table  id="example" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Obat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          @php
+                          $i = 1;
+                          @endphp
+                          
+                          @foreach ($y as $y)
+                          <tr>
+                          <td>{{$i++}}</td>
+                          <td>{{$y->nama}}</td>
+                          </tr>
+                          @endforeach
+                          
+                          </tbody>
+                      </table>
+                      </div>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+          @endforeach
+
 <div class="modal fade" id="modal-profil" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -281,9 +324,10 @@
                   <td>{{$datas->nama_supplier}}</td>
                   <td>{{$datas->telp}}</td>
                   <td>{{$datas->alamat}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_supplier}}" class="btn btn-warning btn-xs">Edit
-                        </a> <a href="/delete-supplier{{$datas->id_supplier}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
-                        </a> </td></tr>
+                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_supplier}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>
+                        </a> <a href="/delete-supplier{{$datas->id_supplier}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));"><i class="fa fa-trash"></i>
+                        </a> <a data-toggle="modal" data-target="#modal-obat{{$datas->id_supplier}}" class="btn btn-primary btn-xs" ><i class="fa fa-list"></i>
+                        </a></td></tr>
                 
                         <div class="modal fade" id="modal-edit{{$datas->id_supplier}}" role="dialog">
         <div class="modal-dialog">
