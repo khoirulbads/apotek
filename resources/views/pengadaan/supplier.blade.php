@@ -294,13 +294,35 @@
 
     <!-- Main content -->
     <section class="content">
+    @php if(Session::get('gagal')){ @endphp 
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Nama Supplier atau Nomor HP yang anda masukkan sudah terdaftar, silahkan isi data yang berbeda 
+    </div> @php } @endphp
+   @php if(Session::get('sukses')){ @endphp 
+                <div class="alert alert-success" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Data berhasil ditambahkan
+    </div> @php } @endphp
+   @php if(Session::get('edit')){ @endphp 
+                <div class="alert alert-warning" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Data berhasil diubah
+    </div> @php } @endphp
+    @php if(Session::get('hapus')){ @endphp 
+                <div class="alert alert-danger" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Data berhasil dihapus
+    </div> @php } @endphp
+   
+   
       <div class="row">
         <div class="col-xs-12">
           
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Data Supplier</h3><br>
-              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
+              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary"><i calss="fa fa-plus"></i> Tambah</h4>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

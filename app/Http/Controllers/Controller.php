@@ -495,13 +495,18 @@ class Controller extends BaseController
     //CRUD Supplier
     public function addsupplier(Request $request){
         if(Session('login')==true && Session('level')=="pengadaan"){
+            $cek = DB::select("select * from supplier where nama_supplier='$request->nama_supplier' OR telp='$request->telp'");
+            if($cek != null){
+                return redirect("/pengadaan-supplier")->with('gagal','.');
+            }
+
             $save = DB::table('supplier')->insert([
                 'nama_supplier' => $request->nama_supplier,
                 'alamat' => $request->alamat,
                 'telp' => $request->telp,
                 'aktif' => 1
                 ]);
-            return redirect("/pengadaan-supplier");
+            return redirect("/pengadaan-supplier")->with('sukses','.');
         }else{
             return redirect('/auth');
         }   
@@ -511,7 +516,7 @@ class Controller extends BaseController
             DB::table('supplier')->where('id_supplier', $id)->update([
                 'aktif' => 0,
                 ]);
-            return redirect("pengadaan-supplier");
+            return redirect("pengadaan-supplier")->with('hapus','.');
         }else{
             return redirect('/auth');
         }   
@@ -523,7 +528,7 @@ class Controller extends BaseController
                 'alamat' => $request->alamat,
                 'telp' => $request->telp,
                 ]);
-            return redirect("pengadaan-supplier");
+            return redirect("pengadaan-supplier")->with('edit','.');
         }else{
             return redirect('/auth');
         }   

@@ -134,7 +134,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Penyetokan
+        Pengadaan
       </h1>
       <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -205,7 +205,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Tambah Penyetokan</h4>
+              <h4 class="modal-title">Tambah Pengadaan</h4>
             </div>
             <div class="modal-body">
               <form role="form" action="/add-pengadaan" method="post" enctype="multipart/form-data">
@@ -281,8 +281,8 @@
           
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Riwayat Penyetokan</h3><br>
-              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
+              <h3 class="box-title">Data Riwayat Pengadaan</h3><br>
+              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</h4>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
