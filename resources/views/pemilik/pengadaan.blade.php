@@ -327,13 +327,13 @@
               <div class="col-md-1 pr-1">
                       <div class="form-group">
                         <label style="color:white;">,l</label>
-                         <br><button class="btn btn-default" type="submit">Cari</button>
+                         <br><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
                       </div>
               </div>
               <div class="col-md-1 pr-1">
                       <div class="form-group">
                         <label style="color:white;">,l</label>
-                         <br><a class="btn btn-primary" href="/cetak-pengadaan">Cetak</a>
+                         <br><a class="btn btn-primary" href="/cetak-pengadaan"><i class="fa fa-print"></i></a>
                       </div>
               </div>              
               

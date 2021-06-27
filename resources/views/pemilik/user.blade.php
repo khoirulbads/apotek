@@ -275,13 +275,35 @@
 
     <!-- Main content -->
     <section class="content">
+    @php if(Session::get('gagal')){ @endphp 
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Nama atau Username yang anda masukkan sudah terdaftar, silahkan isi data yang berbeda 
+    </div> @php } @endphp
+   @php if(Session::get('sukses')){ @endphp 
+                <div class="alert alert-success" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Pengguna berhasil ditambahkan
+    </div> @php } @endphp
+   @php if(Session::get('edit')){ @endphp 
+                <div class="alert alert-warning" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Pengguna berhasil diubah
+    </div> @php } @endphp
+    @php if(Session::get('hapus')){ @endphp 
+                <div class="alert alert-danger" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Pengguna berhasil dihapus
+    </div> @php } @endphp
+   
+   
       <div class="row">
         <div class="col-xs-12">
           
           <div class="box">
             <div class="box-header">
               <h3 class="box-title">Data Pengguna</h3><br>
-              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary">Tambah</h4>
+              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</h4>
               <br>
                 </div>
             <!-- /.box-header -->
@@ -309,8 +331,7 @@
               <div class="col-md-1 pr-1">
                       <div class="form-group">
                         <label style="color:white;">,l</label>
-                         <br><button type="submit">Cari</button>
-                      
+                       <br><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
                       </div>
               </div>       
               
@@ -337,8 +358,8 @@
                   <td>{{md5($datas->password)}}</td>
                   <td>{{$datas->nama}}</td>
                   <td>{{$datas->level}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_user}}" class="btn btn-warning btn-xs">Edit
-                        </a> <a href="/delete-user{{$datas->id_user}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));">Hapus
+                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_user}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>
+                        </a> <a href="/delete-user{{$datas->id_user}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));"><i class="fa fa-trash"></i>
                         </a> </td></tr>
                 
                         <div class="modal fade" id="modal-edit{{$datas->id_user}}" role="dialog">

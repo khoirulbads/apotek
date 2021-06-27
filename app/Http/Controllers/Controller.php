@@ -347,6 +347,11 @@ class Controller extends BaseController
             $password = $request->password;
             $nama = $request->nama;
             $id_level = $request->id_level;
+            
+            $cek = DB::select("select * from user where nama='$nama' AND username='$username'");
+            if ($cek != null) {
+                return redirect("pemilik-user")->with('gagal','.');
+            }
         
             $save = DB::table('user')->insert([
                 'nama' => $nama, 
@@ -355,7 +360,7 @@ class Controller extends BaseController
                 'id_level' => $id_level,
                 'aktif' => 1
                 ]);
-            return redirect("pemilik-user");
+            return redirect("pemilik-user")->with('sukses','.');
         }else{
             return redirect('/auth');
         }   
@@ -365,7 +370,7 @@ class Controller extends BaseController
             DB::table('user')->where('id_user', $id)->update([
                 'aktif' => 0,
                 ]);
-            return redirect("pemilik-user");
+            return redirect("pemilik-user")->with('hapus','.');
         }else{
             return redirect('/auth');
         }   
@@ -378,7 +383,7 @@ class Controller extends BaseController
                 'password' => $request->password,
                 'id_level' => $request->id_level
                 ]);
-            return redirect("pemilik-user");
+            return redirect("pemilik-user")->with('edit','.');
         }else{
             return redirect('/auth');
         }   
