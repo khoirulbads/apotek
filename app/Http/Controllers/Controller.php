@@ -228,9 +228,14 @@ class Controller extends BaseController
     }
     public function cetakpemilikpenjualan(){
         if(Session('login')==true && Session('level')=="pemilik"){
+            $pendapatan = 0;
+            $jumlah = 0;
             $data = DB::select(Session('querypenjualan'));
-            
-            $pdf = PDF::loadView('pemilik/penjualan_pdf',['data'=>$data]);
+            foreach ($data as $key){
+                $pendapatan = $pendapatan + $key->total; 
+                $jumlah = $jumlah + $key->qty; 
+            }
+            $pdf = PDF::loadView('pemilik/penjualan_pdf',['data'=>$data,'pendapatan'=>$pendapatan,'jumlah'=>$jumlah]);
 
             return  $pdf->download("penjualan_".Session('tgl1')."-".Session('tgl1').".pdf");
         }else{

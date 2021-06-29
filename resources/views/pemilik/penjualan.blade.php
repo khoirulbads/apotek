@@ -262,7 +262,6 @@
                   <th>#</th>
                   <th>Obat</th>
                   <th>Jumlah</th>
-                  <th>H.Beli</th>
                   <th>H. Jual</th>
                   <th>Total</th>
                 </tr>
@@ -277,7 +276,6 @@
                   <td>{{$i++}}</td>
                   <td>{{$datas->nama_obat}}</td>
                   <td>{{$datas->qty}}</td>
-                  <td>{{$datas->harga_beli}}</td>
                   <td>{{$datas->harga_jual}}</td>
                   <td>{{$datas->total}}</td>
                 @endforeach
