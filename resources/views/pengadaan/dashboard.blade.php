@@ -173,7 +173,7 @@ $penyetokan = DB::select("select count(id_penyetokan) as c from penyetokan");
               @foreach ($penyetokan as $pen)
               <h3>{{$pen->c}}</h3>
               @endforeach
-              <p>Transaksi Penyetokan</p>
+              <p>Pengadaan Obat</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
