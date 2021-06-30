@@ -35,6 +35,8 @@ Route::get('/cetak-pengadaan', 'App\Http\Controllers\Controller@cetakpemilikpeng
 Route::get('/obat-kategori', 'App\Http\Controllers\Controller@obatkategori');
 Route::get('/obat-obat', 'App\Http\Controllers\Controller@obatobat');
 Route::get('/obat-penjualan', 'App\Http\Controllers\Controller@obatpenjualan');
+Route::post('/obat-obat', 'App\Http\Controllers\Controller@searchobatobat');
+Route::post('/obat-penjualan', 'App\Http\Controllers\Controller@searchobatpenjualan');
 
 //pengadaan
 Route::get('/pengadaan-supplier', 'App\Http\Controllers\Controller@pengadaansupplier');

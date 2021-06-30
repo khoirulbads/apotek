@@ -245,26 +245,24 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 pr-1">
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Satuan</label>
-                        <select name="satuan">
+                        <select name="satuan" class="form-control">
                         <option value="Tablet">Tablet</option>
                         <option value="Botol">Botol</option>
                         <option value="Kapsul">Kapsul</option>
                         <option value="Tube">Tube</option>
                         </select>
                     </div>
-                    </div>
-                </div>
-                <div class="row">
-                @php
-                $kategori = DB::select("select * from kategori where aktif=1");
-                @endphp
-                    <div class="col-md-12 pr-1">
+                  </div>
+                      @php
+                        $kategori = DB::select("select * from kategori where aktif=1");
+                      @endphp
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
                          <label>Kategori</label>
-                        <select name="id_kategori">
+                        <select name="id_kategori" class="form-control">
                         @foreach ($kategori as $key)                        
                         <option value={{$key->id_kategori}}>{{ $key->kategori  }}</option>
                         @endforeach
@@ -272,7 +270,8 @@
                     </div>
                 </div>
                     
-                  </div>
+                
+                </div>
                 </div>
                 <!-- /.card-body -->
                 <div class="modal-footer justify-content-between">
@@ -367,6 +366,38 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+            <form role="form" action="/obat-obat" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Nama Obat</label>
+                        <input type="text" class="form-control"  placeholder="Suwanto" name="q" >
+                      </div>
+              </div>
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                      @php
+                      $kategori = DB::select("select * from kategori where aktif=1");
+                      @endphp
+                        <label>Kategori</label>
+                        <select class="form-control" name="id_kategori" id="id_kategori"  style="height:35px;">
+                        <option value="">Semua</option>
+                        @foreach ($kategori as $k)
+                        <option value="{{$k->id_kategori}}">{{$k->kategori}}</option>
+                        @endforeach
+                        </select>
+                      </div>
+              </div>
+              <div class="col-md-1 pr-1">
+                      <div class="form-group">
+                        <label style="color:white;">,l</label>
+                       <br><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                      </div>
+              </div>       
+              
+              </form>
+              <br>
+            
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -439,27 +470,26 @@
                       </div>
                     </div>
                     
-                    </div><div class="row">
-                    <div class="col-md-12 pr-1">
+                    </div>
+                    <div class="row">
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Satuan</label>
-                        <select name="satuan">
+                        <select name="satuan" class="form-control">
                         <option value="Tablet">Tablet</option>
                         <option value="Botol">Botol</option>
                         <option value="Kapsul">Kapsul</option>
                         <option value="Tube">Tube</option>
                         </select>
                     </div>
-                    </div>
-                </div>
-                <div class="row">
-                @php
-                $kategori = DB::select("select * from kategori where aktif=1");
-                @endphp
-                    <div class="col-md-12 pr-1">
+                  </div>
+                      @php
+                        $kategori = DB::select("select * from kategori where aktif=1");
+                      @endphp
+                    <div class="col-md-6 pr-1">
                       <div class="form-group">
                          <label>Kategori</label>
-                        <select name="id_kategori">
+                        <select name="id_kategori" class="form-control">
                         @foreach ($kategori as $key)                        
                         <option value={{$key->id_kategori}}>{{ $key->kategori  }}</option>
                         @endforeach
@@ -467,6 +497,7 @@
                     </div>
                 </div>
                 
+  
                  </div>
                 </div>
                 <!-- /.card-body -->

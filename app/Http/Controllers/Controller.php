@@ -287,11 +287,69 @@ class Controller extends BaseController
     }
     public function obatpenjualan(){
         if(Session('login')==true && Session('level')=="adminobat"){
-            $data = DB::select("SELECT * from detail_transaksi a, obat b where a.id_obat=b.id_obat ");
+            $query = "select * from detail_transaksi a, transaksi b, obat c where a.id_obat=c.id_obat AND a.inv=b.inv AND DATE(tanggal) = CURDATE()";
+            $data = DB::select($query);
             return view("adminobat/penjualan",['data'=>$data]);
         }else{
             return redirect('/auth');
         }   
+    }
+    public function searchobatobat(Request $request){
+        if(Session('login')==true && Session('level')=="adminobat"){
+            $data = DB::select("SELECT a.id_obat, a.id_kategori,b.kategori, a.nama_obat, a.satuan,a.harga_beli,a.harga_jualResep,a.harga_jualNon,a.labaResep,a.labaNon,a.stok,a.tgl_kadaluarsa,a.selisih,
+            a.stokMinimal, a.aktif from obat a, kategori b where  a.nama_obat LIKE '%$request->q%' AND a.id_kategori LIKE '%$request->id_kategori%' AND a.id_kategori=b.id_kategori and a.aktif=1");
+            return view("adminobat/obat",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function searchobatpenjualan(Request $request){
+        $tgl1 = "";
+        $tgl2 = "";
+        if($request->tgl1 == "" || $request->tgl1 == null ){
+            $tgl1 = date("Y-m-d");
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00";
+        }
+        if($request->tgl1 != "" || $request->tgl1 != null ){
+            $tgl1 = $request->tgl1;
+            $tgl1 = str_replace("/","-",$tgl1);
+            $tgl1 = date('Y-m-d',strtotime($tgl1));
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00"; 
+        }
+        if($request->tgl2 == "" || $request->tgl2 == null){
+            $tgl2 = date("Y-m-d");
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if($request->tgl2 != "" || $request->tgl2 != null){
+            $tgl2 = $request->tgl2;
+            $tgl2 = str_replace("/","-",$tgl2);
+            $tgl2 = date('Y-m-d',strtotime($tgl2));
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if(Session('login')==true && Session('level')=="adminobat"){
+            $query = "select * from detail_transaksi a, transaksi b, obat c where a.id_obat=c.id_obat AND a.inv=b.inv AND id_transaksi >= UNIX_TIMESTAMP('$tgl1') 
+            AND id_transaksi <= UNIX_TIMESTAMP('$tgl2') AND nama_obat LIKE '%$request->q%' ";
+            $pendapatan = 0;
+            $jumlah = 0;
+            
+            Session::put('querypenjualan', $query);            
+
+            $data = DB::select($query);
+            
+            foreach ($data as $key){
+                $pendapatan = $pendapatan + $key->total; 
+                $jumlah = $jumlah + $key->qty; 
+            }
+
+            return view("adminobat/penjualan",['data'=>$data, 'pendapatan'=>$pendapatan,'jumlah'=>$jumlah]);
+        }else{
+            return redirect('/auth');
+        }
+
     }
     //controller pengadaan
     public function pengadaansupplier(){
