@@ -304,15 +304,72 @@ class Controller extends BaseController
     }   
     public function pengadaanpengadaan(){
         if(Session('login')==true && Session('level')=="pengadaan"){
-            $data = DB::select("SELECT a.id_penyetokan, c.nama_supplier, b.nama_obat, a.jumlah, a.harga_beli, a.total,
+            $query = "SELECT a.id_penyetokan, c.nama_supplier, b.nama_obat, a.jumlah, a.harga_beli, a.total,
             a.stok_awal,a.stok_akhir, a.tgl_masuk, a.tgl_kadaluarsa from penyetokan a, obat b, supplier c where a.id_supplier=c.id_supplier 
-            and a.id_obat=b.id_obat");
+            and a.id_obat=b.id_obat AND DATE(tgl_masuk) = CURDATE()";
+            $data = DB::select($query);
+            Session::put('tgl1',date("Y-m-d"));
+            Session::put('tgl2',date("Y-m-d"));
+            Session::put('querypengadaan',$query);
             return view("pengadaan/pengadaan",['data'=>$data]);
         }else{
             return redirect('/auth');
         }   
     }
-    
+    public function searchpengadaanpengadaan(Request $request){
+        $tgl1 = "";
+        $tgl2 = "";
+        if($request->tgl1 == "" || $request->tgl1 == null ){
+            $tgl1 = date("Y-m-d");
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00";
+        }
+        if($request->tgl1 != "" || $request->tgl1 != null ){
+            $tgl1 = $request->tgl1;
+            $tgl1 = str_replace("/","-",$tgl1);
+            $tgl1 = date('Y-m-d',strtotime($tgl1));
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00"; 
+        }
+        if($request->tgl2 == "" || $request->tgl2 == null){
+            $tgl2 = date("Y-m-d");
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if($request->tgl2 != "" || $request->tgl2 != null){
+            $tgl2 = $request->tgl2;
+            $tgl2 = str_replace("/","-",$tgl2);
+            $tgl2 = date('Y-m-d',strtotime($tgl2));
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if(Session('login')==true && Session('level')=="pengadaan"){
+            $query = "SELECT a.id_penyetokan, c.nama_supplier, b.nama_obat, a.jumlah, a.harga_beli, a.total,
+            a.stok_awal,a.stok_akhir, a.tgl_masuk, a.tgl_kadaluarsa from penyetokan a, obat b, supplier c where a.id_supplier=c.id_supplier 
+            and a.id_obat=b.id_obat AND b.nama_obat LIKE '%$request->q%' AND c.nama_supplier LIKE '%$request->supplier%'
+            AND a.tgl_masuk BETWEEN CAST('$tgl1' as DATE) AND CAST('$tgl2' as DATE)";
+            
+            Session::put('querypengadaan', $query);            
+
+            $data = DB::select($query);
+            return view("pengadaan/pengadaan",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }
+
+    }
+
+    public function cetakpengadaanpengadaan(){
+        if(Session('login')==true && Session('level')=="pengadaan"){
+            $data = DB::select(Session('querypengadaan'));
+            
+            $pdf = PDF::loadView('pengadaan/pengadaan_pdf',['data'=>$data]);
+
+            return  $pdf->download("pengadaan_".Session('tgl1')."-".Session('tgl1').".pdf");
+        }else{
+            return redirect('/auth');
+        }   
+    }
     //Controller Kasir
     public function kasirtransaksi(){
         if(Session('login')==true && Session('level')=="kasir"){
