@@ -49,7 +49,7 @@ Route::get('/kasir-transaksi', 'App\Http\Controllers\Controller@kasirtransaksi')
 Route::get('/kasir-riwayat', 'App\Http\Controllers\Controller@kasirriwayat');
 Route::get('/kasir-transaksi-resep', 'App\Http\Controllers\Controller@kasirtransaksiresep');
 Route::get('/kasir-transaksi-nonresep', 'App\Http\Controllers\Controller@kasirtransaksinonresep');
-
+Route::post('/kasir-riwayat', 'App\Http\Controllers\Controller@searchkasirriwayat');
 
 //CRUD User
 Route::post('/add-user', 'App\Http\Controllers\Controller@adduser');

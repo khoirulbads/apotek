@@ -229,6 +229,30 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
+            <form role="form" action="/kasir-riwayat" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Dari</label>
+                        <input type="date" value="" class="form-control" id="tgl1" name="tgl1" >
+                      </div>
+              </div>
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Sampai</label>
+                        <input type="date" value="" class="form-control" id="tgl1" name="tgl2" >
+                      </div>
+              </div>
+              
+              <div class="col-md-1 pr-1">
+                      <div class="form-group">
+                        <label style="color:white;">,l</label>
+                         <br><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                      </div>
+              </div>
+              </form>
+              <br>
+            
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>

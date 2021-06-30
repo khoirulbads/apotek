@@ -449,7 +449,7 @@ class Controller extends BaseController
     public function kasirriwayat(){
         if(Session('login')==true && Session('level')=="kasir"){
             Session::put('kasir',null);
-            $data = DB::select("select * from transaksi a, user b where a.id_user = b.id_user");
+            $data = DB::select("select * from transaksi a, user b where a.id_user = b.id_user AND DATE(tanggal)=CURDATE()");
             
             return view("kasir/riwayat",["data"=>$data]);
         }else{
@@ -472,6 +472,44 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function searchkasirriwayat(Request $request){
+        $tgl1 = "";
+        $tgl2 = "";
+        if($request->tgl1 == "" || $request->tgl1 == null ){
+            $tgl1 = date("Y-m-d");
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00";
+        }
+        if($request->tgl1 != "" || $request->tgl1 != null ){
+            $tgl1 = $request->tgl1;
+            $tgl1 = str_replace("/","-",$tgl1);
+            $tgl1 = date('Y-m-d',strtotime($tgl1));
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00"; 
+        }
+        if($request->tgl2 == "" || $request->tgl2 == null){
+            $tgl2 = date("Y-m-d");
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if($request->tgl2 != "" || $request->tgl2 != null){
+            $tgl2 = $request->tgl2;
+            $tgl2 = str_replace("/","-",$tgl2);
+            $tgl2 = date('Y-m-d',strtotime($tgl2));
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if(Session('login')==true && Session('level')=="kasir"){
+            $query = "select * from transaksi a, user b where a.id_user=b.id_user 
+            AND a.tanggal BETWEEN CAST('$tgl1' as DATE) AND CAST('$tgl2' as DATE)";
+            $data = DB::select($query);
+            return view("kasir/riwayat",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }
+
+    }
+    
 
 
     //CRUD User
