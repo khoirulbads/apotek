@@ -126,7 +126,13 @@ class Controller extends BaseController
             Session::put('tgl1',date("Y-m-d"));
             Session::put('tgl2',date("Y-m-d"));
             Session::put('querypenjualan',$query);
-            return view("pemilik/penjualan",['data'=>$data]);
+            $pendapatan = 0;
+            $jumlah = 0;
+            foreach ($data as $key){
+                $pendapatan = $pendapatan + $key->total; 
+                $jumlah = $jumlah + $key->qty; 
+            }
+            return view("pemilik/penjualan",['data'=>$data, 'pendapatan'=>$pendapatan, 'jumlah'=>$jumlah]);
         }else{
             return redirect('/auth');
         }   
@@ -174,11 +180,19 @@ class Controller extends BaseController
         if(Session('login')==true && Session('level')=="pemilik"){
             $query = "select * from detail_transaksi a, transaksi b, obat c where a.id_obat=c.id_obat AND a.inv=b.inv AND id_transaksi >= UNIX_TIMESTAMP('$tgl1') 
             AND id_transaksi <= UNIX_TIMESTAMP('$tgl2') AND nama_obat LIKE '%$request->q%' ";
+            $pendapatan = 0;
+            $jumlah = 0;
             
             Session::put('querypenjualan', $query);            
 
             $data = DB::select($query);
-            return view("pemilik/penjualan",['data'=>$data]);
+            
+            foreach ($data as $key){
+                $pendapatan = $pendapatan + $key->total; 
+                $jumlah = $jumlah + $key->qty; 
+            }
+
+            return view("pemilik/penjualan",['data'=>$data, 'pendapatan'=>$pendapatan,'jumlah'=>$jumlah]);
         }else{
             return redirect('/auth');
         }

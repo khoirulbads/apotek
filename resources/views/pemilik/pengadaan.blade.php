@@ -349,8 +349,6 @@
                   <th>Obat</th>
                   <th>Jumlah</th>
                   <th>H. Beli</th>
-                  <th>Total</th>
-                  <th>Stok Awal</th>
                   <th>Stok Akhir</th>
                   <th>Kadaluarsa</th>
                   <th>Tgl Masuk</th>
@@ -367,8 +365,6 @@
                   <td>{{$datas->nama_obat}}</td>
                   <td>{{$datas->jumlah}}</td>
                   <td>{{$datas->harga_beli}}</td>
-                  <td>{{$datas->total}}</td>
-                  <td>{{$datas->stok_awal}}</td>
                   <td>{{$datas->stok_akhir}}</td>
                   <td>{{$datas->tgl_kadaluarsa}}</td>
                   <td>{{$datas->tgl_masuk}}</td>

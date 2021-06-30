@@ -282,6 +282,21 @@
                 </tbody>
                 
               </table>
+                <br><br>
+                <table class='table table-bordered'>
+                  <thead>
+                    <tr>
+                      <th>Jumlah Obat Terjual</th>
+                      <th>Pendapatan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{{$jumlah}}</td>
+                      <td>Rp. {{ number_format($pendapatan,0, ',' , '.')}},-</td>
+                    </tr>
+                  </tbody>
+              </table>
             </div>
             <!-- /.box-body -->
           </div>
