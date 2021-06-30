@@ -33,11 +33,11 @@
 
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Masuk</b>Apotek Persada </a>
+    <a href="../../index2.html"><b>Masuk </b>Apotek Persada </a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Masuk dengan akun yang anda miliki</p>
 
     <form action="/actionLogin" method="post">
     @csrf
@@ -64,7 +64,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">MASUK</button>
         </div>
         <!-- /.col -->
       </div>

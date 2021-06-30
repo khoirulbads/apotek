@@ -34,7 +34,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Masuk dengan akun yang anda miliki</p>
 
     <form action="../../index2.html" method="post">
       <div class="form-group has-feedback">
