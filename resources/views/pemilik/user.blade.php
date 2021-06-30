@@ -242,18 +242,17 @@
                         <input type="text" class="form-control"  placeholder="nama" name="nama" required="true">
                       </div>
                     </div>
-                    <div class="col-md-12 pr-1">
+                       <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Level</label>
-                        <select name="id_level">
+                        <select class="form-control" name="id_level" id="id_level"  style="height:35px;">
                         <option value="1">Pemilik</option>
                         <option value="4">Admin Obat</option>
                         <option value="2">Admin Pengadaan</option>
                         <option value="3">Kasir</option>
                         </select>
-                        </div>
+                      </div>
                     </div>
-                    
                     </div>
                 
                     
