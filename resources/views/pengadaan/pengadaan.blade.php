@@ -218,7 +218,7 @@
                     <div class="col-md-6 pr-1">
                         <div class="form-group">
                         <label>Obat</label>
-                        <select name="id_obat">
+                        <select name="id_obat" class="form-control">
                         @foreach ($obat as $key)                        
                         <option value={{$key->id_obat}}>{{ $key->nama_obat  }}</option>
                         @endforeach
@@ -231,7 +231,7 @@
                     <div class="col-md-6 pr-1">
                         <div class="form-group">
                         <label>Supllier</label>
-                        <select name="id_supplier">
+                        <select name="id_supplier" class="form-control">
                         @foreach ($supplier as $key)                        
                         <option value={{$key->id_supplier}}>{{ $key->nama_supplier  }}</option>
                         @endforeach
