@@ -757,7 +757,7 @@ class Controller extends BaseController
                 'tgl_kadaluarsa'=>$request->tgl_kadaluarsa
                 ]);
 
-            return redirect("/pengadaan-pengadaan");
+            return redirect("/pengadaan-pengadaan")->with('sukses','.');
         }else{
             return redirect('/auth');
         }   

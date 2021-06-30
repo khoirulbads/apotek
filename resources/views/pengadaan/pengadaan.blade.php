@@ -276,6 +276,11 @@
 
     <!-- Main content -->
     <section class="content">
+      @php if(Session::get('sukses')){ @endphp 
+                <div class="alert alert-success" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Data berhasil ditambahkan
+    </div> @php } @endphp
       <div class="row">
         <div class="col-xs-12">
           
