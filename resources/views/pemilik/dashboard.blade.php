@@ -183,7 +183,7 @@ $penjualan = DB::select("select sum(qty) as c from detail_transaksi");
               @foreach ($penyetokan as $pen)
               <h3>{{$pen->c}}</h3>
               @endforeach
-              <p>Transaksi Penyetokan</p>
+              <p>Transaksi Pengadaan</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
