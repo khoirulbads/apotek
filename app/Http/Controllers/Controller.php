@@ -423,7 +423,7 @@ class Controller extends BaseController
             
             $pdf = PDF::loadView('pengadaan/pengadaan_pdf',['data'=>$data])->setPaper('a4','landscape');
 
-            return  $pdf->download("pengadaan_".Session('tgl1')."-".Session('tgl1').".pdf");
+            return  $pdf->download("pengadaan_".Session('tgl1')."-".Session('tgl2').".pdf");
         }else{
             return redirect('/auth');
         }   

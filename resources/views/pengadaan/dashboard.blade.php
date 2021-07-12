@@ -144,7 +144,7 @@
     </section>
 @php
 $supplier = DB::select("select count(id_supplier) as c from supplier where aktif=1");
-$penyetokan = DB::select("select count(id_penyetokan) as c from penyetokan");
+$penyetokan = DB::select("select count(id_penyetokan) as c from penyetokan where MONTH(tgl_masuk)=MONTH(now())");
 @endphp
 
   <section class="content">
