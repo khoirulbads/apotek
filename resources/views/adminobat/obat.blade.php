@@ -371,7 +371,7 @@
               <div class="col-md-3 pr-1">
                       <div class="form-group">
                         <label>Nama Obat</label>
-                        <input type="text" class="form-control"  placeholder="Suwanto" name="q" >
+                        <input type="text" class="form-control"  placeholder="Paramex" name="q" >
                       </div>
               </div>
               <div class="col-md-3 pr-1">
