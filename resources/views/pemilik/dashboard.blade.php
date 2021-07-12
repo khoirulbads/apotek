@@ -153,7 +153,7 @@
     </section>
 @php
 $user = DB::select("select count(id_user) as c from user where aktif=1");
-$penyetokan = DB::select("select count(id_penyetokan) as c from penyetokan");
+$penyetokan = DB::select("select count(id_penyetokan) as c, MONTHNAME(now()) as bul from penyetokan where MONTH(tgl_masuk)=MONTH(NOW())");
 $penjualan = DB::select("select sum(qty) as c from detail_transaksi");
 @endphp
 
