@@ -249,7 +249,7 @@ class Controller extends BaseController
                 $pendapatan = $pendapatan + $key->total; 
                 $jumlah = $jumlah + $key->qty; 
             }
-            $pdf = PDF::loadView('pemilik/penjualan_pdf',['data'=>$data,'pendapatan'=>$pendapatan,'jumlah'=>$jumlah]);
+            $pdf = PDF::loadView('pemilik/penjualan_pdf',['data'=>$data,'pendapatan'=>$pendapatan,'jumlah'=>$jumlah])->setPaper('a4','landscape');
 
             return  $pdf->download("penjualan_".Session('tgl1')."-".Session('tgl1').".pdf");
         }else{
@@ -260,7 +260,7 @@ class Controller extends BaseController
         if(Session('login')==true && Session('level')=="pemilik"){
             $data = DB::select(Session('querypengadaan'));
             
-            $pdf = PDF::loadView('pemilik/pengadaan_pdf',['data'=>$data]);
+            $pdf = PDF::loadView('pemilik/pengadaan_pdf',['data'=>$data])->setPaper('a4','landscape');
 
             return  $pdf->download("pengadaan_".Session('tgl1')."-".Session('tgl1').".pdf");
         }else{
@@ -421,7 +421,7 @@ class Controller extends BaseController
         if(Session('login')==true && Session('level')=="pengadaan"){
             $data = DB::select(Session('querypengadaan'));
             
-            $pdf = PDF::loadView('pengadaan/pengadaan_pdf',['data'=>$data]);
+            $pdf = PDF::loadView('pengadaan/pengadaan_pdf',['data'=>$data])->setPaper('a4','landscape');
 
             return  $pdf->download("pengadaan_".Session('tgl1')."-".Session('tgl1').".pdf");
         }else{
