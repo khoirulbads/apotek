@@ -29,6 +29,7 @@ Route::post('/pemilik-pengadaan', 'App\Http\Controllers\Controller@searchpemilik
 Route::get('/pemilik-penjualan', 'App\Http\Controllers\Controller@pemilikpenjualan');
 Route::post('/pemilik-penjualan', 'App\Http\Controllers\Controller@searchpemilikpenjualan');
 Route::get('/pemilik-kadaluarsa', 'App\Http\Controllers\Controller@pemilikkadaluarsa');
+Route::get('/pemilik-hapusobat', 'App\Http\Controllers\Controller@pemilikhapusobat');
 Route::get('/cetak-penjualan', 'App\Http\Controllers\Controller@cetakpemilikpenjualan');
 Route::get('/cetak-pengadaan', 'App\Http\Controllers\Controller@cetakpemilikpengadaan');
 

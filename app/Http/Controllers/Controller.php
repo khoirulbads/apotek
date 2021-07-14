@@ -145,6 +145,14 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function pemilikhapusobat(){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $data = DB::select("SELECT  * from obat a, kategori b where a.id_kategori=b.id_kategori and  a.aktif=2");
+            return view("pemilik/hapusobat",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
     public function searchpemilikuser(Request $request){
         if(Session('login')==true && Session('level')=="pemilik"){
             $query = "SELECT a.id_user, a.nama, a.username,a.password,b.level, a.id_level
