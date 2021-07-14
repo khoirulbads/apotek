@@ -137,6 +137,14 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function pemilikkadaluarsa(){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $data = DB::select("SELECT  *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as usia from obat a, kategori b where a.id_kategori=b.id_kategori and TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= 0 and a.aktif=1");
+            return view("pemilik/kadaluarsa",['data'=>$data]);
+        }else{
+            return redirect('/auth');
+        }   
+    }
     public function searchpemilikuser(Request $request){
         if(Session('login')==true && Session('level')=="pemilik"){
             $query = "SELECT a.id_user, a.nama, a.username,a.password,b.level, a.id_level
@@ -560,6 +568,19 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+
+    //CCRUD Kadaluarsa
+    public function delkadaluarsa($id){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            DB::table('obat')->where('id_obat', $id)->update([
+                'aktif' => 2,
+                ]);
+            return redirect("pemilik-kadaluarsa")->with('hapus','.');
+        }else{
+            return redirect('/auth');
+        }   
+    }
+
 
     //CRUD Kategori
     public function addkategori(Request $request){

@@ -28,6 +28,7 @@ Route::get('/pemilik-pengadaan', 'App\Http\Controllers\Controller@pemilikpengada
 Route::post('/pemilik-pengadaan', 'App\Http\Controllers\Controller@searchpemilikpengadaan');
 Route::get('/pemilik-penjualan', 'App\Http\Controllers\Controller@pemilikpenjualan');
 Route::post('/pemilik-penjualan', 'App\Http\Controllers\Controller@searchpemilikpenjualan');
+Route::get('/pemilik-kadaluarsa', 'App\Http\Controllers\Controller@pemilikkadaluarsa');
 Route::get('/cetak-penjualan', 'App\Http\Controllers\Controller@cetakpemilikpenjualan');
 Route::get('/cetak-pengadaan', 'App\Http\Controllers\Controller@cetakpemilikpengadaan');
 
@@ -70,6 +71,8 @@ Route::get('/delete-supplier{id}', 'App\Http\Controllers\Controller@delsupplier'
 Route::post('/edit-supplier', 'App\Http\Controllers\Controller@editsupplier');
 //CRUD Pengadaan
 Route::post('/add-pengadaan', 'App\Http\Controllers\Controller@addpengadaan');
+//CRUD OBAT KADALUARSA
+Route::get('/delete-kadaluarsa{id}', 'App\Http\Controllers\Controller@delkadaluarsa');
 
 //tambahan
 

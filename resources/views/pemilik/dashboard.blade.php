@@ -133,7 +133,19 @@
           <a href="/pemilik-penjualan">
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
+        </li><li class="treeview">
+          <a href="#">
+            <i class="fa fa-th"></i> <span>Obat</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/pemilik-kadaluarsa"><i class="fa fa-circle-o"></i> Obat Kadaluarsa</a></li>
+            <li><a href="/pemilik-hapusobat"><i class="fa fa-circle-o"></i> Riwayat Hapus Obat</a></li>
+          </ul>
         </li>
+        
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -549,7 +561,7 @@ $chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as 
     var barChartTransaksi = {
         labels: user,
         datasets: [{
-            label: 'Jumlah Obat Terjual',
+            label: 'Jumlah Obat Terjual berdasarkan kategori',
             backgroundColor: "pink",
             data: total
         }]

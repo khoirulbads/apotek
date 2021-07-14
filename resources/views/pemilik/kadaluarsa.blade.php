@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Pemilik | Pengadaan</title>
+  <title>Pemilik | Obat Kadaluarsa</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -66,7 +66,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <span class="hidden-xs">
-                  {{Session::get('nama')}} - {{Session::get('level')}}</span>
+                  {{Session::get('nama')}}  - {{Session::get('level')}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -86,7 +86,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a   data-toggle="modal" data-target="#modal-profil"  class="btn btn-default btn-flat">Profil</a>
+                  <a  data-toggle="modal" data-target="#modal-profil"  class="btn btn-default btn-flat">Profil</a>
                 </div>
                
               </li>
@@ -124,7 +124,7 @@
             <i class="fa fa-th"></i> <span>Rekomendasi</span>
           </a>
         </li>
-        <li class="active treeview">
+        <li>
           <a href="/pemilik-pengadaan">
             <i class="fa fa-th"></i> <span>Pengadaan</span>
           </a>
@@ -133,8 +133,8 @@
           <a href="/pemilik-penjualan">
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
-        </li> 
-        <li class="treeview">
+        </li>
+        <li class="active treeview">
           <a href="#">
             <i class="fa fa-th"></i> <span>Obat</span>
             <span class="pull-right-container">
@@ -156,7 +156,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Pengadaan
+        Obat Kadaluarsa
       </h1>
       <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -223,63 +223,50 @@
       
     
 
-
     <div class="modal fade" id="modal-tambah" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Tambah Pengadaan</h4>
+              <h4 class="modal-title">Tambah</h4>
             </div>
+            
+
             <div class="modal-body">
-              <form role="form" action="/add-pengadaan" method="post" enctype="multipart/form-data">
+              <form role="form" action="/add-user" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
                 <div class="card-body">
-                <div class="row">
-                @php
-                $obat = DB::select("select * from obat where aktif=1");
-                @endphp
-                    <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                        <label>Obat</label>
-                        <select name="id_obat">
-                        @foreach ($obat as $key)                        
-                        <option value={{$key->id_obat}}>{{ $key->nama_obat  }}</option>
-                        @endforeach
-                        </select>
-                        </div>
-                    </div>
-                    @php
-                    $supplier = DB::select("select * from supplier where aktif=1");
-                    @endphp
-                    <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                        <label>Supllier</label>
-                        <select name="id_supplier">
-                        @foreach ($supplier as $key)                        
-                        <option value={{$key->id_supplier}}>{{ $key->nama_supplier  }}</option>
-                        @endforeach
-                        </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
+                   <div class="row">
+                    <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Harga Beli</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="harga_beli" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Jumlah</label>
-                        <input type="number" class="form-control"  placeholder="1000" name="jumlah" required="true">
+                        <label>Username</label>
+                        <input type="text" class="form-control"  placeholder="username" name="username" required="true">
                       </div>
                     </div>
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Tanggal Kadaluarsa</label>
-                        <input type="date" class="form-control"  placeholder="1000" name="tgl_kadaluarsa" required="true">
+                        <label>Password</label>
+                        <input type="password" class="form-control"  placeholder="password" name="password" required="true">
                       </div>
                     </div>
-                </div>
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Nama</label>
+                        <input type="text" class="form-control"  placeholder="nama" name="nama" required="true">
+                      </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Level</label>
+                        <select class="form-control" name="id_level" id="id_level"  style="height:35px;">
+                        <option value="1">Pemilik</option>
+                        <option value="4">Admin Obat</option>
+                        <option value="2">Admin Pengadaan</option>
+                        <option value="3">Kasir</option>
+                        </select>
+                      </div>
+                    </div>
+                    </div>
+                
                     
                   </div>
                 </div>
@@ -299,65 +286,47 @@
 
     <!-- Main content -->
     <section class="content">
+    @php if(Session::get('gagal')){ @endphp 
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Nama atau Username yang anda masukkan sudah terdaftar, silahkan isi data yang berbeda 
+    </div> @php } @endphp
+   @php if(Session::get('sukses')){ @endphp 
+                <div class="alert alert-success" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Pengguna berhasil ditambahkan
+    </div> @php } @endphp
+   @php if(Session::get('edit')){ @endphp 
+                <div class="alert alert-warning" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Pengguna berhasil diubah
+    </div> @php } @endphp
+    @php if(Session::get('hapus')){ @endphp 
+                <div class="alert alert-danger" >
+                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+                     Data obat yang kadaluarsa berhasil dihapus
+    </div> @php } @endphp
+   
+   
       <div class="row">
         <div class="col-xs-12">
           
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Pengadaan</h3><br>
-              </div>
+              <h3 class="box-title">Data Obat Kadaluarsa</h3><br>
+              <br>
+                </div>
             <!-- /.box-header -->
             <div class="box-body">
-
-            <form role="form" action="/pemilik-pengadaan" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}
-              <div class="col-md-2 pr-1">
-                      <div class="form-group">
-                        <label>Nama Obat</label>
-                        <input type="text" class="form-control"  placeholder="Mixagrip" name="q" >
-                      </div>
-              </div>
-              <div class="col-md-2 pr-1">
-                      <div class="form-group">
-                        <label>Supplier</label>
-                        <input type="text" class="form-control"  placeholder="PT. Medika Nusantara" name="supplier" >
-                      </div>
-              </div>
-              <div class="col-md-2 pr-1">
-                      <div class="form-group">
-                        <label>Dari</label>
-                        <input type="date" value="" class="form-control" id="tgl1" name="tgl1" >
-                      </div>
-              </div>
-              <div class="col-md-2 pr-1">
-                      <div class="form-group">
-                        <label>Sampai</label>
-                        <input type="date" value="" class="form-control" id="tgl1" name="tgl2" >
-                      </div>
-              </div>
-              
-              <div class="col-md-1 pr-1">
-                      <div class="form-group">
-                        <label style="color:white;">,l</label>
-                         <br><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
-                      </div>
-              </div>
-              
-              </form>
               <br>
-            
-
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Supplier</th>
                   <th>Obat</th>
-                  <th>Jumlah</th>
-                  <th>H. Beli</th>
-                  <th>Stok Akhir</th>
-                  <th>Kadaluarsa</th>
-                  <th>Tgl Masuk</th>
+                  <th>Kategori</th>
+                  <th>Tanggal Kadaluarsa</th>
+                  <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -367,16 +336,12 @@
                 @foreach ($data as $datas)                        
                 <tr>
                   <td>{{$i++}}</td>
-                  <td>{{$datas->nama_supplier}}</td>
                   <td>{{$datas->nama_obat}}</td>
-                  <td>{{$datas->jumlah}}</td>
-                  <td>{{$datas->harga_beli}}</td>
-                  <td>{{$datas->stok_akhir}}</td>
+                  <td>{{$datas->kategori}}</td>
                   <td>{{$datas->tgl_kadaluarsa}}</td>
-                  <td>{{$datas->tgl_masuk}}</td>
-                  </tr>
-        
-        <!-- /.modal-dialog -->
+                  <td><a href="/delete-kadaluarsa{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));"><i class="fa fa-trash"></i>
+                        </a> </td></tr>
+                
                 @endforeach
                 </tbody>
                 
