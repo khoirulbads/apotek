@@ -155,6 +155,10 @@
 $user = DB::select("select count(id_user) as c from user where aktif=1");
 $penyetokan = DB::select("select count(id_penyetokan) as c, MONTHNAME(now()) as bul from penyetokan where MONTH(tgl_masuk)=MONTH(NOW())");
 $penjualan = DB::select("select sum(qty) as c from detail_transaksi");
+$datausia = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= selisih and aktif=1");
+$datastok = DB::select("SELECT  count(id_obat) as c from obat where stok <= stokMinimal and aktif=1");
+$datakad = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= 0 and aktif=1");
+            
 @endphp
 
     <section class="content">
@@ -208,7 +212,53 @@ $penjualan = DB::select("select sum(qty) as c from detail_transaksi");
           </div>
         </div>
         <!-- ./col -->
-      </div>
+      </div><div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              @foreach ($datakad as $d)
+              <h3>{{$d->c}}</h3>
+              @endforeach
+              <p>Obat Kadaluarsa</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-history"></i>
+            </div>
+            <a href="/pemilik-rekomendasi" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-orange">
+            <div class="inner">
+              @foreach ($datausia as $d)
+              <h3>{{$d->c}}</h3>
+              @endforeach
+              <p>Rekomendasi Pembelian (Usia)</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="/pemilik-rekomendasi" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-gray">
+            <div class="inner">
+              @foreach ($datastok as $d)
+              <h3>{{$d->c}}</h3>
+              @endforeach
+              <p>Rekomendasi Pembelian (Stok)</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="/pemilik-rekomendasi" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
       </section>
       <!-- /.row -->
       <!-- Main row -->
