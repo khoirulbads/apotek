@@ -158,7 +158,8 @@ $penjualan = DB::select("select sum(qty) as c from detail_transaksi");
 $datausia = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= selisih and aktif=1");
 $datastok = DB::select("SELECT  count(id_obat) as c from obat where stok <= stokMinimal and aktif=1");
 $datakad = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= 0 and aktif=1");
-            
+$chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as bulan from detail_transaksi a, obat b, kategori c where c.id_kategori=b.id_kategori group by c.id_kategori");
+     
 @endphp
 
     <section class="content">
@@ -259,6 +260,12 @@ $datakad = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF
             <a href="/pemilik-rekomendasi" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+        <div class="row">
+        <div>
+            <canvas id="charttransaksi" style="height:350px;" height="200"></canvas>
+        </div>
+    </div>
+    
       </section>
       <!-- /.row -->
       <!-- Main row -->
@@ -530,6 +537,53 @@ $datakad = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script>
+    var user = [<?php foreach ($chart1 as $key) { ?>
+            '<?php echo $key->kategori ?>',
+        <?php }?>];
+    var total = [<?php foreach ($chart1 as $key) { ?>
+            '<?php echo $key->qty ?>',
+        <?php }?>];
+    var barChartTransaksi = {
+        labels: user,
+        datasets: [{
+            label: 'Jumlah Obat Terjual',
+            backgroundColor: "pink",
+            data: total
+        }]
+    };
+
+    window.onload = function() {
+        var chart1 = document.getElementById("charttransaksi").getContext("2d");
+        window.myBarTransaksi = new Chart(chart1, {
+            type: 'bar',
+            data: barChartTransaksi,
+            options: {
+                elements: {
+                    rectangle: {
+                        borderWidth: 2,
+                        borderColor: '#c1c1c1',
+                        borderSkipped: 'bottom'
+                    }
+                },
+                responsive: true,
+                title: {
+                    display: true,
+                },scales: {
+                    yAxes: [{
+                        ticks: {
+                        beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+    };
+
+</script>
+
 
 <!-- jQuery 3 -->
 <script src="assets/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
