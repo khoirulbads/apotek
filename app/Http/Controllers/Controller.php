@@ -520,8 +520,8 @@ class Controller extends BaseController
             $nama = $request->nama;
             $id_level = $request->id_level;
             
-            $cek = DB::select("select * from user where nama='$nama' AND username='$username'");
-            if ($cek != null) {
+            $cek = DB::select("select * from user where username='$username'");
+            if (count($cek)>0) {
                 return redirect("pemilik-user")->with('gagal','.');
             }
         
