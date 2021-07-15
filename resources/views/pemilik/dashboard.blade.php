@@ -171,61 +171,14 @@ $datausia = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIF
 $datastok = DB::select("SELECT  count(id_obat) as c from obat where stok <= stokMinimal and aktif=1");
 $datakad = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= 0 and aktif=1");
 $chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as bulan from detail_transaksi a, obat b, kategori c where c.id_kategori=b.id_kategori group by c.id_kategori");
-     
+$pendapatan = DB::select("SELECT sum(grand_total) as c FROM transaksi WHERE MONTH(tanggal) = MONTH(now())");
+$laba = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_transaksi a, transaksi b where a.inv=b.inv AND MONTH(b.tanggal)=MONTH(now())");
 @endphp
 
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
         <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-aqua">
-            <div class="inner">
-              @foreach ($user as $us)
-              <h3>{{$us->c}}</h3>
-              @endforeach
-              <p>Pengguna</p>
-            </div>
-            <div class="icon">
-              <i class="fa fa-users"></i>
-            </div>
-            <a href="/pemilik-user" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-green">
-            <div class="inner">
-              @foreach ($penyetokan as $pen)
-              <h3>{{$pen->c}}</h3>
-              @endforeach
-              <p>Transaksi Pengadaan</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-stats-bars"></i>
-            </div>
-            <a href="/pemilik-pengadaan" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
-          <div class="small-box bg-red">
-            <div class="inner">
-              @foreach ($penjualan as $penj)
-              <h3>{{$penj->c}}</h3>
-              @endforeach
-              <p>Jumlah Obat Terjual</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="/pemilik-penjualan" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-        <!-- ./col -->
-      </div><div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
@@ -259,7 +212,7 @@ $chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as 
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-gray">
+          <div class="small-box bg-red">
             <div class="inner">
               @foreach ($datastok as $d)
               <h3>{{$d->c}}</h3>
@@ -272,7 +225,40 @@ $chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as 
             <a href="/pemilik-rekomendasi" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
-        <div class="row">
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              @foreach ($pendapatan as $pen)
+              <h3>Rp. {{ number_format($pen->c,0, ',' , '.')}},-</h3>
+              @endforeach
+              <p>Pendapatan Kotor (Bulan ini)</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-green">
+            <div class="inner">
+              @foreach ($laba as $l)
+              <h3>Rp. {{ number_format($l->c,0, ',' , '.')}},-</h3>
+              @endforeach
+              <p>Laba Bersih (Bulan ini)</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-money"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div>
             <canvas id="charttransaksi" style="height:350px;" height="200"></canvas>
         </div>
