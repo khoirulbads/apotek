@@ -386,11 +386,7 @@
   </div>
  <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.12
-    </div>
-    <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
-    reserved.
+    
   </footer>
 
   <!-- Control Sidebar -->
@@ -831,5 +827,29 @@
 <script src="assets/AdminLTE/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="assets/AdminLTE/dist/js/demo.js"></script>
+<script src="assets/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
+
 </body>
 </html>
