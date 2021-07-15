@@ -173,6 +173,14 @@ $datakad = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF
 $chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as bulan from detail_transaksi a, obat b, kategori c where c.id_kategori=b.id_kategori group by c.id_kategori");
 $pendapatan = DB::select("SELECT sum(grand_total) as c FROM transaksi WHERE MONTH(tanggal) = MONTH(now())");
 $laba = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_transaksi a, transaksi b where a.inv=b.inv AND MONTH(b.tanggal)=MONTH(now())");
+$lababersih = array("","","","");
+
+for ($i=1; $i <= 4 ; $i++) { 
+  $x = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_transaksi a, transaksi b where a.inv=-b.inv and MONTH(b.tanggal)=MONTH(now()) and WEEKDAY(b.tanggal)='$i'");
+  foreach ($x as $x){
+      $lababersih[$i-1] = $x->c;
+    }
+  }
 @endphp
 
     <section class="content">
@@ -259,10 +267,15 @@ $laba = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_trans
         </div>
       </div>
       <div class="row">
-        <div>
-            <canvas id="charttransaksi" style="height:350px;" height="200"></canvas>
+        <div class="col-lg-9 col-xs-6">
+            <canvas id="charttransaksi"></canvas>
         </div>
-    </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-9 col-xs-6">
+            <canvas id="chartlaba"></canvas>
+        </div>
+      </div>
     
       </section>
       <!-- /.row -->
@@ -552,12 +565,48 @@ $laba = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_trans
             data: total
         }]
     };
+    var minggu = ["Minggu ke-1", "Minggu ke-2", "Minggu ke-3", "Minggu ke-4"];
+    var laba = [<?php foreach ($lababersih as $key) { ?>
+            '<?php echo $key ?>',
+        <?php }?>];
+    var barChartLaba = {
+        labels: minggu,
+        datasets: [{
+            label: 'Laba Bersih Mingguan Bulan ini (Rupiah)',
+            backgroundColor: "orange",
+            data: laba
+        }]
+    };
 
     window.onload = function() {
         var chart1 = document.getElementById("charttransaksi").getContext("2d");
         window.myBarTransaksi = new Chart(chart1, {
             type: 'bar',
             data: barChartTransaksi,
+            options: {
+                elements: {
+                    rectangle: {
+                        borderWidth: 2,
+                        borderColor: '#c1c1c1',
+                        borderSkipped: 'bottom'
+                    }
+                },
+                responsive: true,
+                title: {
+                    display: true,
+                },scales: {
+                    yAxes: [{
+                        ticks: {
+                        beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+        var chart2 = document.getElementById("chartlaba").getContext("2d");
+        window.myBarLaba = new Chart(chart2, {
+            type: 'bar',
+            data: barChartLaba,
             options: {
                 elements: {
                     rectangle: {
