@@ -17,6 +17,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
 
+
      public function login(){
         if (Session('login')==true) {
             return redirect("/dashboard");
@@ -975,5 +976,23 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
-    
+    public function kasirnota($id){
+        if(Session('login')==true && Session('level')=="kasir"){
+        $x="";
+        $transaksi = DB::select("select b.nama,a.inv,a.jenis,a.grand_total,a.bayar,a.kembali,
+        a.tanggal from transaksi a, user b where a.inv='$id' and a.id_user=b.id_user");
+        
+        $detail = DB::select("select a.qty, a.harga_jual,a.total,b.nama_obat from detail_transaksi a,
+         obat b WHERE a.inv='$id' and b.id_obat=a.id_obat");
+
+        $pdf = PDF::loadView('kasir/nota_pdf',['transaksi'=>$transaksi, 'detail'=>$detail])->setPaper('a5','potrait');
+
+        foreach ($transaksi as $t){
+           $x = $t->inv; 
+        };
+        return  $pdf->download("nota_".$x.".pdf");
+        }else{
+            return redirect('/auth');
+        }   
+    }
 }

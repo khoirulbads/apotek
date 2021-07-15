@@ -275,8 +275,11 @@
                   <td>{{$data->grand_total}}</td>
                   <td>{{$data->nama}}</td>
                   <td>{{$data->jenis}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-detail{{$data->inv}}" class="btn btn-primary btn-xs" >Detail
-                        </a></td>
+                  <td><a data-toggle="modal" data-target="#modal-detail{{$data->inv}}" class="btn btn-primary btn-xs" ><i class="fa fa-square-o"></i> Detail
+                        </a>
+                        <a href="/kasir-nota{{$data->inv}}" class="btn btn-default btn-xs" ><i class="fa fa-print"></i> Nota 
+                        </a>
+                  </td>
                   </tr>
                   @endforeach
                 </tbody>
@@ -762,12 +765,13 @@
                   <span aria-hidden="true">×</span></button>
               </div>
               @php
-              $kembali = DB::select("select kembali from transaksi order by id_transaksi desc limit 1");
+              $kembali = DB::select("select inv,kembali from transaksi order by id_transaksi desc limit 1");
               @endphp
               <div class="modal-body">
                 <center><h1>Kembalian</h1></center>
                 @foreach ($kembali as $data)
                 <center><h1>Rp. {{ number_format($data->kembali,0, ',' , '.')}},-</h1></center>
+                <center><a href="/kasir-nota{{$data->inv}}" type="button" class="btn btn-primary" ><i class="fa fa-print"></i>  Cetak Nota</a></center>
                 @endforeach
               </div>
               <div class="modal-footer">
