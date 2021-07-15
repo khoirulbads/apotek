@@ -99,8 +99,8 @@ class Controller extends BaseController
     }
     public function pemilikrekomendasi(){
         if(Session('login')==true && Session('level')=="pemilik"){
-            $datausia = DB::select("SELECT  *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as usia from obat a, kategori b where a.id_kategori=b.id_kategori and TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= selisih and a.aktif=1");
-            $datastok = DB::select("SELECT  * from obat a, kategori b where a.id_kategori=b.id_kategori and a.stok <= a.stokMinimal and a.aktif=1");
+            $datausia = DB::select("SELECT  *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as usia from obat a, kategori b where a.id_kategori=b.id_kategori and TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= selisih and a.aktif=1 order by usia ASC ");
+            $datastok = DB::select("SELECT  * from obat a, kategori b where a.id_kategori=b.id_kategori and a.stok <= a.stokMinimal and a.aktif=1 order by stok ASC");
             return view("pemilik/rekomendasi",['datausia'=>$datausia,'datastok'=>$datastok]);
         }else{
             return redirect('/auth');
@@ -148,7 +148,7 @@ class Controller extends BaseController
     }
     public function pemilikhapusobat(){
         if(Session('login')==true && Session('level')=="pemilik"){
-            $data = DB::select("SELECT  * from obat a, kategori b where a.id_kategori=b.id_kategori and  a.aktif=2");
+            $data = DB::select("select a.id_kosongkan, a.created_at, a.id_obat, b.nama_obat,c.kategori from kosongkanobat a, obat b, kategori c where a.id_obat=b.id_obat AND b.id_kategori=c.id_kategori");
             return view("pemilik/hapusobat",['data'=>$data]);
         }else{
             return redirect('/auth');
@@ -582,7 +582,12 @@ class Controller extends BaseController
     public function delkadaluarsa($id){
         if(Session('login')==true && Session('level')=="pemilik"){
             DB::table('obat')->where('id_obat', $id)->update([
-                'aktif' => 2,
+                'stok' => 0,
+                'tgl_kadaluarsa' => '0000-00-00'
+                ]);
+
+            $save = DB::table('kosongkanobat')->insert([
+                'id_obat' => $id
                 ]);
             return redirect("pemilik-kadaluarsa")->with('hapus','.');
         }else{

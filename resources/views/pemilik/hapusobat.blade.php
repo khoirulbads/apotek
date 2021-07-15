@@ -156,7 +156,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Obat dihapus
+        Riwayat Obat dikosongkan
       </h1>
       <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -312,7 +312,7 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Data Obat Kadaluarsa yang dihapus</h3><br>
+              <h3 class="box-title">Riwayat pengosongan stok obat kadaluarsa</h3><br>
               <br>
                 </div>
             <!-- /.box-header -->
@@ -324,7 +324,6 @@
                   <th>#</th>
                   <th>Obat</th>
                   <th>Kategori</th>
-                  <th>Tanggal Kadaluarsa</th>
                   <th>dihapus pada</th>
                 </tr>
                 </thead>
@@ -337,8 +336,7 @@
                   <td>{{$i++}}</td>
                   <td>{{$datas->nama_obat}}</td>
                   <td>{{$datas->kategori}}</td>
-                  <td>{{$datas->tgl_kadaluarsa}}</td>
-                  <td>{{$datas->updated_at}}</td>
+                  <td>{{$datas->created_at}}</td>
                   </tr>
                 
                 @endforeach

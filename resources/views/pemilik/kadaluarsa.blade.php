@@ -304,7 +304,7 @@
     @php if(Session::get('hapus')){ @endphp 
                 <div class="alert alert-danger" >
                     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     Data obat yang kadaluarsa berhasil dihapus
+                     stok obat yang kadaluarsa berhasil dikosongkan
     </div> @php } @endphp
    
    
@@ -339,7 +339,7 @@
                   <td>{{$datas->nama_obat}}</td>
                   <td>{{$datas->kategori}}</td>
                   <td>{{$datas->tgl_kadaluarsa}}</td>
-                  <td><a href="/delete-kadaluarsa{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));"><i class="fa fa-trash"></i>
+                  <td><a href="/delete-kadaluarsa{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah stok obat ini Akan dikosongkan?'));"><i class="fa fa-trash"></i>Kosongkan Stok
                         </a> </td></tr>
                 
                 @endforeach
