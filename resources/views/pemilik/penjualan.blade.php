@@ -298,12 +298,14 @@
                     <tr>
                       <th>Jumlah Obat Terjual</th>
                       <th>Pendapatan</th>
+                      <th>Laba Bersih</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>{{$jumlah}}</td>
                       <td>Rp. {{ number_format($pendapatan,0, ',' , '.')}},-</td>
+                      <td>Rp. {{ number_format($laba,0, ',' , '.')}},-</td>
                     </tr>
                   </tbody>
               </table>
@@ -750,8 +752,6 @@
 <script src="assets/AdminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
 <script src="assets/AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<script src="assets/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="assets/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
 <!-- Bootstrap WYSIHTML5 -->
 <script src="assets/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
@@ -765,6 +765,9 @@
 <script src="assets/AdminLTE/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="assets/AdminLTE/dist/js/demo.js"></script>
+<script src="assets/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
 <script>
   $(function () {
     $('#example1').DataTable({

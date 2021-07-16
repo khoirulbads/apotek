@@ -129,11 +129,14 @@ class Controller extends BaseController
             Session::put('querypenjualan',$query);
             $pendapatan = 0;
             $jumlah = 0;
+            $laba = 0;
             foreach ($data as $key){
                 $pendapatan = $pendapatan + $key->total; 
-                $jumlah = $jumlah + $key->qty; 
+                $jumlah = $jumlah + $key->qty;
+                $laba = $laba + ($key->harga_jual-$key->harga_beli); 
             }
-            return view("pemilik/penjualan",['data'=>$data, 'pendapatan'=>$pendapatan, 'jumlah'=>$jumlah]);
+            return view("pemilik/penjualan",['data'=>$data, 'pendapatan'=>$pendapatan, 'jumlah'=>$jumlah,
+                'laba'=>$laba]);
         }else{
             return redirect('/auth');
         }   
@@ -199,7 +202,7 @@ class Controller extends BaseController
             AND id_transaksi <= UNIX_TIMESTAMP('$tgl2') AND nama_obat LIKE '%$request->q%' ";
             $pendapatan = 0;
             $jumlah = 0;
-            
+            $laba = 0;
             Session::put('querypenjualan', $query);            
 
             $data = DB::select($query);
@@ -207,9 +210,10 @@ class Controller extends BaseController
             foreach ($data as $key){
                 $pendapatan = $pendapatan + $key->total; 
                 $jumlah = $jumlah + $key->qty; 
+                 $laba = $laba + ($key->harga_jual-$key->harga_beli); 
             }
 
-            return view("pemilik/penjualan",['data'=>$data, 'pendapatan'=>$pendapatan,'jumlah'=>$jumlah]);
+            return view("pemilik/penjualan",['data'=>$data, 'pendapatan'=>$pendapatan,'jumlah'=>$jumlah,'laba'=>$laba]);
         }else{
             return redirect('/auth');
         }
