@@ -756,8 +756,11 @@ class Controller extends BaseController
             $jual_obatNon = 0;
             $id = $request->id_obat;
             //get obat
-            $obat = DB::select("select * from obat where id_obat=$id");
+            $obat = DB::select("select *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as c from obat where id_obat=$id");
             foreach ($obat as $key ){
+                if($key->c <= 0){
+                    return redirect("/pengadaan-pengadaan")->with('kadaluarsa','.');                    
+                }
                 $beli_obat = $key->harga_beli;
                 $jual_obatResep = $key->harga_jualResep;
                 $jual_obatNon = $key->harga_jualNon;
