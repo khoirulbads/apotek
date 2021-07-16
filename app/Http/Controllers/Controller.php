@@ -762,7 +762,7 @@ class Controller extends BaseController
             //get obat
             $obat = DB::select("select *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as c from obat where id_obat=$id");
             foreach ($obat as $key ){
-                if($key->c <= 0){
+                if($key->c <= 0 && $key->stok > 0){
                     return redirect("/pengadaan-pengadaan")->with('kadaluarsa','.');                    
                 }
                 $beli_obat = $key->harga_beli;
