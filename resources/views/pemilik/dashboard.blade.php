@@ -179,12 +179,12 @@ $datakad = DB::select("SELECT  count(id_obat) as c from obat where TIMESTAMPDIFF
 $chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as bulan from detail_transaksi a, obat b, kategori c where c.id_kategori=b.id_kategori group by c.id_kategori");
 $pendapatan = DB::select("SELECT sum(grand_total) as c FROM transaksi WHERE MONTH(tanggal) = MONTH(now())");
 $laba = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_transaksi a, transaksi b where a.inv=b.inv AND MONTH(b.tanggal)=MONTH(now())");
-$lababersih = array("","","","");
+$lababersih = array("","","","","","","");
 
-for ($i=1; $i <= 4 ; $i++) { 
-  $x = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_transaksi a, transaksi b where a.inv=-b.inv and MONTH(b.tanggal)=MONTH(now()) and WEEKDAY(b.tanggal)='$i'");
+for ($i=0; $i <= 6 ; $i++) { 
+  $x = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_transaksi a, transaksi b where a.inv=b.inv and MONTH(tanggal)=MONTH(NOW()) and YEAR(tanggal)=YEAR(now()) and day(tanggal)>=day(now())-weekday(now()) and day(tanggal)<=day(now())-weekday(now())+6 and WEEKDAY(tanggal)='$i' ");
   foreach ($x as $x){
-      $lababersih[$i-1] = $x->c;
+      $lababersih[$i] = $x->c;
     }
   }
 @endphp
@@ -570,14 +570,14 @@ for ($i=1; $i <= 4 ; $i++) {
             data: total
         }]
     };
-    var minggu = ["Minggu ke-1", "Minggu ke-2", "Minggu ke-3", "Minggu ke-4"];
+    var minggu = ["Senin", "Selasa", "Rabu", "Kamis","Jum'at","Sabtu", "Minggu"];
     var laba = [<?php foreach ($lababersih as $key) { ?>
             '<?php echo $key ?>',
         <?php }?>];
     var barChartLaba = {
         labels: minggu,
         datasets: [{
-            label: 'Laba Bersih Mingguan Bulan ini (Rupiah)',
+            label: 'Laba Bersih Harian pada Minggu ini (Rupiah)',
             backgroundColor: "orange",
             data: laba
         }]
