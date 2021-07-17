@@ -774,7 +774,7 @@ class Controller extends BaseController
             }
             
             //rerata tetimbang
-            $new_beli = (($stok_awal*$beli_obat)+$total)/($stok_awal+$request->jumlah);
+            $new_beli = $request->harga_beli;
             $new_jualResep = $new_beli+(($labaResep/100)*$new_beli);
             $new_jualNon = $new_beli+(($labaNon/100)*$new_beli);
             ;

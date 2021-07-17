@@ -162,9 +162,8 @@
     </section>
 
 @php
-$transaksi = DB::select("SELECT count(id_transaksi) as c FROM transaksi WHERE DATE(tanggal) = CURDATE()");
-$pendapatan = DB::select("SELECT sum(grand_total) as c FROM transaksi WHERE DATE(tanggal) = CURDATE()");
-$pendapatan = DB::select("SELECT sum(grand_total) as c FROM transaksi WHERE MONTH(tanggal) = MONTH(now())");
+$transaksi = DB::select("SELECT count(id_transaksi) as c FROM transaksi WHERE DATE(tanggal) = DATE(now())");
+$pendapatan = DB::select("SELECT sum(grand_total) as c FROM transaksi WHERE DATE(tanggal) = DATE(now())");
 $laba = DB::select("select sum(a.harga_jual-a.harga_beli) as c from detail_transaksi a, transaksi b where a.inv=b.inv AND MONTH(b.tanggal)=MONTH(now())");
 $lababersih = array("","","","");
 
