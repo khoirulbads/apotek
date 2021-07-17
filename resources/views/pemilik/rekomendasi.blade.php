@@ -250,9 +250,12 @@
                   <td>{{$i++}}</td>
                   <td>{{$datas->nama_obat}}</td>
                   <td>{{$datas->kategori}}</td>
+                  @if ($datas->usia>=1)
                   <td>{{$datas->usia}} Hari Lagi</td>
+                  @else if
+                  <td>Telah kadaluarsa {{substr($datas->usia,1)}} Hari</td>
+                  @endif
                   <td>{{$datas->tgl_kadaluarsa}}</td>
-                
                 @endforeach
                 </tbody>
                 

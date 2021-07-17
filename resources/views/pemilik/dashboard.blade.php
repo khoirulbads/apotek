@@ -233,8 +233,6 @@ for ($i=1; $i <= 4 ; $i++) {
             <a href="/pemilik-rekomendasi" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
-      </div>
-      <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-green">
@@ -250,8 +248,9 @@ for ($i=1; $i <= 4 ; $i++) {
             <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
+      </div>
+      <!-- <div class="row">
         <div class="col-lg-3 col-xs-6">
-          <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
               @foreach ($laba as $l)
@@ -265,7 +264,7 @@ for ($i=1; $i <= 4 ; $i++) {
             <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-lg-9 col-xs-6">
             <canvas id="charttransaksi"></canvas>
@@ -605,7 +604,7 @@ for ($i=1; $i <= 4 ; $i++) {
         });
         var chart2 = document.getElementById("chartlaba").getContext("2d");
         window.myBarLaba = new Chart(chart2, {
-            type: 'bar',
+            type: 'line',
             data: barChartLaba,
             options: {
                 elements: {
