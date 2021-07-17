@@ -3,9 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Pemilik | Obat Kadaluarsa</title>
+  <title>Pemilik | Riwayat Transaksi</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="_token" content="{{ csrf_token() }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
    <link rel="shortcut icon" href="assets/images/logoo.png" type="image/png">
 
@@ -66,7 +68,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <span class="hidden-xs">
-                  {{Session::get('nama')}}  - {{Session::get('level')}}</span>
+                  {{Session::get('nama')}} - {{Session::get('level')}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -86,7 +88,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a  data-toggle="modal" data-target="#modal-profil"  class="btn btn-default btn-flat">Profil</a>
+                  <a  data-toggle="modal" data-target="#modal-profil" class="btn btn-default btn-flat">Profil</a>
                 </div>
                
               </li>
@@ -114,7 +116,7 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>    
           </a>
         </li>
-        <li>
+        <li  class="active treeview">
           <a href="/pemilik-user">
             <i class="fa fa-th"></i> <span>User</span>
           </a>
@@ -139,7 +141,7 @@
             <i class="fa fa-th"></i> <span>Riwayat Transaksi</span>
           </a>
         </li>
-        <li class="active treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-th"></i> <span>Obat</span>
             <span class="pull-right-container">
@@ -161,17 +163,14 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Obat Kadaluarsa
+        Riwayat Transaksi
       </h1>
       <!-- <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol> -->
+        </ol> -->
     </section>
 
     <!-- Main content -->
-
-<div class="modal fade" id="modal-profil" role="dialog">
+    <div class="modal fade" id="modal-profil" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -227,110 +226,75 @@
         <!-- /.modal-dialog -->
       
     
-
+    <!-- Main content -->
     <div class="modal fade" id="modal-tambah" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Tambah</h4>
+              <h4 class="modal-title">Pilih Jenis Obat</h4>
             </div>
-            
-
             <div class="modal-body">
-              <form role="form" action="/add-user" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}
-                <div class="card-body">
-                   <div class="row">
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control"  placeholder="username" name="username" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control"  placeholder="password" name="password" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" class="form-control"  placeholder="nama" name="nama" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Level</label>
-                        <select class="form-control" name="id_level" id="id_level"  style="height:35px;">
-                        <option value="1">Pemilik</option>
-                        <option value="4">Admin Obat</option>
-                        <option value="2">Admin Pengadaan</option>
-                        <option value="3">Kasir</option>
-                        </select>
-                      </div>
-                    </div>
-                    </div>
-                
-                    
-                  </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer justify-content-between">
-             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+          <center><a href="/kasir-transaksi-resep" type="button" class="btn btn-primary" >OBAT RESEP</a>
+            <a href="/kasir-transaksi-nonresep" type="button" class="btn btn-primary" >OBAT NOT RESEP</a>
+            
+            </center>
               <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          
             </div>
-              </form>
-            </div>
+              </div>
           </div>
           <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
       
 
-    <!-- Main content -->
+
+        
     <section class="content">
-    @php if(Session::get('gagal')){ @endphp 
-                <div class="alert alert-danger">
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     Nama atau Username yang anda masukkan sudah terdaftar, silahkan isi data yang berbeda 
-    </div> @php } @endphp
-   @php if(Session::get('sukses')){ @endphp 
-                <div class="alert alert-success" >
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     Pengguna berhasil ditambahkan
-    </div> @php } @endphp
-   @php if(Session::get('edit')){ @endphp 
-                <div class="alert alert-warning" >
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     Pengguna berhasil diubah
-    </div> @php } @endphp
-    @php if(Session::get('hapus')){ @endphp 
-                <div class="alert alert-danger" >
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     stok obat yang kadaluarsa berhasil dikosongkan
-    </div> @php } @endphp
-   
-   
       <div class="row">
         <div class="col-xs-12">
           
           <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Data Obat Kadaluarsa</h3><br>
-              <br>
-                </div>
             <!-- /.box-header -->
             <div class="box-body">
+            <form role="form" action="/pemilik-riwayat" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Dari</label>
+                        <input type="date" value="" class="form-control" id="tgl1" name="tgl1" >
+                      </div>
+              </div>
+              <div class="col-md-3 pr-1">
+                      <div class="form-group">
+                        <label>Sampai</label>
+                        <input type="date" value="" class="form-control" id="tgl1" name="tgl2" >
+                      </div>
+              </div>
+              
+              <div class="col-md-1 pr-1">
+                      <div class="form-group">
+                        <label style="color:white;">,l</label>
+                         <br><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                      </div>
+              </div>
+              <div class="col-md-1 pr-1">
+                      <div class="form-group">
+                        <label style="color:white;">,l</label>
+                         <br><a class="btn btn-primary" href="/cetak-riwayat"><i class="fa fa-print"></i></a>
+                      </div>
+              </div>              
+              
+              </form>
               <br>
+            
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Obat</th>
-                  <th>Kategori</th>
-                  <th>Tanggal Kadaluarsa</th>
+                  <th>inv</th>
+                  <th>Grand Total</th>
+                  <th>Kasir</th>
+                  <th>Jenis Obat</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -338,22 +302,75 @@
                 @php
                 $i = 1;
                 @endphp
-                @foreach ($data as $datas)                        
+                @foreach ($data as $data)
                 <tr>
                   <td>{{$i++}}</td>
-                  <td>{{$datas->nama_obat}}</td>
-                  <td>{{$datas->kategori}}</td>
-                  <td>{{$datas->tgl_kadaluarsa}}</td>
-                  <td><a href="/delete-kadaluarsa{{$datas->id_obat}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah stok obat ini Akan dikosongkan?'));"><i class="fa fa-trash"></i>Kosongkan Stok
-                        </a> </td></tr>
-                
-                @endforeach
+                  <td>{{$data->inv}}</td>
+                  <td>{{$data->grand_total}}</td>
+                  <td>{{$data->nama}}</td>
+                  <td>{{$data->jenis}}</td>
+                  <td><a data-toggle="modal" data-target="#modal-detail{{$data->inv}}" class="btn btn-primary btn-xs" ><i class="fa fa-square-o"></i> Detail
+                        </a>
+                        <!-- <a href="/kasir-nota{{$data->inv}}" class="btn btn-default btn-xs" ><i class="fa fa-print"></i> Nota 
+                        </a> -->
+                  </td>
+                  </tr>
+                  @endforeach
                 </tbody>
                 
               </table>
             </div>
             <!-- /.box-body -->
           </div>
+                @php
+                $x = DB::select("select * from transaksi");
+                @endphp
+          @foreach ($x as $data)
+              <div class="modal fade" id="modal-detail{{$data->inv}}" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                      @php
+                        $detail = DB::select("select * from detail_transaksi a, obat b where a.id_obat=b.id_obat and a.inv='$data->inv'");
+                      @endphp
+                        <h4 class="modal-title">Detail Transaksi {{$data->inv}}</h4>
+                      </div>
+                      <div class="modal-body">
+                      <table  id="example" class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Obat</th>
+                            <th>H. Beli</th>
+                            <th>H. Jual</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @php
+                          $i = 1;
+
+                          @endphp
+                          @foreach ($detail as $data)
+                          <tr>
+                            <td>{{$i++}}</td>
+                            <td>{{$data->nama_obat}}</td>
+                            <td>{{$data->harga_beli}}</td>
+                            <td>{{$data->harga_jual}}</td>
+                            <td>{{$data->qty}}</td>
+                            <td>{{$data->total}}</td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                      </table>
+                      </div>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+          @endforeach
           <!-- /.box -->
         </div>
         <!-- /.col -->
@@ -773,6 +790,39 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
+<!-- Modal Kembalian -->
+        <div class="modal fade" id="modal-kembalian">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+              </div>
+              @php
+              $kembali = DB::select("select inv,kembali from transaksi order by id_transaksi desc limit 1");
+              @endphp
+              <div class="modal-body">
+                <center><h1>Kembalian</h1></center>
+                @foreach ($kembali as $data)
+                <center><h1>Rp. {{ number_format($data->kembali,0, ',' , '.')}},-</h1></center>
+                <center><a href="/kasir-nota{{$data->inv}}" type="button" class="btn btn-primary" ><i class="fa fa-print"></i>  Cetak Nota</a></center>
+                @endforeach
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        @if($errors->first() == 'msgkembali')
+          <script>
+        $(document).ready(function(){
+        $("#modal-kembalian").modal('show');
+    });
+</script>
+        @endif
+                
 <script src="assets/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="assets/AdminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script>

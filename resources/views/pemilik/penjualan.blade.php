@@ -134,6 +134,11 @@
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
         </li>
+        <li>
+          <a href="/pemilik-riwayat">
+            <i class="fa fa-th"></i> <span>Riwayat Transaksi</span>
+          </a>
+        </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-th"></i> <span>Obat</span>
