@@ -116,7 +116,7 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>    
           </a>
         </li>
-        <li  class="active treeview">
+        <li>
           <a href="/pemilik-user">
             <i class="fa fa-th"></i> <span>User</span>
           </a>
@@ -131,14 +131,15 @@
             <i class="fa fa-th"></i> <span>Pengadaan</span>
           </a>
         </li>
-        <li>
+        
+        <!-- <li>
           <a href="/pemilik-penjualan">
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
-        </li>
-        <li>
+        </li> -->
+        <li class="active treeview">
           <a href="/pemilik-riwayat">
-            <i class="fa fa-th"></i> <span>Riwayat Transaksi</span>
+            <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
         </li>
         <li class="treeview">
@@ -169,6 +170,12 @@
         </ol> -->
     </section>
 
+    @php
+    $jmlobat = 0;
+    $jmltrx = 0;
+    $pendapatan = 0;
+    $laba = 0;
+    @endphp
     <!-- Main content -->
     <div class="modal fade" id="modal-profil" role="dialog">
         <div class="modal-dialog">
@@ -301,6 +308,7 @@
                 <tbody>
                 @php
                 $i = 1;
+                $grandtotal = 0;
                 @endphp
                 @foreach ($data as $data)
                 <tr>
@@ -315,10 +323,51 @@
                         </a> -->
                   </td>
                   </tr>
+
+                  @php
+
+                    $pendapatan = $pendapatan + $data->grand_total;
+                    $jmltrx = $jmltrx +1;
+
+                    $detail = DB::select("select a.id_detail, b.nama_obat, a.harga_jual, a.harga_beli, a.qty, (a.harga_jual*a.qty) as total from detail_transaksi a, obat b where a.id_obat=b.id_obat and inv='$data->inv' ");
+                  @endphp
+                    @foreach ($detail as $p)
+                      @php
+                        $grandtotal = $grandtotal + $p->total;
+                        $jmlobat = $jmlobat + $p->qty;
+                        $laba = $laba + (($p->harga_jual - $p->harga_beli)*$p->qty);
+                      @endphp
+                    @endforeach
                   @endforeach
                 </tbody>
                 
               </table>
+              <br>
+                <center><h4>Ringkasan</h4></center>
+                <table class='table table-bordered'>
+                  <thead>
+                    <tr>
+                      <th>Pendapatan</th><th>:</th><th>Rp. {{ number_format($pendapatan,0, ',' , '.')}},-</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Jumlah Transaksi</td>
+                      <td>:</td>
+                      <td>{{$jmltrx}}</td>
+                    </tr>
+                    <tr>
+                      <td>Laba Bersih</td>
+                      <td>:</td>
+                      <td>Rp. {{ number_format($laba,0, ',' , '.')}},-</td>
+                    </tr>
+                    <tr>
+                      <td>Jumlah Obat Terjual</td>
+                      <td>:</td>
+                      <td>{{$jmlobat}}</td>
+                    </tr>
+                  </tbody>
+                </table>
             </div>
             <!-- /.box-body -->
           </div>
@@ -859,5 +908,20 @@
 <script src="assets/AdminLTE/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="assets/AdminLTE/dist/js/demo.js"></script>
+<script src="assets/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
 </body>
 </html>

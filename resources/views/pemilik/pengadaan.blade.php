@@ -129,14 +129,15 @@
             <i class="fa fa-th"></i> <span>Pengadaan</span>
           </a>
         </li>
-        <li>
+        
+        <!-- <li>
           <a href="/pemilik-penjualan">
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
-        </li> 
+        </li> -->
         <li>
           <a href="/pemilik-riwayat">
-            <i class="fa fa-th"></i> <span>Riwayat Transaksi</span>
+            <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
         </li>
         <li class="treeview">
