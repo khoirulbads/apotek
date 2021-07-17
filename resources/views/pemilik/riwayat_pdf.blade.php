@@ -34,7 +34,7 @@
 
  	$detail = DB::select("select a.id_detail, b.nama_obat, a.harga_jual, a.harga_beli, a.qty, (a.harga_jual*a.qty) as total from detail_transaksi a, obat b where a.id_obat=b.id_obat and inv='$r->inv' ");
  	@endphp
-	<table class='table table-bordered'>
+	<table class='table'>
 		<thead>
 			<tr>
 				<th>#</th>
