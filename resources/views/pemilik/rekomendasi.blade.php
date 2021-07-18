@@ -242,13 +242,12 @@
                   <th>#</th>
                   <th>Nama</th>
                   <th>Kategori</th>
+                  <th>Kadaluarsa</th> 
                   <th>Usia</th>
-                  <th>Kadaluarsa</th>
                 </tr>
                 </thead>
                 <tbody>
                 @php
-                //for 
                 $i = 1;
                 @endphp
                 @foreach ($datausia as $datas)                        
@@ -256,12 +255,14 @@
                   <td>{{$i++}}</td>
                   <td>{{$datas->nama_obat}}</td>
                   <td>{{$datas->kategori}}</td>
-                  @if ($datas->usia>=1)
-                  <td>{{$datas->usia}} Hari Lagi</td>
-                  @else if
-                  <td>Telah kadaluarsa {{substr($datas->usia,1)}} Hari</td>
-                  @endif
                   <td>{{$datas->tgl_kadaluarsa}}</td>
+                  @if($datas->usia>=1)
+                  <td>Akan kadaluarsa {{$datas->usia}} Hari Lagi</td>
+                  @elseif($datas->usia==0)
+                  <td>Telah Kadaluarsa Hari ini</td>
+                  @else
+                  <td>Telah Kadaluarsa {{substr($datas->usia,1)}} Hari</td>
+                  @endif
                 @endforeach
                 </tbody>
                 

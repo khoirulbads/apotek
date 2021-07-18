@@ -101,6 +101,7 @@ class Controller extends BaseController
         if(Session('login')==true && Session('level')=="pemilik"){
             $datausia = DB::select("SELECT  *,TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) as usia from obat a, kategori b where a.id_kategori=b.id_kategori and TIMESTAMPDIFF(DAY,now(),tgl_kadaluarsa) <= selisih and a.aktif=1 order by usia ASC ");
             $datastok = DB::select("SELECT  * from obat a, kategori b where a.id_kategori=b.id_kategori and a.stok <= a.stokMinimal and a.aktif=1 order by stok ASC");
+            
             return view("pemilik/rekomendasi",['datausia'=>$datausia,'datastok'=>$datastok]);
         }else{
             return redirect('/auth');
