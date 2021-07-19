@@ -134,10 +134,17 @@
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
         </li> -->
-        <li>
-          <a href="/pemilik-riwayat">
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-th"></i> <span>Penjualan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="/pemilik-riwayat"><i class="fa fa-circle-o"></i>Invoice</a></li>
+            <li><a href="/pemilik-obatlaris"><i class="fa fa-circle-o"></i>Obat Terlaris</a></li>
+          </ul>
         </li>
         <li class="treeview">
           <a href="#">

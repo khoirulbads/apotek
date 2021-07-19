@@ -3,9 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Pemilik | User</title>
+  <title>Pemilik | Obat Terlaris</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="_token" content="{{ csrf_token() }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
    <link rel="shortcut icon" href="assets/images/logoo.png" type="image/png">
 
@@ -66,7 +68,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <span class="hidden-xs">
-                  {{Session::get('nama')}}  - {{Session::get('level')}}</span>
+                  {{Session::get('nama')}} - {{Session::get('level')}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -86,7 +88,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a  data-toggle="modal" data-target="#modal-profil"  class="btn btn-default btn-flat">Profil</a>
+                  <a  data-toggle="modal" data-target="#modal-profil" class="btn btn-default btn-flat">Profil</a>
                 </div>
                
               </li>
@@ -114,7 +116,7 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>    
           </a>
         </li>
-        <li  class="active treeview">
+        <li>
           <a href="/pemilik-user">
             <i class="fa fa-th"></i> <span>User</span>
           </a>
@@ -135,7 +137,7 @@
             <i class="fa fa-th"></i> <span>Penjualan</span>
           </a>
         </li> -->
-        <li class="treeview">
+        <li class=" active treeview">
           <a href="#">
             <i class="fa fa-th"></i> <span>Penjualan</span>
             <span class="pull-right-container">
@@ -169,17 +171,20 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Pengguna
+        Obat Terlaris
       </h1>
       <!-- <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Dashboard</li>
-      </ol> -->
+        </ol> -->
     </section>
 
+    @php
+    $jmlobat = 0;
+    $jmltrx = 0;
+    $pendapatan = 0;
+    $laba = 0;
+    @endphp
     <!-- Main content -->
-
-<div class="modal fade" id="modal-profil" role="dialog">
+    <div class="modal fade" id="modal-profil" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -234,241 +239,77 @@
         </div>
         <!-- /.modal-dialog -->
       
-    
-
-    <div class="modal fade" id="modal-tambah" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Tambah</h4>
-            </div>
-            
-
-            <div class="modal-body">
-              <form role="form" action="/add-user" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}
-                <div class="card-body">
-                   <div class="row">
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control"  placeholder="username" name="username" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control"  placeholder="password" name="password" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" class="form-control"  placeholder="nama" name="nama" required="true">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Level</label>
-                        <select class="form-control" name="id_level" id="id_level"  style="height:35px;">
-                        <option value="1">Pemilik</option>
-                        <option value="4">Admin Obat</option>
-                        <option value="2">Admin Pengadaan</option>
-                        <option value="3">Kasir</option>
-                        </select>
-                      </div>
-                    </div>
-                    </div>
-                
-                    
-                  </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer justify-content-between">
-             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          
-            </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
       
 
-    <!-- Main content -->
+
+        
     <section class="content">
-    @php if(Session::get('gagal')){ @endphp 
-                <div class="alert alert-danger">
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     Nama atau Username yang anda masukkan sudah terdaftar, silahkan isi data yang berbeda 
-    </div> @php } @endphp
-   @php if(Session::get('sukses')){ @endphp 
-                <div class="alert alert-success" >
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     Pengguna berhasil ditambahkan
-    </div> @php } @endphp
-   @php if(Session::get('edit')){ @endphp 
-                <div class="alert alert-warning" >
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     Pengguna berhasil diubah
-    </div> @php } @endphp
-    @php if(Session::get('hapus')){ @endphp 
-                <div class="alert alert-danger" >
-                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-                     Pengguna berhasil dihapus
-    </div> @php } @endphp
-   
-   
       <div class="row">
         <div class="col-xs-12">
           
           <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Data Pengguna</h3><br>
-              <h4 data-toggle="modal" data-target="#modal-tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</h4>
-              <br>
-                </div>
             <!-- /.box-header -->
             <div class="box-body">
-            <form role="form" action="/pemilik-user" method="post" enctype="multipart/form-data">
+            <form role="form" action="/pemilik-obatlaris" method="post" enctype="multipart/form-data">
               {{ csrf_field() }}
               <div class="col-md-3 pr-1">
                       <div class="form-group">
-                        <label>Cari Nama</label>
-                        <input type="text" class="form-control"  placeholder="Suwanto" name="q" >
+                        <label>Dari</label>
+                        <input type="date" value="" class="form-control" id="tgl1" name="tgl1" >
                       </div>
               </div>
               <div class="col-md-3 pr-1">
                       <div class="form-group">
-                        <label>Level</label>
-                        <select class="form-control" name="id_level" id="id_level"  style="height:35px;">
-                        <option value="">Semua</option>
-                        <option value="1">Pemilik</option>
-                        <option value="4">Admin Obat</option>
-                        <option value="2">Admin Pengadaan</option>
-                        <option value="3">Kasir</option>
-                        </select>
+                        <label>Sampai</label>
+                        <input type="date" value="" class="form-control" id="tgl1" name="tgl2" >
+                      </div>
+              </div>
+              
+              <div class="col-md-1 pr-1">
+                      <div class="form-group">
+                        <label style="color:white;">,l</label>
+                         <br><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
                       </div>
               </div>
               <div class="col-md-1 pr-1">
                       <div class="form-group">
                         <label style="color:white;">,l</label>
-                       <br><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                         <br><a class="btn btn-primary" href="/cetak-obatlaris"><i class="fa fa-print"></i></a>
                       </div>
-              </div>       
+              </div>              
               
               </form>
               <br>
+            
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>#</th>
-                  <th>Username</th>
-                  <th>Password</th>
-                  <th>Nama</th>
-                  <th>Level</th>
+                  <th>Obat</th>
+                  <th>Jumlah Terjual</th>
                 </tr>
                 </thead>
                 <tbody>
                 @php
                 $i = 1;
+                $grandtotal = 0;
                 @endphp
-                @foreach ($data as $datas)                        
+                @foreach ($data as $data)
                 <tr>
                   <td>{{$i++}}</td>
-                  <td>{{$datas->username}}</td>
-                  <td>{{md5($datas->password)}}</td>
-                  <td>{{$datas->nama}}</td>
-                  <td>{{$datas->level}}</td>
-                  <td><a data-toggle="modal" data-target="#modal-edit{{$datas->id_user}}" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>
-                        </a> <a href="/delete-user{{$datas->id_user}}" class="btn btn-danger btn-xs" onclick="return(confirm('Apakah Data ini Akan dihapus?'));"><i class="fa fa-trash"></i>
-                        </a> </td></tr>
-                
-                        <div class="modal fade" id="modal-edit{{$datas->id_user}}" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Edit</h4>
-            </div>
-            <div class="modal-body">
-              <form role="form" action="/edit-user" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}
-                <div class="card-body">
-                  <input class="form-control" type="hidden" name="id_user" id="id" value="{{ $datas->id_user}}">
-                   <div class="row">
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" class="form-control"  placeholder="nama" name="nama" required="true" value="{{$datas->nama}}">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control"  placeholder="username" name="username" required="true" value="{{$datas->username}}">
-                      </div>
-                    </div>
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control"  placeholder="password" name="password" required="true" value="{{$datas->password}}">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Level</label>
-                        <select class="form-control" name="id_level" id="id_level"  style="height:35px;">
-                        @if ($datas->id_level == 1)
-                        <option value="1" selected>Pemilik</option>
-                        @else
-                        <option value="1">Pemilik</option>
-                        @endif
-                        @if ($datas->id_level == 2)
-                        <option value="2" selected>Admin Pengadaan</option>
-                        @else
-                        <option value="2">Admin Pengadaan</option>
-                        @endif
-                        @if ($datas->id_level == 3)
-                        <option value="3" selected>Kasir</option>
-                        @else
-                        <option value="3">Kasir</option>
-                        @endif
-                        @if ($datas->id_level == 4)
-                        <option value="4" selected>Admin Obat</option>
-                        @else
-                        <option value="4">Admin Obat</option>
-                        @endif
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  
-                
-                    
-                  </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="modal-footer justify-content-between">
-             <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          
-            </div>
-              </form>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-                @endforeach
+                  <td>{{$data->nama_obat}}</td>
+                  <td>{{$data->c}}</td>
+                  </tr>
+                  @endforeach
                 </tbody>
                 
               </table>
+              <br>
+                
             </div>
             <!-- /.box-body -->
           </div>
-          <!-- /.box -->
+                
         </div>
         <!-- /.col -->
       </div>
@@ -887,6 +728,39 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
+<!-- Modal Kembalian -->
+        <div class="modal fade" id="modal-kembalian">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+              </div>
+              @php
+              $kembali = DB::select("select inv,kembali from transaksi order by id_transaksi desc limit 1");
+              @endphp
+              <div class="modal-body">
+                <center><h1>Kembalian</h1></center>
+                @foreach ($kembali as $data)
+                <center><h1>Rp. {{ number_format($data->kembali,0, ',' , '.')}},-</h1></center>
+                <center><a href="/kasir-nota{{$data->inv}}" type="button" class="btn btn-primary" ><i class="fa fa-print"></i>  Cetak Nota</a></center>
+                @endforeach
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        @if($errors->first() == 'msgkembali')
+          <script>
+        $(document).ready(function(){
+        $("#modal-kembalian").modal('show');
+    });
+</script>
+        @endif
+                
 <script src="assets/AdminLTE/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="assets/AdminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -923,5 +797,20 @@
 <script src="assets/AdminLTE/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="assets/AdminLTE/dist/js/demo.js"></script>
+<script src="assets/AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="assets/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+  $(function () {
+    $('#example1').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true
+    })
+  })
+</script>
 </body>
 </html>

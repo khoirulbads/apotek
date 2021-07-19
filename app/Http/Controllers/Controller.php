@@ -169,6 +169,19 @@ class Controller extends BaseController
             return redirect('/auth');
         }   
     }
+    public function pemilikobatlaris(){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $query = "select sum(a.qty) as c, b.nama_obat from detail_transaksi a, obat b, transaksi c where a.id_obat=b.id_obat and a.inv=c.inv and b.aktif=1 and DATE(c.tanggal)=CURDATE() group by a.id_obat order by sum(a.qty) DESC";
+
+            $data = DB::select($query);
+            Session::put('querylaris', $query);
+            
+            return view("pemilik/obatlaris",['data'=>$data]);
+
+        }else{
+            return redirect('/auth');
+        }   
+    }
     public function searchpemilikuser(Request $request){
         if(Session('login')==true && Session('level')=="pemilik"){
             $query = "SELECT a.id_user, a.nama, a.username,a.password,b.level, a.id_level
@@ -310,6 +323,46 @@ class Controller extends BaseController
         }
 
     }
+    public function searchpemilikobatlaris(Request $request){
+        $tgl1 = "";
+        $tgl2 = "";
+        if($request->tgl1 == "" || $request->tgl1 == null ){
+            $tgl1 = date("Y-m-d");
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00";
+        }
+        if($request->tgl1 != "" || $request->tgl1 != null ){
+            $tgl1 = $request->tgl1;
+            $tgl1 = str_replace("/","-",$tgl1);
+            $tgl1 = date('Y-m-d',strtotime($tgl1));
+            Session::put('tgl1', $tgl1);            
+            $tgl1 = $tgl1." 00:00:00"; 
+        }
+        if($request->tgl2 == "" || $request->tgl2 == null){
+            $tgl2 = date("Y-m-d");
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+        if($request->tgl2 != "" || $request->tgl2 != null){
+            $tgl2 = $request->tgl2;
+            $tgl2 = str_replace("/","-",$tgl2);
+            $tgl2 = date('Y-m-d',strtotime($tgl2));
+            Session::put('tgl2', $tgl2);            
+            $tgl2 = $tgl2." 23:59:59";
+        }
+
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $query = "select sum(a.qty) as c, b.nama_obat from detail_transaksi a, obat b, transaksi c where a.id_obat=b.id_obat and a.inv=c.inv and b.aktif=1 and c.tanggal BETWEEN CAST('$tgl1' as DATE) AND CAST('$tgl2' as DATE) group by a.id_obat order by sum(a.qty) DESC";
+
+            $data = DB::select($query);
+            Session::put('querylaris', $query);
+            
+            return view("pemilik/obatlaris",['data'=>$data]);
+
+        }else{
+            return redirect('/auth');
+        }   
+    }
     
     public function cetakpemilikpenjualan(){
         if(Session('login')==true && Session('level')=="pemilik"){
@@ -346,6 +399,18 @@ class Controller extends BaseController
             $pdf = PDF::loadView('pemilik/riwayat_pdf',['data'=>$data])->setPaper('a4','potrait');
 
             return  $pdf->download("invoice_".Session('tgl1')."-".Session('tgl2').".pdf");
+        }else{
+            return redirect('/auth');
+        }   
+    }
+    public function cetakpemilikobatlaris(){
+        if(Session('login')==true && Session('level')=="pemilik"){
+            $pendapatan = 0;
+            $jumlah = 0;
+            $data = DB::select(Session('querylaris'));
+            $pdf = PDF::loadView('pemilik/obatlaris_pdf',['data'=>$data])->setPaper('a4','potrait');
+
+            return  $pdf->download("obatterlaris_".Session('tgl1')."-".Session('tgl2').".pdf");
         }else{
             return redirect('/auth');
         }   

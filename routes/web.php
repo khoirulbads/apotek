@@ -32,9 +32,12 @@ Route::get('/pemilik-kadaluarsa', 'App\Http\Controllers\Controller@pemilikkadalu
 Route::get('/pemilik-hapusobat', 'App\Http\Controllers\Controller@pemilikhapusobat');
 Route::get('/pemilik-riwayat', 'App\Http\Controllers\Controller@pemilikriwayat');
 Route::post('/pemilik-riwayat', 'App\Http\Controllers\Controller@searchpemilikriwayat');
+Route::get('/pemilik-obatlaris', 'App\Http\Controllers\Controller@pemilikobatlaris');
+Route::post('/pemilik-obatlaris', 'App\Http\Controllers\Controller@searchpemilikobatlaris');
 Route::get('/cetak-penjualan', 'App\Http\Controllers\Controller@cetakpemilikpenjualan');
 Route::get('/cetak-pengadaan', 'App\Http\Controllers\Controller@cetakpemilikpengadaan');
 Route::get('/cetak-riwayat', 'App\Http\Controllers\Controller@cetakpemilikriwayat');
+Route::get('/cetak-obatlaris', 'App\Http\Controllers\Controller@cetakpemilikobatlaris');
 
 //adminobat
 Route::get('/obat-kategori', 'App\Http\Controllers\Controller@obatkategori');
