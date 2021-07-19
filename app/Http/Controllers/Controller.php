@@ -396,7 +396,7 @@ class Controller extends BaseController
             $pendapatan = 0;
             $jumlah = 0;
             $data = DB::select(Session('queryriwayat'));
-            $pdf = PDF::loadView('pemilik/riwayat_pdf',['data'=>$data])->setPaper('a4','potrait');
+            $pdf = PDF::loadView('pemilik/riwayatbaru_pdf',['data'=>$data])->setPaper('a4','potrait');
 
             return  $pdf->download("invoice_".Session('tgl1')."-".Session('tgl2').".pdf");
         }else{
