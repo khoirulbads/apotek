@@ -321,7 +321,7 @@
                 <tr>
                   <td>{{$i++}}</td>
                   <td>{{$data->inv}}</td>
-                  <td>{{$data->grand_total}}</td>
+                  <td>Rp. {{ number_format($data->grand_total,0, ',' , '.')}},-</td>
                   <td>{{$data->nama}}</td>
                   <td>{{$data->jenis}}</td>
                   <td><a data-toggle="modal" data-target="#modal-detail{{$data->inv}}" class="btn btn-primary btn-xs" ><i class="fa fa-square-o"></i> Detail

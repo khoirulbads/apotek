@@ -43,7 +43,7 @@
 				<td>{{ $i++ }}</td>
 				<td>{{$r->inv}}</td>
 				<td>{{$r->jenis}}</td>
-				<td>{{$r->grand_total}}</td>
+				<td>Rp. {{ number_format($r->grand_total,0, ',' , '.')}},-</td>
 			</tr>
 	
 <!-- 
@@ -97,7 +97,7 @@
 	<table class='table table-bordered'>
 		<thead>
 			<tr>
-				<th>Pendapatan</th><th>:</th><th>Rp. {{ number_format($pendapatan,0, ',' , '.')}},-<</th>
+				<th>Pendapatan</th><th>:</th><th>Rp. {{ number_format($pendapatan,0, ',' , '.')}},-</th>
 			</tr>
 		</thead>
 		<tbody>
