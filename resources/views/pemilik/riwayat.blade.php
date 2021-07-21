@@ -139,7 +139,7 @@
         </li> -->
         <li class=" active treeview">
           <a href="#">
-            <i class="fa fa-th"></i> <span>Penjualan</span>
+            <i class="fa fa-th"></i> <span>Laporan Penjualan</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
