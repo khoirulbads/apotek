@@ -173,7 +173,7 @@ for ($i=0; $i <= 6 ; $i++) {
       $lababersih[$i] = $x->c;
     }
   }
-$chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as bulan from detail_transaksi a, obat b, kategori c where c.id_kategori=b.id_kategori group by c.id_kategori");
+$chart1 = DB::select("select c.kategori, sum(a.qty) as qty, MONTHNAME(now()) as bulan from detail_transaksi a, obat b, kategori c where c.id_kategori=b.id_kategori group by c.id_kategori order by sum(a.qty) DESC");
 @endphp
 
     <section class="content">
