@@ -27,7 +27,7 @@
 		</thead>
 		<tbody>
 			@php 
-			$i=1 ;
+			$no=1 ;
 			@endphp
 			
 		
@@ -40,7 +40,7 @@
     @endphp
  	@foreach ($data as $r)
  			<tr>
-				<td>{{ $i++ }}</td>
+				<td>{{ $no++ }}</td>
 				<td>{{$r->inv}}</td>
 				<td>{{$r->jenis}}</td>
 				<td>Rp. {{ number_format($r->grand_total,0, ',' , '.')}},-</td>

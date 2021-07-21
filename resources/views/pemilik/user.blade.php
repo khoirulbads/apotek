@@ -142,9 +142,9 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="/pemilik-riwayat"><i class="fa fa-circle-o"></i>Invoice</a></li>
-            <li><a href="/pemilik-obatlaris"><i class="fa fa-circle-o"></i>Obat Terlaris</a></li>
+         <ul class="treeview-menu">
+            <li><a href="/pemilik-riwayat"><i class="fa fa-circle-o"></i>Laporan Penjualan Transaksi</a></li>
+            <li><a href="/pemilik-obatlaris"><i class="fa fa-circle-o"></i>Laporan Penjualan Obat</a></li>
           </ul>
         </li>
         <li class="treeview">
